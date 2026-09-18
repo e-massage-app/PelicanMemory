@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace PelicanMemory.Installer;
@@ -45,21 +46,23 @@ internal class Installer
     /// <summary>Get the installed mod version, or <c>null</c> if it isn't installed.</summary>
     public string? GetInstalledModVersion()
     {
-        string manifest = Path.Combine(this.GamePath, "Mods", ModFolderName, "manifest.json");
-        if (!File.Exists(manifest))
+        string manifestPath = Path.Combine(this.GamePath, "Mods", ModFolderName, "manifest.json");
+        if (!File.Exists(manifestPath))
             return null;
 
-        foreach (string line in File.ReadLines(manifest))
+        try
         {
-            if (!line.Contains("\"Version\"", StringComparison.OrdinalIgnoreCase))
-                continue;
+            JsonDocumentOptions options = new() { AllowTrailingCommas = true, CommentHandling = JsonCommentHandling.Skip };
+            using JsonDocument manifest = JsonDocument.Parse(File.ReadAllText(manifestPath), options);
 
-            string[] parts = line.Split('"', StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length >= 3)
-                return parts[^1].Trim();
+            return manifest.RootElement.TryGetProperty("Version", out JsonElement version)
+                ? version.GetString()
+                : null;
         }
-
-        return null;
+        catch
+        {
+            return null; // a damaged manifest just means "reinstall it"
+        }
     }
 
     /// <summary>Install SMAPI and the mod, keeping any existing settings.</summary>
@@ -83,6 +86,10 @@ internal class Installer
         }
 
         // 2. the mod
+        string? installedVersion = this.GetInstalledModVersion();
+        if (installedVersion != null)
+            progress.Report($"Version déjà installée : {installedVersion}.");
+
         (string version, string modFolder) = await downloader.DownloadMod(this.ModRepository, this.ModBranch, progress);
         progress.Report("Installation du mod…");
         this.CopyMod(modFolder);
