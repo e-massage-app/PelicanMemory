@@ -1,0 +1,79 @@
+{
+  // menu
+  "menu.tab-label": "Pelican Memory",
+  "menu.title": "Pelican Memory",
+
+  // features
+  "feature.visited-map-labels.name": "Area names on the map",
+  "feature.visited-map-labels.description": "Names the areas of the world map (Mountains, Pelican Town...), only those you've already been to. Handy for quests and fishing events which name a place.",
+
+  "feature.caught-fish-tooltip.name": "Fishing info for caught fish",
+  "feature.caught-fish-tooltip.description": "Adds the catch conditions (water, seasons, weather, hours) to the tooltip of fish you've already caught. Seasons and water only consider places you've visited.",
+
+  "feature.minimap.name": "Minimap",
+  "feature.minimap.description": "Shows a minimap of the current place in the top-left corner, with the villagers you've met. Page Up / Page Down to zoom in and out.",
+
+  "feature.social-locations.name": "Villager locations in the social tab",
+  "feature.social-locations.description": "Shows where each villager currently is, under their hearts. Places you've never visited stay hidden.",
+
+  // map areas the game doesn't name itself
+  "map-area.GingerIsland.North": "North Island",
+  "map-area.GingerIsland.South": "South Island",
+  "map-area.GingerIsland.East": "East Island",
+  "map-area.GingerIsland.SouthEast": "South-east Island",
+  "map-area.GingerIsland.West": "West Island",
+
+  "option.minimap-opacity": "Minimap opacity",
+  "option.minimap-opacity.description": "How visible the minimap is. Slide left to make it discreet.",
+
+  "cc.needed": "Community center — bring to: {{value}}",
+  "cc.donated": "Community center — already handed in: {{value}}",
+  "cc.better-quality": "Community center — needs a better quality: {{value}}",
+
+  "museum.wanted": "Museum — not donated yet",
+
+  "map.toggle-labels": "Area names",
+  "map.toggle-labels.description": "Show or hide the area names on the map.",
+
+  "feature.community-center-hints.name": "Community center reminders",
+  "feature.community-center-hints.description": "Marks items a bundle still needs, so you don't sell them by mistake, and says when one was already handed in. Only covers rooms whose note is already showing.",
+
+  "feature.museum-hints.name": "Museum reminders",
+  "feature.museum-hints.description": "Marks minerals and artifacts the museum hasn't got yet, and ticks the ones you've already donated. Only after you've been to the museum.",
+
+  "feature.farm-layers.name": "Farm layers (F3)",
+  "feature.farm-layers.description": "While holding a sprinkler or a scarecrow, shades what it would cover from where you're standing, plus what the ones already placed cover. F3 cycles the layers by hand: sprinklers, scarecrows, both, off. The key can be changed in config.json.",
+
+  "feature.animal-care.name": "Animal reminders",
+  "feature.animal-care.description": "A small icon above an animal which still needs petting, milking or shearing today. Nothing at all once it's done.",
+
+  "farm-layers.sprinklers": "Layer: sprinklers",
+  "farm-layers.scarecrows": "Layer: scarecrows",
+  "farm-layers.all": "Layers: sprinklers + scarecrows",
+  "farm-layers.off": "Layers off",
+
+  // fish tooltip
+  "fish-tooltip.places": "Where: {{value}}",
+  "fish-tooltip.how": "How: {{value}}",
+  "fish-tooltip.crab-pot": "crab pot",
+  "fish-tooltip.water": "Water: {{value}}",
+  "fish-tooltip.seasons": "Seasons: {{value}}",
+  "fish-tooltip.weather": "Weather: {{value}}",
+  "fish-tooltip.time": "Hours: {{value}}",
+
+  "social.location": "In: {{value}}",
+  "social.location-area": "Around: {{value}}",
+  "social.location-unknown": "Somewhere you haven't been",
+
+  "water.freshwater": "freshwater",
+  "water.ocean": "ocean",
+  "water.mines": "mines",
+
+  "seasons.all": "all year",
+
+  "weather.sunny": "sun",
+  "weather.rainy": "rain",
+  "weather.both": "any",
+
+  "time.all": "all day"
+}

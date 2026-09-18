@@ -1,0 +1,79 @@
+{
+  // menu
+  "menu.tab-label": "Pelican Memory",
+  "menu.title": "Pelican Memory",
+
+  // features
+  "feature.visited-map-labels.name": "Noms des zones sur la carte",
+  "feature.visited-map-labels.description": "Nomme les zones de la carte du monde (Montagnes, Pélican Ville...), uniquement celles où vous êtes déjà allé. Pratique pour les quêtes et événements de pêche qui citent un lieu.",
+
+  "feature.caught-fish-tooltip.name": "Infos de pêche des poissons attrapés",
+  "feature.caught-fish-tooltip.description": "Ajoute les conditions de capture (eau, saisons, météo, horaires) à l'infobulle des poissons déjà attrapés. Saisons et eau ne tiennent compte que des lieux visités.",
+
+  "feature.minimap.name": "Minimap",
+  "feature.minimap.description": "Affiche une minimap du lieu courant en haut à gauche, avec les villageois déjà rencontrés. Page préc. / Page suiv. pour zoomer et dézoomer.",
+
+  "feature.social-locations.name": "Position des villageois dans l'onglet Relations",
+  "feature.social-locations.description": "Indique où se trouve chaque villageois, sous ses cœurs. Les lieux jamais visités restent masqués.",
+
+  // zones que le jeu ne nomme pas lui-même
+  "map-area.GingerIsland.North": "Île nord",
+  "map-area.GingerIsland.South": "Île sud",
+  "map-area.GingerIsland.East": "Île est",
+  "map-area.GingerIsland.SouthEast": "Île sud-est",
+  "map-area.GingerIsland.West": "Île ouest",
+
+  "option.minimap-opacity": "Opacité de la minimap",
+  "option.minimap-opacity.description": "Visibilité de la minimap. Vers la gauche pour la rendre discrète.",
+
+  "cc.needed": "Centre communautaire — à apporter : {{value}}",
+  "cc.donated": "Centre communautaire — déjà donné : {{value}}",
+  "cc.better-quality": "Centre communautaire — qualité supérieure requise : {{value}}",
+
+  "museum.wanted": "Musée — pas encore donné",
+
+  "map.toggle-labels": "Noms des zones",
+  "map.toggle-labels.description": "Afficher ou masquer les noms des zones sur la carte.",
+
+  "feature.community-center-hints.name": "Rappels du Centre communautaire",
+  "feature.community-center-hints.description": "Signale les objets encore attendus par un lot, pour ne pas les vendre par erreur, et indique ceux déjà donnés. Ne couvre que les salles dont le panneau est déjà visible.",
+
+  "feature.museum-hints.name": "Rappels du musée",
+  "feature.museum-hints.description": "Signale les minerais et artefacts que le musée n'a pas encore, et coche ceux déjà donnés. Seulement après votre première visite au musée.",
+
+  "feature.farm-layers.name": "Calques de la ferme (F3)",
+  "feature.farm-layers.description": "Quand vous tenez un arroseur ou un épouvantail, teinte ce qu'il couvrirait à l'endroit visé, en plus de ce que couvrent ceux déjà posés. F3 fait défiler les calques à la main : arroseurs, épouvantails, les deux, aucun. La touche est modifiable dans config.json.",
+
+  "feature.animal-care.name": "Rappels des animaux",
+  "feature.animal-care.description": "Une petite icône au-dessus d'un animal qui attend encore une caresse, une traite ou une tonte. Plus rien une fois que c'est fait.",
+
+  "farm-layers.sprinklers": "Calque : arroseurs",
+  "farm-layers.scarecrows": "Calque : épouvantails",
+  "farm-layers.all": "Calques : arroseurs + épouvantails",
+  "farm-layers.off": "Calques désactivés",
+
+  // fish tooltip
+  "fish-tooltip.places": "Où : {{value}}",
+  "fish-tooltip.how": "Comment : {{value}}",
+  "fish-tooltip.crab-pot": "casier à crabe",
+  "fish-tooltip.water": "Eau : {{value}}",
+  "fish-tooltip.seasons": "Saisons : {{value}}",
+  "fish-tooltip.weather": "Météo : {{value}}",
+  "fish-tooltip.time": "Horaires : {{value}}",
+
+  "social.location": "Lieu : {{value}}",
+  "social.location-area": "Vers : {{value}}",
+  "social.location-unknown": "Lieu inconnu",
+
+  "water.freshwater": "douce",
+  "water.ocean": "mer",
+  "water.mines": "mines",
+
+  "seasons.all": "toute l'année",
+
+  "weather.sunny": "soleil",
+  "weather.rainy": "pluie",
+  "weather.both": "tous temps",
+
+  "time.all": "toute la journée"
+}
