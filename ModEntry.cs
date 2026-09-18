@@ -5,6 +5,7 @@ using PelicanMemory.Features.CaughtFishTooltip;
 using PelicanMemory.Features.CommunityCenterHints;
 using PelicanMemory.Features.FarmLayers;
 using PelicanMemory.Features.MuseumHints;
+using PelicanMemory.Features.PurchaseConfirm;
 using PelicanMemory.Features.Minimap;
 using PelicanMemory.Features.SocialLocations;
 using PelicanMemory.Features.VisitedMapLabels;
@@ -33,6 +34,7 @@ internal class ModEntry : Mod
         registry.Add(new MuseumHintsFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new FarmLayersFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new AnimalCareFeature(helper, this.Monitor, harmony, settings));
+        registry.Add(new PurchaseConfirmFeature(helper, this.Monitor, harmony, settings));
 
         GameMenuTab.Apply(harmony, this.Monitor, registry);
         TooltipBadges.Apply(harmony, this.Monitor);

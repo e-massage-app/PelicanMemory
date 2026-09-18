@@ -52,6 +52,11 @@
   "farm-layers.all": "Calques : arroseurs + épouvantails",
   "farm-layers.off": "Calques désactivés",
 
+  "feature.purchase-confirm.name": "Confirmation des achats",
+  "feature.purchase-confirm.description": "Demande la quantité avant tout achat en boutique, à partir de 1, avec le total et un bouton Annuler. Évite aussi le shift-clic pour acheter par lots.",
+
+  "shop.quantity": "Combien de {{item}} ?",
+
   // fish tooltip
   "fish-tooltip.places": "Où : {{value}}",
   "fish-tooltip.how": "Comment : {{value}}",

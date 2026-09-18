@@ -11,6 +11,7 @@ C'est un **outil de mémoire, pas un guide** : il n'affiche que ce que le joueur
 | `caught-fish-tooltip` | Ajoute eau / saisons / météo / horaires à l'infobulle d'un poisson | Uniquement les poissons attrapés (`Farmer.fishCaught`). Saisons et type d'eau calculés **seulement à partir des lieux visités** |
 | `minimap` | Minimap du lieu courant en haut à gauche, zoom avec Page préc. / Page suiv. | Seulement le lieu où le joueur se trouve, et seulement les villageois déjà rencontrés (`friendshipData`) |
 | `community-center-hints` | Signale sur l'objet qu'un lot du Centre communautaire l'attend, ou qu'il a déjà été donné | Seulement les salles dont le panneau est visible en jeu (même règle que l'indice vanilla), rien sur la voie Joja |
+| `purchase-confirm` | Demande la quantité avant tout achat en boutique (fenêtre vanilla, défaut 1, total affiché, Annuler) | Garde-fou : ni mémoire ni assistance, aucune donnée de jeu révélée |
 | `social-locations` | Position de chaque villageois dans l'onglet Relations | Le bâtiment n'est nommé que s'il a été visité ; sinon la zone (« Montagnes ») si elle est connue ; sinon « Lieu inconnu » |
 
 Les features s'activent et se désactivent dans l'onglet « livre bleu » du menu Échap. Le changement est immédiat et enregistré dans `config.json`.
@@ -94,6 +95,10 @@ Features/
   Minimap/                   feature 3 (MinimapRenderer = rendu de la carte, MinimapGeometry = maths testables)
   SocialLocations/           feature 4
   CommunityCenterHints/      feature 5
+  MuseumHints/               feature 6
+  FarmLayers/                feature 7
+  AnimalCare/                feature 8
+  PurchaseConfirm/           feature 9
 i18n/default.json, fr.json
 ```
 

@@ -52,6 +52,11 @@
   "farm-layers.all": "Layers: sprinklers + scarecrows",
   "farm-layers.off": "Layers off",
 
+  "feature.purchase-confirm.name": "Confirm shop purchases",
+  "feature.purchase-confirm.description": "Asks how many to buy before any purchase, starting at 1, with the total and a cancel button. Also saves shift-clicking to buy several.",
+
+  "shop.quantity": "How many {{item}}?",
+
   // fish tooltip
   "fish-tooltip.places": "Where: {{value}}",
   "fish-tooltip.how": "How: {{value}}",
