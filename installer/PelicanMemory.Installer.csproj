@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Installer Pelican Memory</AssemblyName>
+    <RootNamespace>PelicanMemory.Installer</RootNamespace>
+    <Version>1.0.0</Version>
+
+    <!-- one self-contained file, so there's nothing to install beforehand -->
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <SatelliteResourceLanguages>fr;en</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+</Project>

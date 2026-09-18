@@ -32,6 +32,24 @@ Le build compile le mod, puis le **copie automatiquement** dans `Stardew Valley\
 
 La console SMAPI doit afficher `Pelican Memory 1.0.0 by Jordan Neau`. En cas de souci, le journal complet se trouve dans `%APPDATA%\StardewModdingAPI\ErrorLogs\SMAPI-latest.txt`.
 
+## Installeur pour un autre PC
+
+`installer/` contient un programme d'installation en français, pensé pour quelqu'un qui ne bricole pas son PC : un seul `.exe`, trois écrans, un bouton « Suivant ».
+
+Ce qu'il fait tout seul : il trouve le dossier du jeu (registre Steam, fichier de bibliothèques Steam, emplacements habituels, sinon « Parcourir… »), installe **SMAPI** s'il manque en le téléchargeant depuis les releases officielles, installe la dernière version du mod, puis affiche la ligne d'options de lancement Steam avec un bouton « Copier ».
+
+Le même exe sert de **mise à jour** : relancé plus tard, il réinstalle la dernière version du mod et **conserve `config.json`** (les réglages du joueur).
+
+### Publier une nouvelle version
+```bash
+powershell -ExecutionPolicy Bypass -File publish.ps1
+```
+Le script lit la version dans `manifest.json`, compile le mod, met à jour `dist/PelicanMemory.zip` et `dist/version.txt`, puis reconstruit l'exe dans `publish/`. Ensuite `git add -A`, `git commit`, `git push` : l'installeur des autres PC prendra la nouvelle version automatiquement.
+
+L'installeur lit `dist/` via `raw.githubusercontent.com`, donc **un simple push suffit pour livrer** — pas de release GitHub à créer, pas de jeton, pas d'outil en plus. Le dépôt doit être public. Si le dépôt change de nom ou de compte, les deux constantes sont en haut de `installer/Program.cs`.
+
+À savoir : l'exe n'est pas signé, donc au premier lancement Windows affiche « Windows a protégé votre ordinateur ». Il faut cliquer sur **Informations complémentaires**, puis **Exécuter quand même**.
+
 ## Idées discutées et écartées (2026-09-18)
 
 - **Étages des minerais dans la mine** : écartée. Le jeu ne stocke pas ces étages dans ses fichiers de données, c'est sa logique de génération qui les décide ; les afficher serait recopier un guide. La seule version acceptable (le mod note les trouvailles du joueur, sans rétroactif) n'apporte rien à court terme.

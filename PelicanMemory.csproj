@@ -15,4 +15,10 @@
     <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.4.0" />
   </ItemGroup>
 
+  <!-- the installer is its own program, and dist/publish only hold build output -->
+  <ItemGroup>
+    <Compile Remove="installer/**;dist/**;publish/**" />
+    <None Remove="installer/**;dist/**;publish/**" />
+  </ItemGroup>
+
 </Project>
