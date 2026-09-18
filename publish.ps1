@@ -19,7 +19,7 @@ if (-not $zip) { throw "Zip du mod introuvable dans bin\Release\net6.0." }
 # 3. dist\ : ce que l'installeur télécharge
 New-Item -ItemType Directory -Force "$root\dist" | Out-Null
 Copy-Item $zip.FullName "$root\dist\PelicanMemory.zip" -Force
-Set-Content "$root\dist\version.txt" $version -NoNewline -Encoding utf8
+[System.IO.File]::WriteAllText("$root\dist\version.txt", $version, (New-Object System.Text.UTF8Encoding $false))  # sans BOM
 Write-Host "dist\PelicanMemory.zip et dist\version.txt mis a jour." -ForegroundColor Green
 
 # 4. l'installeur, en un seul .exe autonome

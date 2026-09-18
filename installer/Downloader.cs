@@ -56,7 +56,7 @@ internal class Downloader : IDisposable
     {
         string baseUrl = $"https://raw.githubusercontent.com/{repository}/{branch}/dist";
 
-        string version = (await this.Client.GetStringAsync($"{baseUrl}/version.txt")).Trim();
+        string version = (await this.Client.GetStringAsync($"{baseUrl}/version.txt")).Trim().TrimStart('﻿');
         progress.Report($"Téléchargement de Pelican Memory {version}…");
 
         string folder = this.CreateTempFolder("mod");
