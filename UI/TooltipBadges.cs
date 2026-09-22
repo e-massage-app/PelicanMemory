@@ -13,8 +13,11 @@ namespace PelicanMemory.UI;
 /// <summary>A status stamp drawn in an item's tooltip: an icon plus a ticked or empty checkbox.</summary>
 /// <param name="Texture">The icon's texture.</param>
 /// <param name="Source">The icon within the texture.</param>
-/// <param name="Done">Whether the checkbox is ticked.</param>
-internal record TooltipBadge(Texture2D Texture, Rectangle Source, bool Done);
+/// <param name="Done">Whether the checkbox is ticked, or <c>null</c> to show <paramref name="Label"/> instead.</param>
+/// <param name="Label">A short label drawn in place of the checkbox, like the key which opens a window.</param>
+/// <param name="Text">A line drawn to the left of the icon, in the mod's own colour so it stands out from the description.</param>
+/// <param name="TextColor">The colour of <paramref name="Text"/>.</param>
+internal record TooltipBadge(Texture2D Texture, Rectangle Source, bool? Done = null, string? Label = null, string? Text = null, Color? TextColor = null);
 
 /// <summary>Draws status stamps in the bottom-right corner of item tooltips.</summary>
 /// <remarks>
@@ -85,27 +88,42 @@ internal static class TooltipBadges
     ** Private methods
     *********/
     /// <summary>Reserve room at the bottom of the tooltip for the stamps, the same way the game does for its own extra icons.</summary>
-    private static void After_GetExtraSpaceNeeded(Item __instance, int startingHeight, ref Point __result)
+    private static void After_GetExtraSpaceNeeded(Item __instance, int minWidth, int horizontalBuffer, int startingHeight, ref Point __result)
     {
-        int rows = CountBadges(__instance);
+        int rows = 0;
+        float widest = 0;
+        foreach (Func<Item, TooltipBadge?> provider in Providers)
+        {
+            if (provider(__instance) is not TooltipBadge badge)
+                continue;
+
+            rows++;
+            widest = Math.Max(widest, GetWidth(badge));
+        }
+
         if (rows == 0)
             return;
 
-        // the game only uses a non-zero value, so return the full height rather than a difference
+        // the game only uses a non-zero value, so return the full size rather than a difference
         int baseHeight = __result.Y != 0 ? __result.Y : startingHeight;
         __result.Y = baseHeight + rows * (RowHeight + Gap) + Gap;
+        __result.X = Math.Max(__result.X != 0 ? __result.X : minWidth, (int)widest + Margin * 2 + horizontalBuffer);
     }
 
-    /// <summary>Count the stamps which apply to an item.</summary>
-    private static int CountBadges(Item item)
+    /// <summary>Get how wide a stamp is, so the tooltip can be widened to fit it.</summary>
+    private static float GetWidth(TooltipBadge badge)
     {
-        int count = 0;
-        foreach (Func<Item, TooltipBadge?> provider in Providers)
-        {
-            if (provider(item) != null)
-                count++;
-        }
-        return count;
+        float width = badge.Source.Width * Scale;
+
+        if (badge.Done is not null)
+            width += Gap + OptionsCheckbox.sourceRectChecked.Width * Scale;
+        else if (badge.Label != null)
+            width += Gap + Game1.smallFont.MeasureString(badge.Label).X;
+
+        if (badge.Text != null)
+            width += Gap + Game1.smallFont.MeasureString(badge.Text).X;
+
+        return width;
     }
 
     private static void Before_DrawHoverText(Item hoveredItem)
@@ -152,16 +170,37 @@ internal static class TooltipBadges
     /// <summary>Draw one badge, stacking upwards from the bottom-right corner of the tooltip.</summary>
     private static void Draw(SpriteBatch b, TooltipBadge badge, Rectangle box, int row)
     {
-        Rectangle checkboxSource = badge.Done ? OptionsCheckbox.sourceRectChecked : OptionsCheckbox.sourceRectUnchecked;
         int iconWidth = (int)(badge.Source.Width * Scale);
         int iconHeight = (int)(badge.Source.Height * Scale);
-        int checkboxSize = (int)(checkboxSource.Width * Scale);
         int rowHeight = RowHeight;
 
         int right = box.Right - Margin;
         int top = box.Bottom - Margin - rowHeight - row * (rowHeight + Gap);
 
-        b.Draw(Game1.mouseCursors, new Vector2(right - checkboxSize, top + (rowHeight - checkboxSize) / 2f), checkboxSource, Color.White, 0f, Vector2.Zero, Scale, SpriteEffects.None, 1f);
-        b.Draw(badge.Texture, new Vector2(right - checkboxSize - Gap - iconWidth, top + (rowHeight - iconHeight) / 2f), badge.Source, Color.White, 0f, Vector2.Zero, Scale, SpriteEffects.None, 1f);
+        // right side: either the ticked/empty box, or a label such as the key which opens a window
+        int rightWidth;
+        if (badge.Done is bool done)
+        {
+            Rectangle checkboxSource = done ? OptionsCheckbox.sourceRectChecked : OptionsCheckbox.sourceRectUnchecked;
+            rightWidth = (int)(checkboxSource.Width * Scale);
+            b.Draw(Game1.mouseCursors, new Vector2(right - rightWidth, top + (rowHeight - rightWidth) / 2f), checkboxSource, Color.White, 0f, Vector2.Zero, Scale, SpriteEffects.None, 1f);
+        }
+        else
+        {
+            string label = badge.Label ?? "";
+            Vector2 size = Game1.smallFont.MeasureString(label);
+            rightWidth = (int)size.X;
+            Utility.drawTextWithShadow(b, label, Game1.smallFont, new Vector2(right - rightWidth, top + (rowHeight - size.Y) / 2f), Game1.textColor);
+        }
+
+        float iconLeft = right - rightWidth - Gap - iconWidth;
+        b.Draw(badge.Texture, new Vector2(iconLeft, top + (rowHeight - iconHeight) / 2f), badge.Source, Color.White, 0f, Vector2.Zero, Scale, SpriteEffects.None, 1f);
+
+        // our own line, drawn in our colour: the game's description text is all one colour, so this is what makes it stand out
+        if (badge.Text != null)
+        {
+            Vector2 size = Game1.smallFont.MeasureString(badge.Text);
+            Utility.drawTextWithShadow(b, badge.Text, Game1.smallFont, new Vector2(iconLeft - Gap - size.X, top + (rowHeight - size.Y) / 2f), badge.TextColor ?? Game1.textColor);
+        }
     }
 }

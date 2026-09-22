@@ -14,6 +14,16 @@ C'est un **outil de mémoire, pas un guide** : il n'affiche que ce que le joueur
 | `purchase-confirm` | Demande la quantité avant tout achat en boutique (fenêtre vanilla, défaut 1, total affiché, Annuler) | Garde-fou : ni mémoire ni assistance, aucune donnée de jeu révélée |
 | `social-locations` | Position de chaque villageois dans l'onglet Relations | Le bâtiment n'est nommé que s'il a été visité ; sinon la zone (« Montagnes ») si elle est connue ; sinon « Lieu inconnu » |
 
+| `museum-hints` | Signale qu'un minerai ou un artefact manque encore au musée, ou qu'il a déjà été donné | Seulement après la première visite du musée ; l'état vient des dons réels (`LibraryMuseum`) |
+| `farm-layers` | Teinte la zone couverte par les arroseurs et épouvantails, et l'aperçu de celui qu'on tient | Ne lit que ce que le joueur a posé lui-même |
+| `animal-care` | Petite icône au-dessus d'un animal qui attend une caresse, une traite ou une tonte | État réel de l'animal du joueur, rien d'autre |
+| `recipe-lookup` | Survol + `R` : les recettes de cuisine connues qui utilisent l'objet, ce qui manque et dans quel coffre | Seulement les recettes **apprises** (`cookingRecipes`) et les stocks du joueur |
+| `chest-search` | L'infobulle dit combien on en a rangé ; `O` ouvre la liste des coffres qui en contiennent | Ne regarde que les coffres et frigos du joueur, et jamais le coffre déjà ouvert à l'écran |
+| `skill-xp` | Au survol d'un talent, l'expérience accumulée et ce qu'il reste avant le niveau suivant | Progression du joueur uniquement (`experiencePoints`), que le jeu compte sans l'afficher |
+| `crafting-filters` | Onglets sur le bord gauche de la page Artisanat : ferme, pêche, machines, déco, aventure, divers | Ne cache rien : la liste filtrée est un sous-ensemble exact de ce que le jeu affichait |
+| `chest-names` | Un bouton dans le menu d'un coffre pour le nommer ; le nom remplace le lieu partout où le mod cite ce coffre | Donnée du joueur uniquement (`modData` du coffre, sauvegardée et synchronisée en multi) |
+| `fish-hints` | Sur un poisson jamais attrapé, décrit chaque condition **par comparaison** avec un poisson déjà pris | Une condition qu'aucune prise du joueur ne permet d'exprimer reste en `????` ; un poisson qui ne vit que dans un lieu jamais visité ne dit **rien** |
+
 Les features s'activent et se désactivent dans l'onglet « livre bleu » du menu Échap. Le changement est immédiat et enregistré dans `config.json`.
 
 ## Build et lancement
@@ -128,6 +138,8 @@ La ligne de l'onglet apparaît toute seule.
   - les poissons propres à certains niveaux de la mine (codés en dur dans `MineShaft.getFish`) sont ajoutés à la main ;
   - les méduses, qui n'ont pas de fiche `Data/Fish`, n'affichent que l'eau et les saisons.
 - **Minimap** : la carte du lieu est rendue une fois dans une texture (16 px par tuile, contre 64 en jeu), lors de l'événement `Display.Rendering`, quand aucun lot de dessin n'est en cours. Chaque image ne fait plus que dessiner un extrait zoomé. Les très grandes cartes ne sont rendues qu'autour du joueur, et re-rendues quand il approche du bord. Les calculs de coordonnées sont isolés dans `MinimapGeometry` pour être testables sans lancer le jeu.
+- **Bouton de nom du coffre** : placé d'après les boutons que le jeu a réellement créés (`okButton`, sinon `trashCan`), jamais d'après un calcul. Un grand coffre élargit sa grille au-delà du cadre du menu **puis** décale `yPositionOnScreen` de 42 px, donc toute position calculée à la main finit sur les cases. Sous le bouton OK est le seul endroit que la grille ne peut pas atteindre, quelle que soit la taille du coffre.
+- **Familles d'artisanat** : le jeu n'a pas de catégories de fabrication. Chaque recette est classée d'après ce qu'elle produit, lu dans les données du jeu (catégorie de l'objet, `Data/Machines`, étiquettes de contexte) ; seuls les objets que les données ne distinguent pas sont reconnus à leur nom interne anglais. Le classement des 150 recettes vanilla a été vérifié hors jeu.
 - **Onglet Relations** : le texte est écrit sous les cœurs, dans la zone libre de la colonne ; la ligne descend quand le personnage a plus de 10 cœurs (deux rangées).
 
 ## Vérifications faites
@@ -137,6 +149,7 @@ La ligne de l'onglet apparaît toute seule.
 - La découverte des lieux a été simulée sur la même sauvegarde : seuls les lieux réellement visités sont affichés (bug `Mine`/`Mines` trouvé et corrigé).
 - Testé en jeu le 2026-09-17 par Jordan : infobulles de pêche validées ; minimap et noms de carte corrigés ensuite (cadre qui masquait la minimap, passage des bâtiments aux zones).
 - Géométrie de la minimap : 25 assertions passées hors jeu (joueur toujours centré aux 4 niveaux de zoom, rien dessiné hors du cadre sur une petite carte, aucun marqueur pour un PNJ hors champ).
+- Indices de pêche exécutés hors jeu sur les vraies données et la sauvegarde `Elan` (59 poissons pris) : chaque comparaison renvoie bien à un poisson réellement attrapé, jamais à lui-même ; 11 poissons manquants sont décrits, 7 ne disent rien faute d'avoir pêché là où ils vivent.
 - Onglet Relations simulé sur la sauvegarde : les 30 villageois rencontrés affichent tous une info, et aucun bâtiment non visité n'est nommé (Robin → « Vers : Montagnes »).
 
 ## À valider en jeu
@@ -151,4 +164,10 @@ La ligne de l'onglet apparaît toute seule.
 - [ ] Minimap : s'affiche en haut à gauche, suit le joueur, têtes des villageois rencontrés visibles, Page préc. / Page suiv. zooment, disparaît pendant les cinématiques et les menus.
 - [ ] Minimap : changer de lieu, dormir, changer de saison → la carte se met à jour, pas de chute de framerate.
 - [ ] Objet attendu par un lot : le rappel s'affiche dans l'infobulle ; après l'avoir donné, il passe à « déjà donné ».
+- [ ] Survol d'un objet : « N en réserve » dans l'infobulle, `O` ouvre la liste des coffres (couleur du coffre respectée).
+- [ ] Dans un coffre ouvert : le total ne compte plus ce coffre-là, et disparaît s'il est le seul à en contenir.
+- [ ] Onglet Compétences : survol d'un talent → ligne d'XP au-dessus de la description, et « niveau maximum » sur un talent à 10.
+- [ ] Page Artisanat : 7 onglets à gauche, aucun chevauchement avec la grille, le filtre garde les recettes inconnues en silhouette.
+- [ ] Bouton « pancarte » sous le bouton OK du coffre : le survol montre le nom, le clic ouvre la fenêtre de saisie, et le nom remplace le lieu dans les fenêtres `O` et `R`. À vérifier sur un grand coffre **et** un coffre normal.
+- [ ] Collections → Poissons : survol d'un poisson non attrapé → lignes de comparaison lisibles, `????` là où rien ne peut être dit.
 - [ ] Onglet Relations : le lieu s'affiche sous les cœurs sans chevaucher le texte de relation (vérifier un célibataire, un marié à plus de 10 cœurs, et un nom de lieu long).

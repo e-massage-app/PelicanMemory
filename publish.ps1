@@ -10,11 +10,14 @@ $version = $manifest.Version
 Write-Host "Pelican Memory $version" -ForegroundColor Cyan
 
 # 2. compiler le mod (ModBuildConfig produit le zip de distribution)
+# Rebuild et pas build : une compilation incrementale met bien la DLL a jour mais ne regenere pas le zip,
+# et on repartait alors avec celui de la version precedente sans rien voir.
 Write-Host "Compilation du mod..."
-dotnet build "$root\PelicanMemory.csproj" -c Release -v quiet | Out-Null
+dotnet build "$root\PelicanMemory.csproj" -c Release -t:Rebuild -v quiet | Out-Null
 
-$zip = Get-ChildItem "$root\bin\Release\net6.0\*.zip" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-if (-not $zip) { throw "Zip du mod introuvable dans bin\Release\net6.0." }
+# choisi par son nom et pas par sa date : seule facon de garantir que c'est bien cette version-la
+$zip = Get-Item "$root\bin\Release\net6.0\PelicanMemory $version.zip" -ErrorAction SilentlyContinue
+if (-not $zip) { throw "Zip de la version $version introuvable dans bin\Release\net6.0." }
 
 # 3. dist\ : ce que l'installeur télécharge
 New-Item -ItemType Directory -Force "$root\dist" | Out-Null

@@ -23,6 +23,10 @@ internal enum WaterType
 /// <param name="LocationNames">The internal names of the places where it can be caught, limited to places the player has visited.</param>
 internal record FishInfo(bool IsCrabPot, IReadOnlyCollection<WaterType> WaterTypes, IReadOnlyCollection<Season> Seasons, string Weather, IReadOnlyList<(int Start, int End)> TimeRanges, IReadOnlyCollection<string> LocationNames);
 
+/// <summary>One place and season in which a fish can be caught.</summary>
+/// <param name="LocationName">The location's name in <see cref="Farmer.locationsVisited"/>.</param>
+internal record FishSpawn(string LocationName, WaterType WaterType, Season[] Seasons);
+
 /// <summary>Reads fish catch conditions from the game data.</summary>
 /// <remarks>
 /// Since 1.6, <c>Data/Fish</c> only provides time and weather; seasons and places come from each location's
@@ -49,10 +53,8 @@ internal class FishInfoResolver
     private static readonly string[] HardcodedMineFish = { "(O)158", "(O)161", "(O)162" };
 
     /// <summary>The spawn entries indexed by qualified fish ID, built on first use.</summary>
-    private Dictionary<string, List<Spawn>>? SpawnsByFish;
+    private Dictionary<string, List<FishSpawn>>? SpawnsByFish;
 
-    /// <param name="LocationName">The location's name in <see cref="Farmer.locationsVisited"/>.</param>
-    private record Spawn(string LocationName, WaterType WaterType, Season[] Seasons);
 
 
     /*********
@@ -73,7 +75,7 @@ internal class FishInfoResolver
             return null;
 
         string localId = qualifiedItemId.Substring(ItemRegistry.type_object.Length);
-        Spawn[] knownSpawns = this.GetSpawns(qualifiedItemId)
+        FishSpawn[] knownSpawns = this.GetSpawns(qualifiedItemId)
             .Where(spawn => hasVisited(spawn.LocationName))
             .ToArray();
 
@@ -124,30 +126,30 @@ internal class FishInfoResolver
     /*********
     ** Private methods
     *********/
-    private static WaterType[] GetWaterTypes(IEnumerable<Spawn> spawns) => spawns.Select(p => p.WaterType).Distinct().OrderBy(p => p).ToArray();
+    private static WaterType[] GetWaterTypes(IEnumerable<FishSpawn> spawns) => spawns.Select(p => p.WaterType).Distinct().OrderBy(p => p).ToArray();
 
-    private static Season[] GetSeasons(IEnumerable<Spawn> spawns) => spawns.SelectMany(p => p.Seasons).Distinct().OrderBy(p => p).ToArray();
+    private static Season[] GetSeasons(IEnumerable<FishSpawn> spawns) => spawns.SelectMany(p => p.Seasons).Distinct().OrderBy(p => p).ToArray();
 
-    private static string[] GetLocationNames(IEnumerable<Spawn> spawns) => spawns.Select(p => p.LocationName).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+    private static string[] GetLocationNames(IEnumerable<FishSpawn> spawns) => spawns.Select(p => p.LocationName).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
 
-    /// <summary>Get the spawn entries for a fish.</summary>
-    private IEnumerable<Spawn> GetSpawns(string qualifiedItemId)
+    /// <summary>Get the spawn entries for a fish, across every location.</summary>
+    public IEnumerable<FishSpawn> GetSpawns(string qualifiedItemId)
     {
         this.SpawnsByFish ??= BuildSpawnIndex();
-        return this.SpawnsByFish.TryGetValue(qualifiedItemId, out List<Spawn>? spawns)
+        return this.SpawnsByFish.TryGetValue(qualifiedItemId, out List<FishSpawn>? spawns)
             ? spawns
-            : Enumerable.Empty<Spawn>();
+            : Enumerable.Empty<FishSpawn>();
     }
 
     /// <summary>Index every fish spawn entry in <c>Data/Locations</c>.</summary>
-    private static Dictionary<string, List<Spawn>> BuildSpawnIndex()
+    private static Dictionary<string, List<FishSpawn>> BuildSpawnIndex()
     {
-        Dictionary<string, List<Spawn>> index = new(StringComparer.OrdinalIgnoreCase);
+        Dictionary<string, List<FishSpawn>> index = new(StringComparer.OrdinalIgnoreCase);
 
-        void Add(string fishId, Spawn spawn)
+        void Add(string fishId, FishSpawn spawn)
         {
-            if (!index.TryGetValue(fishId, out List<Spawn>? list))
-                index[fishId] = list = new List<Spawn>();
+            if (!index.TryGetValue(fishId, out List<FishSpawn>? list))
+                index[fishId] = list = new List<FishSpawn>();
             list.Add(spawn);
         }
 
@@ -159,7 +161,7 @@ internal class FishInfoResolver
             string visitedName = GetVisitedName(locationName);
             foreach (SpawnFishData entry in location.Fish)
             {
-                Spawn spawn = new(visitedName, GetWaterType(locationName, location, entry), GetSeasons(entry));
+                FishSpawn spawn = new(visitedName, GetWaterType(locationName, location, entry), GetSeasons(entry));
 
                 if (entry.ItemId != null && entry.ItemId.StartsWith(ItemRegistry.type_object))
                     Add(entry.ItemId, spawn);
@@ -173,7 +175,7 @@ internal class FishInfoResolver
         }
 
         foreach (string fishId in HardcodedMineFish)
-            Add(fishId, new Spawn(GetVisitedName("UndergroundMine"), WaterType.Mines, AllSeasons));
+            Add(fishId, new FishSpawn(GetVisitedName("UndergroundMine"), WaterType.Mines, AllSeasons));
 
         return index;
     }

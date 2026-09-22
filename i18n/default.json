@@ -57,6 +57,77 @@
 
   "shop.quantity": "How many {{item}}?",
 
+  "feature.recipe-lookup.name": "Recipes using this item (R)",
+  "feature.recipe-lookup.description": "Hover an item and press R to see which of your known recipes use it, what each one still needs, and which chest holds the rest. The key can be changed in config.json.",
+
+  "feature.fish-hints.name": "Hints for missing fish",
+  "feature.fish-hints.description": "In the collections tab, describes a fish you have never caught by comparing it to the ones you have: \"Season: same as that fish\". Anything your own catches cannot express stays as ????, and a fish which only lives somewhere you have never been says nothing at all.",
+
+  "fish-hints.title": "Going by your catches:",
+  "fish-hints.unreachable": "You have never fished where it lives.",
+  "fish-hints.like": "same as \"{{fish}}\"",
+  "fish-hints.unknown": "????",
+  "fish-hints.any-season": "all year round",
+  "fish-hints.any-weather": "any weather",
+  "fish-hints.any-time": "any time of day",
+  "fish-hints.no-level": "no level needed",
+  "fish-hints.crab-pot": "in a crab pot",
+  "fish-hints.not-applicable": "not applicable",
+  "fish-hints.axis.place": "Place",
+  "fish-hints.axis.season": "Season",
+  "fish-hints.axis.weather": "Weather",
+  "fish-hints.axis.time": "Time",
+  "fish-hints.axis.level": "Fishing level",
+  "fish-hints.axis.fight": "Fight",
+
+  "feature.chest-search.name": "Where is this item? (O)",
+  "feature.chest-search.description": "Shows how many you have put away in the tooltip, and opens the list of chests holding it when you press O. Only looks in your own chests and fridges. The key can be changed in config.json.",
+
+  "feature.crafting-filters.name": "Crafting filters",
+  "feature.crafting-filters.description": "Adds tabs down the left edge of the crafting page to show one family at a time: farm, fishing, machines, decoration, adventure, other. Nothing is hidden: these are the same recipes as usual.",
+
+  "crafting-filters.all": "Everything",
+  "crafting-filters.farm": "Farm",
+  "crafting-filters.fishing": "Fishing",
+  "crafting-filters.machines": "Machines",
+  "crafting-filters.decor": "Decoration and floors",
+  "crafting-filters.adventure": "Adventure",
+  "crafting-filters.misc": "Other",
+
+  "feature.skill-xp.name": "Detailed skill experience",
+  "feature.skill-xp.description": "Hovering a skill in the Skills tab shows the experience gathered and what is left before the next level. The game counts this experience but never shows it.",
+
+  "skill-xp.progress": "{{done}} / {{needed}} XP — {{left}} more to reach level {{level}}",
+  "skill-xp.maxed": "Maximum level reached — {{total}} XP in total",
+
+  "feature.chest-names.name": "Name your chests",
+  "feature.chest-names.description": "Adds a button in a chest's menu to give it a name (\"Kitchen\", \"Mine\"...). The name is then used wherever the mod mentions that chest, instead of the place it stands in.",
+
+  "chest-names.button": "Name this chest",
+  "chest-names.rename": "Click to rename",
+  "chest-names.prompt": "Chest name",
+
+  "storage.tooltip": "{{count}} in storage",
+  "storage.title": "Where is: {{item}}",
+  "storage.in-bag": "In your bag: {{count}}",
+  "storage.in-chests": "In your chests: {{count}}",
+  "storage.none": "None of your chests hold any.",
+  "storage.scroll": "Chest {{shown}} of {{total}} — scroll to see more",
+
+  "recipes.tooltip": "{{count}} cooking recipe(s):",
+  "recipes.title": "Recipes using: {{item}}",
+  "recipes.none": "None of your known recipes use this item.",
+  "recipes.cooking": "cooking",
+  "recipes.crafting": "crafting",
+  "recipes.ready": "{{count}} ready to make",
+  "recipes.ready-total": "{{count}} now · {{total}} with your reserves",
+  "recipes.ready-with-chests": "{{count}} once fetched from your chests",
+  "recipes.not-ready": "you are missing ingredients",
+  "recipes.stored-in": "chests:",
+  "recipes.column-bag": "In bag",
+  "recipes.column-chests": "Stored",
+  "recipes.scroll": "Recipe {{shown}} of {{total}} — mouse wheel to scroll",
+
   // fish tooltip
   "fish-tooltip.places": "Where: {{value}}",
   "fish-tooltip.how": "How: {{value}}",

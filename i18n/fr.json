@@ -57,6 +57,77 @@
 
   "shop.quantity": "Combien de {{item}} ?",
 
+  "feature.recipe-lookup.name": "Recettes utilisant cet objet (R)",
+  "feature.recipe-lookup.description": "Survolez un objet et appuyez sur R pour voir quelles recettes connues l'utilisent, ce qu'il manque, et dans quel coffre se trouve le reste. La touche est modifiable dans config.json.",
+
+  "feature.fish-hints.name": "Indices sur les poissons manquants",
+  "feature.fish-hints.description": "Dans l'onglet Collections, décrit un poisson jamais attrapé en le comparant à ceux que vous avez déjà pris : « Saison : comme tel poisson ». Ce que vos prises ne permettent pas de dire reste en ????, et un poisson qui ne vit que dans un lieu jamais visité ne dit rien du tout.",
+
+  "fish-hints.title": "D'après vos prises :",
+  "fish-hints.unreachable": "Vous n'avez jamais pêché là où il vit.",
+  "fish-hints.like": "comme « {{fish}} »",
+  "fish-hints.unknown": "????",
+  "fish-hints.any-season": "toute l'année",
+  "fish-hints.any-weather": "par tous les temps",
+  "fish-hints.any-time": "à toute heure",
+  "fish-hints.no-level": "aucun niveau requis",
+  "fish-hints.crab-pot": "au casier",
+  "fish-hints.not-applicable": "sans objet",
+  "fish-hints.axis.place": "Endroit",
+  "fish-hints.axis.season": "Saison",
+  "fish-hints.axis.weather": "Météo",
+  "fish-hints.axis.time": "Heure",
+  "fish-hints.axis.level": "Niveau de pêche",
+  "fish-hints.axis.fight": "Ferrage",
+
+  "feature.chest-search.name": "Où est cet objet ? (O)",
+  "feature.chest-search.description": "Indique dans l'infobulle combien vous en avez rangé, et sur O ouvre la liste des coffres qui en contiennent. Ne regarde que vos propres coffres et frigos. La touche est modifiable dans config.json.",
+
+  "feature.crafting-filters.name": "Filtres de l'artisanat",
+  "feature.crafting-filters.description": "Ajoute des onglets sur le bord gauche de la page Artisanat pour n'afficher qu'une famille à la fois : ferme, pêche, machines, décoration, aventure, divers. Ne cache rien : ce sont les mêmes recettes que d'habitude.",
+
+  "crafting-filters.all": "Tout",
+  "crafting-filters.farm": "Ferme",
+  "crafting-filters.fishing": "Pêche",
+  "crafting-filters.machines": "Machines",
+  "crafting-filters.decor": "Décoration et sols",
+  "crafting-filters.adventure": "Aventure",
+  "crafting-filters.misc": "Divers",
+
+  "feature.skill-xp.name": "Expérience détaillée des talents",
+  "feature.skill-xp.description": "Au survol d'un talent dans l'onglet Compétences, indique l'expérience accumulée et ce qu'il reste avant le niveau suivant. Le jeu compte cette expérience mais ne l'affiche nulle part.",
+
+  "skill-xp.progress": "{{done}} / {{needed}} XP — encore {{left}} avant le niveau {{level}}",
+  "skill-xp.maxed": "Niveau maximum atteint — {{total}} XP au total",
+
+  "feature.chest-names.name": "Nommer ses coffres",
+  "feature.chest-names.description": "Ajoute un bouton dans le menu d'un coffre pour lui donner un nom (« Cuisine », « Mine »...). Le nom apparaît ensuite partout où le mod cite ce coffre, à la place du lieu.",
+
+  "chest-names.button": "Nommer ce coffre",
+  "chest-names.rename": "Clic pour renommer",
+  "chest-names.prompt": "Nom du coffre",
+
+  "storage.tooltip": "{{count}} en réserve",
+  "storage.title": "Où est : {{item}}",
+  "storage.in-bag": "Dans le sac : {{count}}",
+  "storage.in-chests": "Dans vos coffres : {{count}}",
+  "storage.none": "Aucun de vos coffres n'en contient.",
+  "storage.scroll": "Coffre {{shown}} sur {{total}} — molette pour faire défiler",
+
+  "recipes.tooltip": "{{count}} recette(s) de cuisine :",
+  "recipes.title": "Recettes utilisant : {{item}}",
+  "recipes.none": "Aucune de vos recettes connues n'utilise cet objet.",
+  "recipes.cooking": "cuisine",
+  "recipes.crafting": "artisanat",
+  "recipes.ready": "{{count}} réalisable(s) maintenant",
+  "recipes.ready-total": "{{count}} maintenant · {{total}} avec vos réserves",
+  "recipes.ready-with-chests": "{{count}} réalisable(s) avec vos réserves",
+  "recipes.not-ready": "il vous manque des ingrédients",
+  "recipes.stored-in": "coffres :",
+  "recipes.column-bag": "Dans le sac",
+  "recipes.column-chests": "En réserve",
+  "recipes.scroll": "Recette {{shown}} sur {{total}} — molette pour faire défiler",
+
   // fish tooltip
   "fish-tooltip.places": "Où : {{value}}",
   "fish-tooltip.how": "Comment : {{value}}",
