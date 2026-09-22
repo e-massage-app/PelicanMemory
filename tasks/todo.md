@@ -13,6 +13,11 @@
 - [x] Retour du 22/09 : pancarte de nom replacée sous le bouton OK (ancrée aux boutons réels) et nom passé en infobulle
 - [x] Jauges d'XP au survol des talents (`skill-xp`)
 - [x] Filtres de l'artisanat (`crafting-filters`), 7 familles, classement vérifié hors jeu sur les 150 recettes
+- [x] 1.3.0 : mise à jour depuis le jeu (`self-update`), rejouée hors jeu avec la DLL verrouillée
+- [x] Test de Jordan n°1 : 1.3.0 → 1.3.1-test réussi en vrai (console SMAPI, `.old` nettoyés)
+- [x] Retours : liste complète en pages (flèches vanilla, molette, ←/→), bouton trop long, redémarrage automatique via Steam (`GameRestarter`, testé hors jeu)
+- [ ] Test de Jordan n°2 : 1.3.0 installée, `test-feed/` annonce 1.3.2-test + 1.3.1-test (titres par version + plusieurs pages)
+- [ ] Après son test : retirer `UpdateSource`, redéployer la 1.3.0, puis publier 1.3.0 sur son feu vert
 - [ ] Test en jeu par Jordan
 - [ ] Sur son accord : bump 1.2.0, `publish.ps1`, commit, push
 

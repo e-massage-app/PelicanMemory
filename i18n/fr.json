@@ -83,6 +83,21 @@
   "feature.chest-search.name": "Où est cet objet ? (O)",
   "feature.chest-search.description": "Indique dans l'infobulle combien vous en avez rangé, et sur O ouvre la liste des coffres qui en contiennent. Ne regarde que vos propres coffres et frigos. La touche est modifiable dans config.json.",
 
+  "feature.self-update.name": "Mises à jour du mod",
+  "feature.self-update.description": "Au lancement du jeu, propose la nouvelle version de Pelican Memory quand il y en a une, avec la liste des nouveautés. Un clic l'installe et redémarre le jeu.",
+
+  "update.title": "Mise à jour disponible",
+  "update.versions": "Pelican Memory {{latest}} — vous avez la {{current}}",
+  "update.install": "Mettre à jour et redémarrer",
+  "update.later": "Jouer sans mettre à jour",
+  "update.close": "Fermer",
+  "update.page": "Page {{page}} sur {{total}}",
+  "update.installing": "Installation de la mise à jour…",
+  "update.installed": "Mise à jour installée ! Le jeu va se fermer : relancez-le pour en profiter.",
+  "update.installed-restart": "Mise à jour installée ! Le jeu redémarre tout seul dans un instant.",
+  "update.failed": "La mise à jour n'a pas pu être installée ({{reason}}). Rien n'a été modifié, vous pouvez jouer normalement.",
+  "update.reason-network": "impossible de joindre le serveur",
+
   "feature.crafting-filters.name": "Filtres de l'artisanat",
   "feature.crafting-filters.description": "Ajoute des onglets sur le bord gauche de la page Artisanat pour n'afficher qu'une famille à la fois : ferme, pêche, machines, décoration, aventure, divers. Ne cache rien : ce sont les mêmes recettes que d'habitude.",
 

@@ -21,6 +21,7 @@ C'est un **outil de mémoire, pas un guide** : il n'affiche que ce que le joueur
 | `chest-search` | L'infobulle dit combien on en a rangé ; `O` ouvre la liste des coffres qui en contiennent | Ne regarde que les coffres et frigos du joueur, et jamais le coffre déjà ouvert à l'écran |
 | `skill-xp` | Au survol d'un talent, l'expérience accumulée et ce qu'il reste avant le niveau suivant | Progression du joueur uniquement (`experiencePoints`), que le jeu compte sans l'afficher |
 | `crafting-filters` | Onglets sur le bord gauche de la page Artisanat : ferme, pêche, machines, déco, aventure, divers | Ne cache rien : la liste filtrée est un sous-ensemble exact de ce que le jeu affichait |
+| `self-update` | À l'écran-titre, propose la nouvelle version avec ses nouveautés ; un clic l'installe et ferme le jeu, une seule relance suffit | Sans objet (outil du mod) ; aucune donnée envoyée, simple lecture de `dist/update.json` |
 | `chest-names` | Un bouton dans le menu d'un coffre pour le nommer ; le nom remplace le lieu partout où le mod cite ce coffre | Donnée du joueur uniquement (`modData` du coffre, sauvegardée et synchronisée en multi) |
 | `fish-hints` | Sur un poisson jamais attrapé, décrit chaque condition **par comparaison** avec un poisson déjà pris | Une condition qu'aucune prise du joueur ne permet d'exprimer reste en `????` ; un poisson qui ne vit que dans un lieu jamais visité ne dit **rien** |
 
@@ -68,6 +69,19 @@ L'installeur lit `dist/` via `raw.githubusercontent.com`, donc **un simple push 
 - **Recettes connues utilisant un ingrédient** : écartée, l'infobulle deviendrait interminable en fin de partie.
 - **Animaux pas encore caressés** : reportée, à reproposer éventuellement pour la compagne de Jordan.
 - **Objets jamais expédiés** : reportée, utile seulement pour la chasse aux succès.
+
+### Mise à jour depuis le jeu (à partir de la 1.3.0)
+- Le mod lit `dist/update.json` (copie de `changelog.json`, versions les plus récentes en tête) puis télécharge `dist/PelicanMemory.zip`. L'installeur ne sert plus qu'à la **première** installation.
+- Après l'installation, le jeu se relance seul : PowerShell (celui de Windows) attend la fermeture du processus puis relance **par Steam** (`steam://rungameid/413150`) si Steam a lancé le jeu, pour garder temps de jeu et succès ; sinon `StardewModdingAPI.exe`. Si la relance ne peut pas être préparée, le message demande de relancer à la main.
+- Windows interdit d'écraser une DLL chargée mais autorise de la **renommer** : chaque fichier est renommé en `*.old`, le nouveau est posé sous le nom d'origine, et le lancement suivant supprime les `*.old`. Une seule relance. En cas d'échec à mi-chemin, tout est remis en place ; un paquet dont le manifeste n'est pas la version annoncée est refusé sans rien toucher. `config.json` n'est jamais touché.
+- **Avant chaque publication** : ajouter les nouveautés de la version en tête de `changelog.json` (sinon `publish.ps1` refuse de publier).
+
+### Tester une mise à jour avant de la publier
+1. Construire la version à tester sans la déployer : manifeste en `x.y.z-test`, `dotnet build -c Release -t:Rebuild -p:EnableModDeploy=false`, remettre le manifeste.
+2. Copier le zip dans `test-feed/PelicanMemory.zip` et y écrire un `update.json` qui l'annonce en tête (`test-feed/` est hors dépôt).
+3. Dans `Mods/PelicanMemory/config.json`, ajouter `"UpdateSource": "<chemin de test-feed>"`.
+4. Lancer le jeu : la fenêtre propose la version de test. Après la relance, la console SMAPI doit l'afficher.
+5. Ensuite : retirer `UpdateSource` et redéployer la vraie version (`dotnet build`).
 
 ## Multijoueur — procédure pour l'autre joueur
 
@@ -149,6 +163,7 @@ La ligne de l'onglet apparaît toute seule.
 - La découverte des lieux a été simulée sur la même sauvegarde : seuls les lieux réellement visités sont affichés (bug `Mine`/`Mines` trouvé et corrigé).
 - Testé en jeu le 2026-09-17 par Jordan : infobulles de pêche validées ; minimap et noms de carte corrigés ensuite (cadre qui masquait la minimap, passage des bâtiments aux zones).
 - Géométrie de la minimap : 25 assertions passées hors jeu (joueur toujours centré aux 4 niveaux de zoom, rien dessiné hors du cadre sur une petite carte, aucun marqueur pour un PNJ hors champ).
+- Mise à jour rejouée hors jeu, DLL tenue ouverte comme par SMAPI : paquet de mauvaise version refusé sans rien toucher, bonne version installée, `config.json` intact, puis nettoyage des `*.old` au « lancement suivant » dans un nouveau processus (15 vérifications).
 - Indices de pêche exécutés hors jeu sur les vraies données et la sauvegarde `Elan` (59 poissons pris) : chaque comparaison renvoie bien à un poisson réellement attrapé, jamais à lui-même ; 11 poissons manquants sont décrits, 7 ne disent rien faute d'avoir pêché là où ils vivent.
 - Onglet Relations simulé sur la sauvegarde : les 30 villageois rencontrés affichent tous une info, et aucun bâtiment non visité n'est nommé (Robin → « Vers : Montagnes »).
 
@@ -168,6 +183,7 @@ La ligne de l'onglet apparaît toute seule.
 - [ ] Dans un coffre ouvert : le total ne compte plus ce coffre-là, et disparaît s'il est le seul à en contenir.
 - [ ] Onglet Compétences : survol d'un talent → ligne d'XP au-dessus de la description, et « niveau maximum » sur un talent à 10.
 - [ ] Page Artisanat : 7 onglets à gauche, aucun chevauchement avec la grille, le filtre garde les recettes inconnues en silhouette.
+- [ ] Mise à jour depuis l'écran-titre : fenêtre lisible, « Jouer sans mettre à jour » revient au titre, « Mettre à jour » ferme le jeu, et la relance charge la nouvelle version sans reproposer la fenêtre.
 - [ ] Bouton « pancarte » sous le bouton OK du coffre : le survol montre le nom, le clic ouvre la fenêtre de saisie, et le nom remplace le lieu dans les fenêtres `O` et `R`. À vérifier sur un grand coffre **et** un coffre normal.
 - [ ] Collections → Poissons : survol d'un poisson non attrapé → lignes de comparaison lisibles, `????` là où rien ne peut être dit.
 - [ ] Onglet Relations : le lieu s'affiche sous les cœurs sans chevaucher le texte de relation (vérifier un célibataire, un marié à plus de 10 cœurs, et un nom de lieu long).

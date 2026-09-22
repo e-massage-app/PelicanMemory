@@ -5,3 +5,4 @@ obj/
 installer/bin/
 installer/obj/
 publish/
+test-feed/

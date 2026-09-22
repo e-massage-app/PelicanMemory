@@ -1,0 +1,32 @@
+[
+  {
+    "Version": "1.3.0",
+    "Fr": [
+      "Les mises à jour se font désormais depuis le jeu : au lancement, cette fenêtre propose la nouvelle version, un clic l'installe et le jeu redémarre tout seul.",
+      "Plus besoin de l'installeur pour les prochaines versions."
+    ],
+    "En": [
+      "Updates now happen from the game itself: when it starts, this window offers the new version, one click installs it and the game restarts by itself.",
+      "The installer is no longer needed for future versions."
+    ]
+  },
+  {
+    "Version": "1.2.0",
+    "Fr": [
+      "Recettes de cuisine qui utilisent un objet : survolez-le et appuyez sur R.",
+      "Où est cet objet ? L'infobulle dit combien vous en avez rangé, et O liste les coffres qui en contiennent.",
+      "Donnez un nom à vos coffres avec la pancarte sous le bouton OK.",
+      "Indices sur les poissons jamais attrapés, tirés uniquement de vos propres prises.",
+      "L'expérience détaillée de chaque talent, au survol dans l'onglet Compétences.",
+      "Des onglets par famille dans la page Artisanat."
+    ],
+    "En": [
+      "Cooking recipes that use an item: hover it and press R.",
+      "Where is this item? The tooltip says how many you have stored, and O lists the chests holding it.",
+      "Name your chests with the sign under the OK button.",
+      "Hints about the fish you've never caught, drawn only from your own catches.",
+      "Detailed experience for each skill, when hovering it in the Skills tab.",
+      "Tabs by family on the crafting page."
+    ]
+  }
+]

@@ -16,4 +16,7 @@ internal class ModConfig
 
     /// <summary>The keys which toggle a feature, indexed by key (e.g. <c>farm-layers</c>). Uses SMAPI's keybind format.</summary>
     public Dictionary<string, string> Keybinds { get; set; } = new();
+
+    /// <summary>Where to look for updates: a web address or a local folder. Leave empty to use the published releases; only set it to test an update before publishing it.</summary>
+    public string? UpdateSource { get; set; }
 }

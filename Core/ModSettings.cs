@@ -15,6 +15,9 @@ internal class ModSettings
         this.Config = helper.ReadConfig<ModConfig>();
     }
 
+    /// <summary>Where to look for updates, or <c>null</c> for the published releases.</summary>
+    public string? UpdateSource => this.Config.UpdateSource;
+
     /// <summary>Get whether a feature is enabled.</summary>
     /// <param name="featureId">The feature ID.</param>
     /// <param name="defaultValue">The value to use when the player has never toggled it.</param>

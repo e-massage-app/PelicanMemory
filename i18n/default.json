@@ -83,6 +83,21 @@
   "feature.chest-search.name": "Where is this item? (O)",
   "feature.chest-search.description": "Shows how many you have put away in the tooltip, and opens the list of chests holding it when you press O. Only looks in your own chests and fridges. The key can be changed in config.json.",
 
+  "feature.self-update.name": "Mod updates",
+  "feature.self-update.description": "When the game starts, offers the new version of Pelican Memory if there is one, with the list of changes. One click installs it and restarts the game.",
+
+  "update.title": "Update available",
+  "update.versions": "Pelican Memory {{latest}} — you have {{current}}",
+  "update.install": "Update and restart",
+  "update.later": "Play without updating",
+  "update.close": "Close",
+  "update.page": "Page {{page}} of {{total}}",
+  "update.installing": "Installing the update…",
+  "update.installed": "Update installed! The game will now close: launch it again to enjoy it.",
+  "update.installed-restart": "Update installed! The game will restart by itself in a moment.",
+  "update.failed": "The update couldn't be installed ({{reason}}). Nothing was changed, you can play as usual.",
+  "update.reason-network": "the server couldn't be reached",
+
   "feature.crafting-filters.name": "Crafting filters",
   "feature.crafting-filters.description": "Adds tabs down the left edge of the crafting page to show one family at a time: farm, fishing, machines, decoration, adventure, other. Nothing is hidden: these are the same recipes as usual.",
 
