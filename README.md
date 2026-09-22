@@ -3,7 +3,7 @@
 Mod SMAPI pour Stardew Valley 1.6+ (testé avec la 1.6.15 et SMAPI 4.5.2).
 C'est un **outil de mémoire, pas un guide** : il n'affiche que ce que le joueur a déjà découvert dans **sa** sauvegarde.
 
-## Features (v1)
+## Features
 
 | ID | Ce que ça fait | Filtre anti-spoil |
 |---|---|---|
@@ -50,17 +50,42 @@ La console SMAPI doit afficher `Pelican Memory 1.0.0 by Jordan Neau`. En cas de 
 
 Ce qu'il fait tout seul : il trouve le dossier du jeu (registre Steam, fichier de bibliothèques Steam, emplacements habituels, sinon « Parcourir… »), installe **SMAPI** s'il manque en le téléchargeant depuis les releases officielles, installe la dernière version du mod, puis affiche la ligne d'options de lancement Steam avec un bouton « Copier ».
 
-Le même exe sert de **mise à jour** : relancé plus tard, il réinstalle la dernière version du mod et **conserve `config.json`** (les réglages du joueur).
+Depuis la 1.3.0, l'installeur ne sert plus qu'à la **première installation** : ensuite le mod se met à jour lui-même depuis l'écran-titre. Relancé plus tard, il réinstalle quand même la dernière version en **conservant `config.json`** — c'est le chemin pour quelqu'un resté sur une version antérieure à la 1.3.0, qui ne sait pas encore se mettre à jour seule, ou pour réparer une installation. Les deux constantes du dépôt sont en haut de `installer/Program.cs`, à changer si le dépôt change de nom ou de compte.
 
-### Publier une nouvelle version
-```bash
-powershell -ExecutionPolicy Bypass -File publish.ps1
-```
-Le script lit la version dans `manifest.json`, compile le mod, met à jour `dist/PelicanMemory.zip` et `dist/version.txt`, puis reconstruit l'exe dans `publish/`. Ensuite `git add -A`, `git commit`, `git push` : l'installeur des autres PC prendra la nouvelle version automatiquement.
+L'exe n'est pas signé : au premier lancement, Windows affiche « Windows a protégé votre ordinateur ». Il faut cliquer sur **Informations complémentaires**, puis **Exécuter quand même**.
 
-L'installeur lit `dist/` via `raw.githubusercontent.com`, donc **un simple push suffit pour livrer** — pas de release GitHub à créer, pas de jeton, pas d'outil en plus. Le dépôt doit être public. Si le dépôt change de nom ou de compte, les deux constantes sont en haut de `installer/Program.cs`.
+## Publier une nouvelle version — la marche à suivre
 
-À savoir : l'exe n'est pas signé, donc au premier lancement Windows affiche « Windows a protégé votre ordinateur ». Il faut cliquer sur **Informations complémentaires**, puis **Exécuter quand même**.
+À suivre dans l'ordre, à chaque version. **Rien ne part sur GitHub sans le feu vert de Jordan** : tout ce qui est poussé arrive chez sa compagne à son prochain lancement.
+
+1. **Coder et faire valider en jeu.** Chaque `dotnet build` déploie la version en cours dans `Mods/` sur ce PC : Jordan teste là, rien ne sort.
+2. **Choisir le numéro** : `x.y.Z` pour un correctif, `x.Y.0` pour une nouvelle feature. Le mettre dans `manifest.json`.
+3. **Écrire les nouveautés en tête de `changelog.json`** : `{ "Version", "Fr": [...], "En": [...] }`. C'est ce que les joueurs lisent dans la fenêtre de mise à jour, donc des phrases courtes, du point de vue du joueur (« survolez un objet et appuyez sur R »), et **aucun spoil** : même règle que pour le mod. `publish.ps1` refuse de publier si la version du manifeste n'y est pas en tête.
+4. **Tester la mise à jour elle-même** (voir ci-dessous). Obligatoire si `SelfUpdater`, `GameRestarter`, `UpdateMenu` ou le format de `changelog.json` ont changé ; sinon facultatif.
+5. **Demander le feu vert à Jordan**, puis lancer `publish.ps1` :
+   ```bash
+   powershell -ExecutionPolicy Bypass -File publish.ps1
+   ```
+   Il reconstruit le mod en `Rebuild` (un simple build met la DLL à jour mais **garde l'ancien zip**), prend le zip **par son nom de version**, vérifie `changelog.json`, puis remplit `dist/` : `PelicanMemory.zip`, `version.txt` (lu par l'installeur) et `update.json` (lu par le mod). Il reconstruit aussi l'installeur dans `publish/`.
+6. **Contrôler le paquet avant de commiter** : la version dans le manifeste du zip, `dist/version.txt`, la première entrée de `dist/update.json`, et le fichier en UTF-8 sans BOM (des `?` à la place des accents dans le terminal ne veulent rien dire, il faut vérifier les octets).
+7. **Commit + push** sur `main` : `git add -A`, un message qui dit ce que la version apporte, puis `git push origin main`. Pas de release GitHub à créer : le mod et l'installeur lisent `dist/` via `raw.githubusercontent.com`, donc le dépôt doit rester public.
+8. **Vérifier en ligne** que `dist/version.txt`, `dist/update.json` et `dist/PelicanMemory.zip` sont bien servis à jour sur `https://raw.githubusercontent.com/e-massage-app/PelicanMemory/main/dist/`.
+9. Tenir à jour `tasks/todo.md`, et la section « Vérifications faites » plus bas.
+
+### Tester la mise à jour avant de la publier
+Le mod peut lire ses mises à jour dans un dossier local au lieu de GitHub : on installe la version à publier sur le PC de Jordan, et on lui fait proposer une version de test fabriquée à partir du même code.
+
+1. **Fabriquer le paquet de test sans le déployer** : mettre `x.y.z-test` dans `manifest.json` (le suffixe `-test` la classe après la vraie `x.y.z` et avant la suivante), puis
+   ```bash
+   dotnet build PelicanMemory.csproj -c Release -t:Rebuild -p:EnableModDeploy=false
+   ```
+   et **remettre aussitôt** la vraie version dans `manifest.json`.
+2. Copier `bin/Release/net6.0/PelicanMemory x.y.z-test.zip` en `test-feed/PelicanMemory.zip`, et écrire `test-feed/update.json` : `changelog.json` avec, en tête, une entrée `x.y.z-test` dont la première ligne dit quoi vérifier (« si la console SMAPI affiche x.y.z-test après le redémarrage, tout fonctionne »). Pour tester les titres et les pages, annoncer deux versions de test. `test-feed/` est hors dépôt.
+3. Jeu **fermé** : `dotnet build` (déploie la vraie version), puis ajouter `"UpdateSource": "<chemin complet de test-feed>"` dans `Mods/PelicanMemory/config.json` — en modifiant le fichier, jamais en le remplaçant : ce sont les vrais réglages de Jordan.
+4. Jordan lance le jeu par Steam : la fenêtre propose la version de test, « Mettre à jour et redémarrer », le jeu revient seul. Le journal `%APPDATA%\StardewValley\ErrorLogs\SMAPI-latest.txt` doit afficher `Pelican Memory x.y.z-test`, et le dossier du mod ne doit plus contenir de `*.old`.
+5. **Remettre le PC au propre, sans l'oublier** : retirer `UpdateSource` de la config, puis `dotnet build` pour réinstaller la vraie version. Sinon le jeu de Jordan reste branché sur le dossier de test et ne verra plus jamais les vraies mises à jour.
+
+Le mécanisme de remplacement se teste aussi hors jeu, avec la DLL verrouillée comme par SMAPI : banc `updatetest` (voir « Vérifications faites »).
 
 ## Idées discutées et écartées (2026-09-18)
 
@@ -69,19 +94,6 @@ L'installeur lit `dist/` via `raw.githubusercontent.com`, donc **un simple push 
 - **Recettes connues utilisant un ingrédient** : écartée, l'infobulle deviendrait interminable en fin de partie.
 - **Animaux pas encore caressés** : reportée, à reproposer éventuellement pour la compagne de Jordan.
 - **Objets jamais expédiés** : reportée, utile seulement pour la chasse aux succès.
-
-### Mise à jour depuis le jeu (à partir de la 1.3.0)
-- Le mod lit `dist/update.json` (copie de `changelog.json`, versions les plus récentes en tête) puis télécharge `dist/PelicanMemory.zip`. L'installeur ne sert plus qu'à la **première** installation.
-- Après l'installation, le jeu se relance seul : PowerShell (celui de Windows) attend la fermeture du processus puis relance **par Steam** (`steam://rungameid/413150`) si Steam a lancé le jeu, pour garder temps de jeu et succès ; sinon `StardewModdingAPI.exe`. Si la relance ne peut pas être préparée, le message demande de relancer à la main.
-- Windows interdit d'écraser une DLL chargée mais autorise de la **renommer** : chaque fichier est renommé en `*.old`, le nouveau est posé sous le nom d'origine, et le lancement suivant supprime les `*.old`. Une seule relance. En cas d'échec à mi-chemin, tout est remis en place ; un paquet dont le manifeste n'est pas la version annoncée est refusé sans rien toucher. `config.json` n'est jamais touché.
-- **Avant chaque publication** : ajouter les nouveautés de la version en tête de `changelog.json` (sinon `publish.ps1` refuse de publier).
-
-### Tester une mise à jour avant de la publier
-1. Construire la version à tester sans la déployer : manifeste en `x.y.z-test`, `dotnet build -c Release -t:Rebuild -p:EnableModDeploy=false`, remettre le manifeste.
-2. Copier le zip dans `test-feed/PelicanMemory.zip` et y écrire un `update.json` qui l'annonce en tête (`test-feed/` est hors dépôt).
-3. Dans `Mods/PelicanMemory/config.json`, ajouter `"UpdateSource": "<chemin de test-feed>"`.
-4. Lancer le jeu : la fenêtre propose la version de test. Après la relance, la console SMAPI doit l'afficher.
-5. Ensuite : retirer `UpdateSource` et redéployer la vraie version (`dotnet build`).
 
 ## Multijoueur — procédure pour l'autre joueur
 
@@ -154,6 +166,9 @@ La ligne de l'onglet apparaît toute seule.
 - **Minimap** : la carte du lieu est rendue une fois dans une texture (16 px par tuile, contre 64 en jeu), lors de l'événement `Display.Rendering`, quand aucun lot de dessin n'est en cours. Chaque image ne fait plus que dessiner un extrait zoomé. Les très grandes cartes ne sont rendues qu'autour du joueur, et re-rendues quand il approche du bord. Les calculs de coordonnées sont isolés dans `MinimapGeometry` pour être testables sans lancer le jeu.
 - **Bouton de nom du coffre** : placé d'après les boutons que le jeu a réellement créés (`okButton`, sinon `trashCan`), jamais d'après un calcul. Un grand coffre élargit sa grille au-delà du cadre du menu **puis** décale `yPositionOnScreen` de 42 px, donc toute position calculée à la main finit sur les cases. Sous le bouton OK est le seul endroit que la grille ne peut pas atteindre, quelle que soit la taille du coffre.
 - **Familles d'artisanat** : le jeu n'a pas de catégories de fabrication. Chaque recette est classée d'après ce qu'elle produit, lu dans les données du jeu (catégorie de l'objet, `Data/Machines`, étiquettes de contexte) ; seuls les objets que les données ne distinguent pas sont reconnus à leur nom interne anglais. Le classement des 150 recettes vanilla a été vérifié hors jeu.
+- **Mise à jour depuis le jeu** (depuis la 1.3.0) : le mod lit `dist/update.json` en tâche de fond au démarrage, et n'affiche rien s'il n'y a pas de connexion ou pas de nouvelle version. La fenêtre n'apparaît que sur l'écran-titre (`TitleMenu.subMenu`), jamais en pleine partie.
+- **Remplacer une DLL chargée** : Windows interdit de l'écraser mais autorise de la **renommer**. Chaque fichier passe en `*.old`, le nouveau prend son nom, et le lancement suivant supprime les `*.old`. En cas d'échec à mi-chemin, tout est remis en place ; un paquet dont le manifeste n'est pas exactement la version annoncée de ce mod est refusé sans rien toucher ; `config.json` n'est jamais touché.
+- **Redémarrage automatique** : un programme ne peut pas se relancer lui-même, donc le PowerShell de Windows attend la fermeture du jeu, puis le relance **par Steam** (`steam://rungameid/413150`) si c'est Steam qui l'avait lancé — pour garder temps de jeu et succès —, sinon par `StardewModdingAPI.exe`. Si la relance ne peut pas être préparée, le message demande simplement de relancer à la main.
 - **Onglet Relations** : le texte est écrit sous les cœurs, dans la zone libre de la colonne ; la ligne descend quand le personnage a plus de 10 cœurs (deux rangées).
 
 ## Vérifications faites
