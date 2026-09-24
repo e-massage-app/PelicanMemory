@@ -128,35 +128,9 @@ internal class StorageIndex
         if (!Context.IsWorldReady)
             return stored;
 
-        Utility.ForEachLocation(location =>
+        ForEachContainer((chest, location) =>
         {
             string place = GetPlaceName(location);
-
-            foreach (SObject obj in location.Objects.Values)
-            {
-                if (obj is Chest chest && chest.playerChest.Value)
-                    Add(chest, place);
-            }
-
-            // the kitchen fridge counts too: it's where cooking ingredients usually live
-            switch (location)
-            {
-                case FarmHouse { fridge.Value: not null } farmHouse:
-                    Add(farmHouse.fridge.Value, place);
-                    break;
-
-                case IslandFarmHouse { fridge.Value: not null } islandHouse:
-                    Add(islandHouse.fridge.Value, place);
-                    break;
-            }
-
-            return true;
-        });
-
-        return stored;
-
-        void Add(Chest chest, string place)
-        {
             Color? color = chest.playerChoiceColor.Value == Color.Black ? null : chest.playerChoiceColor.Value;
 
             foreach (Item item in chest.Items)
@@ -164,7 +138,37 @@ internal class StorageIndex
                 if (item != null)
                     stored.Add(new StoredStack(item, chest, place, chest.QualifiedItemId, color));
             }
-        }
+        });
+
+        return stored;
+    }
+
+    /// <summary>Visit every container the player filled themselves: their chests, and the kitchen fridges.</summary>
+    /// <remarks>Shared by the features which look into the player's storage, so they all agree on what counts.</remarks>
+    public static void ForEachContainer(Action<Chest, GameLocation> visit)
+    {
+        Utility.ForEachLocation(location =>
+        {
+            foreach (SObject obj in location.Objects.Values)
+            {
+                if (obj is Chest chest && chest.playerChest.Value)
+                    visit(chest, location);
+            }
+
+            // the kitchen fridge counts too: it's where cooking ingredients usually live
+            switch (location)
+            {
+                case FarmHouse { fridge.Value: not null } farmHouse:
+                    visit(farmHouse.fridge.Value, location);
+                    break;
+
+                case IslandFarmHouse { fridge.Value: not null } islandHouse:
+                    visit(islandHouse.fridge.Value, location);
+                    break;
+            }
+
+            return true;
+        });
     }
 
     /// <summary>Get a readable name for a place.</summary>

@@ -1,6 +1,7 @@
 using System;
 using HarmonyLib;
 using PelicanMemory.Core;
+using PelicanMemory.UI;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -11,8 +12,8 @@ namespace PelicanMemory.Features.PurchaseConfirm;
 /// <summary>Asks how many to buy before any shop purchase, so nothing is bought by accident.</summary>
 /// <remarks>
 /// Buying in a shop is a single click, which costs real money and can't be undone. This puts the game's own quantity
-/// window in between: it starts at 1, shows the total, and can be cancelled. It also replaces shift-clicking to buy
-/// several, since you can just type the number.
+/// window in between: type the number and press Enter, with the total shown and a Cancel button. It also replaces
+/// shift-clicking to buy several.
 /// </remarks>
 internal class PurchaseConfirmFeature : FeatureBase
 {
@@ -102,13 +103,11 @@ internal class PurchaseConfirmFeature : FeatureBase
         int maximum = this.GetMaximum(shop, item, stock);
 
         this.ShopToRestore = shop;
-        Game1.activeClickableMenu = new NumberSelectionMenu(
+        Game1.activeClickableMenu = QuantityPrompt.Create(
             message: this.Helper.Translation.Get("shop.quantity", new { item = item.DisplayName }),
-            behaviorOnSelection: (quantity, _, _) => this.Purchase(shop, item, quantity, x, y),
-            price: stock.Price,
-            minValue: 1,
-            maxValue: maximum,
-            defaultNumber: 1
+            onChosen: quantity => this.Purchase(shop, item, quantity, x, y),
+            maximum: maximum,
+            price: stock.Price
         );
     }
 

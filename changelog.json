@@ -1,5 +1,20 @@
 [
   {
+    "Version": "1.4.0",
+    "Fr": [
+      "Choisissez la quantité : dans un coffre ou un frigo, Ctrl + clic sur une pile, tapez le nombre voulu puis Entrée. Exactement ce nombre passe de l'autre côté, dans les deux sens.",
+      "Ranger partout : dans un coffre de la ferme, un bouton envoie chaque objet de votre sac dans le coffre de la ferme qui en contient déjà le plus. La barre d'outils n'est jamais vidée.",
+      "À cheval : coffres, machines, coffre d'expédition, étangs, boîte aux lettres et trappe des animaux s'utilisent sans descendre ; une porte vous fait entrer en laissant le cheval dehors ; et votre cheval ne vous bloque plus le passage.",
+      "La fenêtre de quantité s'ouvre désormais vide : le nombre tapé est exactement celui utilisé (avant, taper 5 à l'achat donnait 15)."
+    ],
+    "En": [
+      "Choose the quantity: in a chest or fridge, Ctrl + click a stack, type the number you want and press Enter. Exactly that many move to the other side, both ways.",
+      "Put away everywhere: in a farm chest, a button sends each item in your bag to the farm chest which already holds the most of it. The toolbar is never emptied.",
+      "On horseback: chests, machines, the shipping bin, fish ponds, the mailbox and animal doors work without getting off; a door takes you inside and leaves the horse outside; and your horse no longer blocks your way.",
+      "The quantity window now opens empty: the number you type is exactly the one used (typing 5 in a shop used to give 15)."
+    ]
+  },
+  {
     "Version": "1.3.0",
     "Fr": [
       "Les mises à jour se font désormais depuis le jeu : au lancement, cette fenêtre propose la nouvelle version, un clic l'installe et le jeu redémarre tout seul.",

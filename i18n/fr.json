@@ -53,9 +53,31 @@
   "farm-layers.off": "Calques désactivés",
 
   "feature.purchase-confirm.name": "Confirmation des achats",
-  "feature.purchase-confirm.description": "Demande la quantité avant tout achat en boutique, à partir de 1, avec le total et un bouton Annuler. Évite aussi le shift-clic pour acheter par lots.",
+  "feature.purchase-confirm.description": "Demande la quantité avant tout achat en boutique : tapez le nombre puis Entrée, avec le total et un bouton Annuler. Évite aussi le shift-clic pour acheter par lots.",
 
   "shop.quantity": "Combien de {{item}} ?",
+
+  "feature.transfer-quantity.name": "Choisir la quantité (Ctrl + clic)",
+  "feature.transfer-quantity.description": "Dans un coffre ou un frigo, Ctrl + clic sur une pile : tapez le nombre voulu puis Entrée, et exactement ce nombre passe de l'autre côté. Marche dans les deux sens. La touche est modifiable dans config.json.",
+
+  "transfer.take": "Combien de « {{item}} » prendre ? ({{count}} dans le coffre)",
+  "transfer.store": "Combien de « {{item}} » ranger ? ({{count}} dans le sac)",
+  "transfer.no-room": "Plus de place pour les mettre.",
+  "transfer.partial": "Seulement {{count}} ont pu passer : il n'y a plus de place.",
+
+  "feature.horse-actions.name": "Actions à cheval",
+  "feature.horse-actions.description": "À cheval, coffres, machines, coffre d'expédition, étangs et boîte aux lettres s'utilisent sans descendre. Une porte vous fait entrer en laissant le cheval dehors. Et une fois descendu, vous passez à travers votre cheval au lieu d'être bloqué.",
+
+  "feature.deposit-everywhere.name": "Ranger partout",
+  "feature.deposit-everywhere.description": "Dans un coffre de la ferme, un bouton envoie chaque objet de votre sac dans le coffre de la ferme qui en contient déjà le plus, quelle que soit sa qualité. Votre barre d'outils n'est jamais vidée, et un objet sans coffre attitré reste dans le sac.",
+
+  "deposit.title": "Ranger partout",
+  "deposit.hover": "Envoie chaque objet de ton sac dans le coffre
+de la ferme qui en contient déjà.
+La barre d'outils reste intacte.",
+  "deposit.nothing": "Rien à ranger : aucun coffre de la ferme ne contient ces objets.",
+  "deposit.done": "Rangé dans {{chests}} coffre(s) : {{items}}",
+  "deposit.more": "et {{count}} autre(s)",
 
   "feature.recipe-lookup.name": "Recettes utilisant cet objet (R)",
   "feature.recipe-lookup.description": "Survolez un objet et appuyez sur R pour voir quelles recettes connues l'utilisent, ce qu'il manque, et dans quel coffre se trouve le reste. La touche est modifiable dans config.json.",

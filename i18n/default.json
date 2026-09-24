@@ -53,9 +53,31 @@
   "farm-layers.off": "Layers off",
 
   "feature.purchase-confirm.name": "Confirm shop purchases",
-  "feature.purchase-confirm.description": "Asks how many to buy before any purchase, starting at 1, with the total and a cancel button. Also saves shift-clicking to buy several.",
+  "feature.purchase-confirm.description": "Asks how many to buy before any purchase: type the number and press Enter, with the total and a cancel button. Also saves shift-clicking to buy in bulk.",
 
   "shop.quantity": "How many {{item}}?",
+
+  "feature.transfer-quantity.name": "Choose the quantity (Ctrl + click)",
+  "feature.transfer-quantity.description": "In a chest or fridge, Ctrl + click a stack: type the number you want and press Enter, and exactly that many move to the other side. Works both ways. The key can be changed in config.json.",
+
+  "transfer.take": "How many \"{{item}}\" to take? ({{count}} in the chest)",
+  "transfer.store": "How many \"{{item}}\" to store? ({{count}} in your bag)",
+  "transfer.no-room": "No room left for them.",
+  "transfer.partial": "Only {{count}} could be moved: there's no room left.",
+
+  "feature.horse-actions.name": "Actions on horseback",
+  "feature.horse-actions.description": "On horseback, chests, machines, the shipping bin, fish ponds and the mailbox work without getting off. A door takes you inside and leaves the horse outside. And once you're off, you walk through your horse instead of being blocked.",
+
+  "feature.deposit-everywhere.name": "Put away everywhere",
+  "feature.deposit-everywhere.description": "In a farm chest, a button sends each item in your bag to the farm chest which already holds the most of it, whatever its quality. Your toolbar is never emptied, and an item with no chest of its own stays in the bag.",
+
+  "deposit.title": "Put away everywhere",
+  "deposit.hover": "Sends each item in your bag to the farm chest
+which already holds it.
+The toolbar is left alone.",
+  "deposit.nothing": "Nothing to put away: no farm chest holds these items.",
+  "deposit.done": "Put away in {{chests}} chest(s): {{items}}",
+  "deposit.more": "and {{count}} more",
 
   "feature.recipe-lookup.name": "Recipes using this item (R)",
   "feature.recipe-lookup.description": "Hover an item and press R to see which of your known recipes use it, what each one still needs, and which chest holds the rest. The key can be changed in config.json.",

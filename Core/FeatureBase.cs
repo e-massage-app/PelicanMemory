@@ -67,7 +67,7 @@ internal abstract class FeatureBase : IFeature
     /// <summary>Subscribe to events and apply patches.</summary>
     protected abstract void OnEnable();
 
-    /// <summary>Unsubscribe from events. Patches added through <see cref="Prefix"/>/<see cref="Postfix"/> are removed automatically.</summary>
+    /// <summary>Unsubscribe from events. Patches added through <see cref="Prefix"/>, <see cref="Postfix"/> and <see cref="Finalizer"/> are removed automatically.</summary>
     protected virtual void OnDisable() { }
 
     /// <summary>Apply a prefix patch which is removed when the feature is disabled.</summary>
@@ -83,6 +83,14 @@ internal abstract class FeatureBase : IFeature
     {
         MethodInfo patch = AccessTools.Method(patchType, patchMethod) ?? throw new InvalidOperationException($"Can't find patch method {patchType.Name}.{patchMethod}.");
         this.Harmony.Patch(original, postfix: new HarmonyMethod(patch));
+        this.Patches.Add((original, patch));
+    }
+
+    /// <summary>Apply a finalizer patch, which runs after the method even if it failed, and is removed when the feature is disabled.</summary>
+    protected void Finalizer(MethodBase original, Type patchType, string patchMethod)
+    {
+        MethodInfo patch = AccessTools.Method(patchType, patchMethod) ?? throw new InvalidOperationException($"Can't find patch method {patchType.Name}.{patchMethod}.");
+        this.Harmony.Patch(original, finalizer: new HarmonyMethod(patch));
         this.Patches.Add((original, patch));
     }
 }
