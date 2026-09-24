@@ -48,5 +48,5 @@ poisson familier porte plusieurs lignes quand c'est possible.
 - [x] Test n°4 : « de face ça rate, par derrière ça marche » → la moitié haute d'un coffre devenait à portée et vide ; redirigée vers sa base, et portée comptée depuis la base
 - [x] Test n°5 : cheval « beaucoup mieux »
 - [x] `deposit-everywhere` (Ranger partout) : décisions de Jordan = par type d'objet, barre d'outils protégée, bouton dans les coffres seulement (anti-triche) ; limité à la ferme ; banc hors jeu 15/15
-- [ ] Test de Jordan : Ranger partout
+- [x] Test de Jordan : Ranger partout (bouton refait à partir du bouton du jeu), Ctrl + clic validé
 - [ ] Publication sur son feu vert (marche à suivre du README)
