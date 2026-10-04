@@ -17,7 +17,7 @@
 
   <!-- the installer is its own program, and dist/publish only hold build output -->
   <ItemGroup>
-    <Compile Remove="installer/**;dist/**;publish/**" />
+    <Compile Remove="installer/**;dist/**;publish/**;tests/**" />
     <None Remove="installer/**;dist/**;publish/**" />
   </ItemGroup>
 

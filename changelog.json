@@ -1,5 +1,18 @@
 [
   {
+    "Version": "1.4.1",
+    "Fr": [
+      "Ranger partout range maintenant aussi la première rangée du sac : c'est là qu'arrive tout ce que vous ramassez. Seul l'objet que vous tenez en main reste.",
+      "Ranger partout prend aussi en compte le frigo et les coffres de la maison, de la cabane et des bâtiments de la ferme.",
+      "Un message indique les objets qui n'ont pas trouvé de place, quand leur coffre est plein."
+    ],
+    "En": [
+      "Put away everywhere now also empties the first row of the bag, where everything you pick up lands. Only the item in your hand stays.",
+      "Put away everywhere also includes the fridge and the chests of the house, cabins and farm buildings.",
+      "A message lists the items which found no room, when their chest is full."
+    ]
+  },
+  {
     "Version": "1.4.0",
     "Fr": [
       "Choisissez la quantité : dans un coffre ou un frigo, Ctrl + clic sur une pile, tapez le nombre voulu puis Entrée. Exactement ce nombre passe de l'autre côté, dans les deux sens.",

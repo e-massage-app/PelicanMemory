@@ -22,7 +22,8 @@ namespace PelicanMemory.Features.DepositEverywhere;
 /// </para>
 /// <para>
 /// Deliberately limited to the farm, and to a button inside a chest: sending the bag home from a cave would be
-/// cheating. The toolbar row is left alone, so what the player holds in hand stays there.
+/// cheating. Only the item in hand stays: the toolbar row is put away like the rest, since that's where everything
+/// picked up lands first (protecting the whole row left most freshly gathered items behind).
 /// </para>
 /// </remarks>
 internal class DepositEverywhereFeature : FeatureBase
@@ -32,9 +33,6 @@ internal class DepositEverywhereFeature : FeatureBase
     *********/
     /// <summary>The active instance, for the static Harmony patches.</summary>
     private static DepositEverywhereFeature? Instance;
-
-    /// <summary>How many slots the toolbar row holds, which are never emptied.</summary>
-    private const int ToolbarSize = 12;
 
     /// <summary>How many item names the summary lists before shortening.</summary>
     private const int SummaryLength = 4;
@@ -134,28 +132,30 @@ internal class DepositEverywhereFeature : FeatureBase
         return false;
     }
 
-    /// <summary>Send each item of the bag (toolbar aside) to the farm chest which already holds the most of it.</summary>
+    /// <summary>Send each item of the bag (the one in hand aside) to the farm chest which already holds the most of it.</summary>
     private void Deposit()
     {
         HashSet<Chest> used = new();
-        Dictionary<string, int> moved = Store(Game1.player.Items, ToolbarSize, GetFarmChests(), used);
-        this.ShowSummary(moved, used.Count);
+        HashSet<string> blocked = new();
+        Dictionary<string, int> moved = Store(Game1.player.Items, Game1.player.CurrentToolIndex, GetFarmChests(), used, blocked);
+        this.ShowSummary(moved, used.Count, blocked);
     }
 
     /// <summary>Move each item of a bag to the chest which already holds the most of it, whatever its quality.</summary>
     /// <param name="bag">The items to put away; emptied slots are set to <c>null</c>.</param>
-    /// <param name="firstSlot">The first slot to put away, so the toolbar row before it is left alone.</param>
+    /// <param name="keptSlot">The slot of the item in hand, which stays where it is.</param>
     /// <param name="chests">The chests items may go to.</param>
     /// <param name="used">Filled with the chests which received something.</param>
+    /// <param name="blocked">Filled with the items which have a chest of their own, but couldn't all fit in it.</param>
     /// <returns>How many of each item (by display name) were put away.</returns>
     /// <remarks>Kept apart from the game's state, so it can be checked outside the game.</remarks>
-    internal static Dictionary<string, int> Store(IList<Item> bag, int firstSlot, IReadOnlyList<Chest> chests, ISet<Chest> used)
+    internal static Dictionary<string, int> Store(IList<Item> bag, int keptSlot, IReadOnlyList<Chest> chests, ISet<Chest> used, ISet<string> blocked)
     {
         Dictionary<string, int> moved = new();
 
-        for (int i = firstSlot; i < bag.Count; i++)
+        for (int i = 0; i < bag.Count; i++)
         {
-            if (bag[i] is not Item item || item is Tool)
+            if (i == keptSlot || bag[i] is not Item item || item is Tool)
                 continue;
 
             string id = item.QualifiedItemId;
@@ -192,18 +192,31 @@ internal class DepositEverywhereFeature : FeatureBase
 
                 item = rest;
             }
+
+            // it has a home, but no room there: say so, or it looks like the button ignored it
+            if (homes.Count > 0 && bag[i] != null)
+                blocked.Add(name);
         }
 
         return moved;
     }
 
-    /// <summary>Tell the player what was put away, or that nothing had a home.</summary>
-    private void ShowSummary(Dictionary<string, int> moved, int chestCount)
+    /// <summary>Tell the player what was put away, what found no room, or that nothing had a home.</summary>
+    private void ShowSummary(Dictionary<string, int> moved, int chestCount, ISet<string> blocked)
     {
+        if (blocked.Count > 0)
+        {
+            string names = string.Join(", ", blocked.Take(SummaryLength));
+            if (blocked.Count > SummaryLength)
+                names += " " + this.Helper.Translation.Get("deposit.more", new { count = blocked.Count - SummaryLength });
+            Game1.addHUDMessage(new HUDMessage(this.Helper.Translation.Get("deposit.full", new { items = names }), HUDMessage.error_type));
+        }
+
         if (moved.Count == 0)
         {
             Game1.playSound("cancel");
-            Game1.addHUDMessage(new HUDMessage(this.Helper.Translation.Get("deposit.nothing"), HUDMessage.error_type));
+            if (blocked.Count == 0)
+                Game1.addHUDMessage(new HUDMessage(this.Helper.Translation.Get("deposit.nothing"), HUDMessage.error_type));
             return;
         }
 
@@ -259,19 +272,21 @@ internal class DepositEverywhereFeature : FeatureBase
         return chest.SpecialChestType is Chest.SpecialChestTypes.None or Chest.SpecialChestTypes.BigChest or Chest.SpecialChestTypes.JunimoChest;
     }
 
-    /// <summary>Get whether a location is the farm or one of its buildings (the house, sheds, barns, the greenhouse…).</summary>
+    /// <summary>Get whether a location is the farm or one of its buildings (the house, cabins, sheds, barns, the greenhouse…).</summary>
+    /// <remarks>
+    /// Uses the game's own notion of a farm location rather than the parent link, which the house, the greenhouse and
+    /// building interiors don't always carry: relying on it left the house fridge and chests out entirely. Ginger
+    /// Island has a farm of its own, but it's another place, so it's left out.
+    /// </remarks>
     private static bool IsOnFarm(GameLocation location)
     {
-        if (location is Cellar)
-            return true;
+        if (location.InIslandContext())
+            return false;
 
-        for (GameLocation? current = location; current != null; current = current.GetParentLocation())
-        {
-            if (current is Farm)
-                return true;
-        }
-
-        return false;
+        return location.IsFarm
+            || location.IsGreenhouse
+            || location is Cellar
+            || location.ParentBuilding?.GetParentLocation() is Farm;
     }
 
     /// <summary>Find where the button fits: next to the game's own buttons if there's room, anywhere free otherwise.</summary>

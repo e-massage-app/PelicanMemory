@@ -69,14 +69,13 @@
   "feature.horse-actions.description": "On horseback, chests, machines, the shipping bin, fish ponds and the mailbox work without getting off. A door takes you inside and leaves the horse outside. And once you're off, you walk through your horse instead of being blocked.",
 
   "feature.deposit-everywhere.name": "Put away everywhere",
-  "feature.deposit-everywhere.description": "In a farm chest, a button sends each item in your bag to the farm chest which already holds the most of it, whatever its quality. Your toolbar is never emptied, and an item with no chest of its own stays in the bag.",
+  "feature.deposit-everywhere.description": "In a farm chest (house, buildings and fridge included), a button sends each item in your bag to the chest which already holds the most of it, whatever its quality. Only the item in your hand and your tools stay, and an item with no chest of its own stays in the bag.",
 
   "deposit.title": "Put away everywhere",
-  "deposit.hover": "Sends each item in your bag to the farm chest
-which already holds it.
-The toolbar is left alone.",
+  "deposit.hover": "Sends each item in your bag to the farm chest\nwhich already holds it.\nThe item in your hand stays.",
   "deposit.nothing": "Nothing to put away: no farm chest holds these items.",
   "deposit.done": "Put away in {{chests}} chest(s): {{items}}",
+  "deposit.full": "No room left in their chest for: {{items}}",
   "deposit.more": "and {{count}} more",
 
   "feature.recipe-lookup.name": "Recipes using this item (R)",

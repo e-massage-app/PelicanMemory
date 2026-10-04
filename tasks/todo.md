@@ -50,3 +50,14 @@ poisson familier porte plusieurs lignes quand c'est possible.
 - [x] `deposit-everywhere` (Ranger partout) : décisions de Jordan = par type d'objet, barre d'outils protégée, bouton dans les coffres seulement (anti-triche) ; limité à la ferme ; banc hors jeu 15/15
 - [x] Test de Jordan : Ranger partout (bouton refait à partir du bouton du jeu), Ctrl + clic validé
 - [ ] Publication sur son feu vert (marche à suivre du README)
+
+## 2026-09-24 — 1.4.1 (installée sur le PC de Jordan, pas publiée)
+
+- [x] Bug « Ranger partout ne marche pas sur plein d'objets » : la maison, la cabane, la serre et les intérieurs n'étaient pas reconnus comme « la ferme » (lien parent vide) → 53/239 types d'objets jamais rangeables. Corrigé avec `IsFarm`/`IsGreenhouse`/cave, île exclue
+- [x] Signalement des objets dont le coffre est plein
+- [x] Banc `deposittest` : 18/18
+- [x] 2026-10-04, retour de Jordan « pas mieux » : la barre d'outils protégée gardait tout le butin ramassé (sa save : 3 piles restantes, toutes dans la barre). Choix de Jordan : tout ranger sauf l'objet en main
+- [x] Banc recréé dans le dépôt (`tests/DepositTest`, les sources du scratchpad avaient disparu) : 19/19
+- [x] Déployé sur son PC le 2026-10-04 (jeu fermé, config intacte, UpdateSource null)
+- [ ] Test de Jordan
+- [ ] Publication 1.4.1 sur son feu vert, puis lui remettre la 1.4.0 publiée (étape 9)

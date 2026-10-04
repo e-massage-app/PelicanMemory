@@ -69,14 +69,13 @@
   "feature.horse-actions.description": "À cheval, coffres, machines, coffre d'expédition, étangs et boîte aux lettres s'utilisent sans descendre. Une porte vous fait entrer en laissant le cheval dehors. Et une fois descendu, vous passez à travers votre cheval au lieu d'être bloqué.",
 
   "feature.deposit-everywhere.name": "Ranger partout",
-  "feature.deposit-everywhere.description": "Dans un coffre de la ferme, un bouton envoie chaque objet de votre sac dans le coffre de la ferme qui en contient déjà le plus, quelle que soit sa qualité. Votre barre d'outils n'est jamais vidée, et un objet sans coffre attitré reste dans le sac.",
+  "feature.deposit-everywhere.description": "Dans un coffre de la ferme (maison, bâtiments et frigo compris), un bouton envoie chaque objet de votre sac dans le coffre qui en contient déjà le plus, quelle que soit sa qualité. Seuls l'objet que vous tenez en main et vos outils restent, et un objet sans coffre attitré reste dans le sac.",
 
   "deposit.title": "Ranger partout",
-  "deposit.hover": "Envoie chaque objet de ton sac dans le coffre
-de la ferme qui en contient déjà.
-La barre d'outils reste intacte.",
+  "deposit.hover": "Envoie chaque objet de ton sac dans le coffre\nde la ferme qui en contient déjà.\nL'objet que tu tiens en main reste.",
   "deposit.nothing": "Rien à ranger : aucun coffre de la ferme ne contient ces objets.",
   "deposit.done": "Rangé dans {{chests}} coffre(s) : {{items}}",
+  "deposit.full": "Plus de place dans leur coffre pour : {{items}}",
   "deposit.more": "et {{count}} autre(s)",
 
   "feature.recipe-lookup.name": "Recettes utilisant cet objet (R)",
