@@ -1,5 +1,18 @@
 [
   {
+    "Version": "1.6.0",
+    "Fr": [
+      "Posez la souris sur une culture : dans combien de jours la récolter, si elle n'est pas encore arrosée, et si la saison finira avant. Sur une machine en marche : à quelle heure elle aura fini.",
+      "Bilan du soir : à côté du récapitulatif des ventes, sans clic, les récoltes et machines prêtes au réveil, les cultures à arroser, et l'outil qui vous attend chez Clint. Les soirs sans vente, il arrive en messages au réveil.",
+      "Épingles sur la carte : clic droit pour marquer un endroit avec une note, qui s'affiche au survol. Clic sur l'épingle pour la modifier ou la retirer."
+    ],
+    "En": [
+      "Rest the cursor on a crop: how many days until harvest, whether it still needs water today, and whether the season will end first. On a working machine: when it will be done.",
+      "Night report: beside the shipping summary, no click needed, the crops and machines ready on waking, crops to water, and a tool waiting at Clint's. On nights with nothing shipped, it comes as messages on waking.",
+      "Map pins: right-click on the map to mark a spot with a note, shown on hover. Click the pin to edit or remove it."
+    ]
+  },
+  {
     "Version": "1.5.0",
     "Fr": [
       "Nouvel onglet loupe dans le menu : tapez une partie du nom d'un objet pour savoir combien vous en avez, dans quels coffres, où l'acheter aujourd'hui et avec quelle recette le fabriquer.",

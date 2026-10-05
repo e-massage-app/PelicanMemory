@@ -100,3 +100,18 @@ Décisions de Jordan : la recherche ne connaît que les objets **déjà croisés
 - [x] Déployée sur son PC (jeu fermé, config intacte, UpdateSource null)
 - [x] Test de Jordan en jeu le 2026-10-05 : « encore parfait », validé du premier coup (reste le test d'Elise en invitée, après publication)
 - [x] Feu vert de Jordan (« Go push ») → publiée ; 1.4.1 remise sur son PC (étape 9)
+
+## 2026-10-05 — 1.6.0 « la ferme au survol, le bilan du soir, les épingles » (publiée le 2026-10-05, sans test en jeu préalable)
+
+Décisions de Jordan : bulles **au survol seulement** (rien d'autre à l'écran) ; bilan **dans l'écran des ventes, sans clic**, et en messages au réveil les soirs sans vente ; outil prêt chez Clint **dans le bilan** (le jeu ne le dit qu'une fois par session) ; épingles sur la carte : oui.
+
+- [x] `UI/WorldTooltip` : bulle du jeu au curseur dans le monde (RenderedHud, case du curseur + case du dessous pour les machines hautes)
+- [x] `Core/FarmTiming` (calculs purs, testables) : jours avant récolte (lus tels quels dans `phaseDays`, engrais/métier déjà inclus), mort au changement de saison (dehors seulement, ni serre ni île), heure de fin d'une machine (`MinutesUntilReady`, nuit = jusqu'à 26h + 400, machines « seulement la nuit »)
+- [x] `crop-timer` : récolte dans N jours / prête / repousse dans N jours / pas arrosée aujourd'hui / ne mûrira pas avant la fin de la saison ; arbres fruitiers : adulte dans N jours
+- [x] `machine-timer` : prête à HHhMM / demain matin / dans N jours ; fût : prochaine qualité ; casier : plein demain si appâté ; en pause ; le produit n'est nommé qu'une fois prêt
+- [x] `night-recap` : récoltes prêtes, cultures à arroser, cultures condamnées par la saison, machines prêtes, outil chez Clint ; panneau à gauche de l'écran des ventes (page principale, après l'intro), sinon messages au réveil (une nuit passée, pas au chargement)
+- [x] `map-pins` : clic droit sur la carte → note (fenêtre de nom du jeu, Échap ferme) → croix rouge ; survol = note ; clic sur une épingle = modifier, note vide = supprimer ; par joueur (`modData`), région de la carte respectée (île à part)
+- [x] Textes fr/en (228), README, changelog 1.6.0 ; banc `tests/FarmTest` 29/29 (2 attentes fausses de ma part corrigées, pas le code)
+- [x] Déployée sur son PC (jeu fermé, config intacte, UpdateSource null)
+- [x] Publiée sur demande de Jordan avant son test (« push direct, je testerai en direct ») ; 1.5.0 remise sur son PC (étape 9)
+- [ ] Retour de Jordan après son test en jeu
