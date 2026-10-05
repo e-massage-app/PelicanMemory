@@ -10,6 +10,7 @@ using PelicanMemory.Features.DepositEverywhere;
 using PelicanMemory.Features.FarmLayers;
 using PelicanMemory.Features.FishHints;
 using PelicanMemory.Features.HorseActions;
+using PelicanMemory.Features.ItemSearch;
 using PelicanMemory.Features.MuseumHints;
 using PelicanMemory.Features.PurchaseConfirm;
 using PelicanMemory.Features.RecipeLookup;
@@ -34,6 +35,7 @@ internal class ModEntry : Mod
         Harmony harmony = new(this.ModManifest.UniqueID);
         FeatureRegistry registry = new(helper, this.Monitor, settings);
         StorageIndex storage = new(helper);
+        PlayerStore store = new(this.ModManifest.UniqueID);
 
         // the files moved aside by the last update can only be deleted now that the game has loaded the new ones
         SelfUpdater updater = new(this.ModManifest, helper.DirectoryPath, settings.UpdateSource);
@@ -55,6 +57,7 @@ internal class ModEntry : Mod
         registry.Add(new DepositEverywhereFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new RecipeLookupFeature(helper, this.Monitor, harmony, settings, storage));
         registry.Add(new ChestSearchFeature(helper, this.Monitor, harmony, settings, storage));
+        registry.Add(new ItemSearchFeature(helper, this.Monitor, harmony, settings, storage, store));
         registry.Add(new ChestNamesFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new FishHintsFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new SkillExperienceFeature(helper, this.Monitor, harmony, settings));

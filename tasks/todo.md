@@ -61,3 +61,42 @@ poisson familier porte plusieurs lignes quand c'est possible.
 - [x] Déployé sur son PC le 2026-10-04 (jeu fermé, config intacte, UpdateSource null)
 - [x] Test de Jordan : il a choisi de ne pas tester, feu vert direct (« tu peux push »)
 - [x] Publiée le 2026-10-04 (commit 9099a01), vérifiée en ligne ; 1.4.0 publiée remise sur son PC (étape 9), config intacte, UpdateSource null
+
+## 2026-10-05 — 1.5.0 « Chercher un objet » (publiée le 2026-10-05)
+
+Demande : Elise ne sait jamais où sont ses objets une fois rangés. Dans le menu Échap, taper un nom → où on en a, combien, sinon où l'acheter ou comment le fabriquer.
+Décisions de Jordan : la recherche ne connaît que les objets **déjà croisés** ; achat/fabrication **seulement ce que le joueur a vécu**.
+
+### Ce que verra le joueur
+- Un nouvel onglet (loupe) dans le menu Échap, à côté de celui de Pelican Memory : un champ de saisie en haut, les résultats en dessous, mis à jour à chaque lettre.
+- Recherche sans tenir compte des majuscules ni des accents (« peche » trouve « Pêche »), sur une partie du nom.
+- Pour chaque objet trouvé : icône + nom, puis
+  - **Sur vous** : quantité dans le sac ;
+  - **Rangé** : quantité par coffre (nom donné au coffre, sinon le lieu), frigo compris ;
+  - **En vente** : boutiques **déjà visitées** qui le vendent **en ce moment**, avec le prix ;
+  - **Fabrication / Cuisine** : recettes **apprises** qui le produisent, avec les ingrédients (ce qu'on a / ce qu'il faut) ;
+  - sinon : « Rien de connu pour l'obtenir pour l'instant ».
+- Un objet jamais croisé n'apparaît jamais, même si on tape son nom exact (« Aucun objet connu »).
+
+### « Objets déjà croisés » (anti-spoil)
+- Rétroactif, depuis la sauvegarde : sac + coffres/frigos, objets expédiés (`basicShipped`), poissons (`fishCaught`), minéraux (`mineralsFound`), artefacts (`archaeologyFound`), plats cuisinés (`recipesCooked`), couture (`tailoredItems`), produits et ingrédients des recettes apprises (déjà affichés par le jeu), objets en vente aujourd'hui dans les boutiques visitées.
+- À partir de la 1.5.0 : le mod retient aussi chaque objet qui entre dans le sac (données du joueur, par sauvegarde), pour que la liste grandisse avec la partie.
+
+### Points à vérifier dans le code du jeu AVANT de coder
+- [x] Lire le stock d'une boutique hors de la boutique (`ShopBuilder.GetShopStock`) : aucun effet de bord (stock limité, aléatoire du jour, marchand ambulant) ; correspondance boutique → lieu visité ; horaires/jours d'ouverture ignorés ou affichés ?
+- [x] Multijoueur : Elise est invitée — les coffres des bâtiments et de la maison de l'hôte sont-ils visibles chez elle ? (sinon le dire dans le résultat plutôt que d'afficher 0)
+- [x] Saisie clavier dans le menu : les touches du jeu (E, chiffres de la barre, raccourcis du mod R/O) ne doivent pas agir pendant la frappe ; Échap ferme toujours
+- [x] Deux onglets du mod dans le menu : généraliser `GameMenuTab` sans casser l'onglet actuel ni le redimensionnement de fenêtre
+- [x] Manette : un clic sur le champ ouvre le clavier virtuel du jeu ; avec une manette le champ ne capture pas le clavier (B arrive comme E)
+
+### Étapes
+- [x] `KnownItems` (ensemble des objets croisés + enregistrement des nouveaux) et `ItemSearch` (correspondance nom ↔ objets, sans accents) — testables hors jeu
+- [x] Sources de résultat : sac/coffres (`StorageIndex`), boutiques visitées, recettes apprises (`RecipeFinder` étendu à l'artisanat)
+- [x] Page de menu + onglet loupe, champ de saisie vanilla, liste défilante façon jeu
+- [x] Textes fr/en, option dans la page Pelican Memory, README, changelog 1.5.0
+- [x] Bancs hors jeu : recherche (accents, partiel, objet inconnu jamais proposé), sources de résultat sur la vraie sauvegarde en lecture seule ; patchs Harmony sur la vraie DLL
+- [x] Vérifié dans le code du jeu : stock des boutiques sans effet de bord sauf 5 meubles aléatoires de Robin (retirés) ; en invité, cave et ferme de l'île de l'hôte non reçues (signalé dans la page) ; « e » fermait le menu (prefix sur `GameMenu.receiveKeyPress`) ; 2 onglets du mod tiennent, pas 3
+- [x] Bancs : `tests/SearchTest` 12/12, `tests/DepositTest` 19/19
+- [x] Déployée sur son PC (jeu fermé, config intacte, UpdateSource null)
+- [x] Test de Jordan en jeu le 2026-10-05 : « encore parfait », validé du premier coup (reste le test d'Elise en invitée, après publication)
+- [x] Feu vert de Jordan (« Go push ») → publiée ; 1.4.1 remise sur son PC (étape 9)

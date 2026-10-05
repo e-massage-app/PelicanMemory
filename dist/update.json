@@ -1,5 +1,18 @@
 [
   {
+    "Version": "1.5.0",
+    "Fr": [
+      "Nouvel onglet loupe dans le menu : tapez une partie du nom d'un objet pour savoir combien vous en avez, dans quels coffres, où l'acheter aujourd'hui et avec quelle recette le fabriquer.",
+      "Les accents et les majuscules ne comptent pas : « oeuf » trouve « Œuf ».",
+      "Rien n'est dévoilé : seuls les objets que vous avez déjà croisés sont trouvés, et seules les boutiques où vous êtes déjà allé sont citées."
+    ],
+    "En": [
+      "New magnifier tab in the menu: type part of an item's name to see how many you have, in which chests, where to buy it today and which recipe makes it.",
+      "Accents and capitals don't matter.",
+      "Nothing is spoiled: only items you have already come across are found, and only shops you have already been to are named."
+    ]
+  },
+  {
     "Version": "1.4.1",
     "Fr": [
       "Ranger partout range maintenant aussi la première rangée du sac : c'est là qu'arrive tout ce que vous ramassez. Seul l'objet que vous tenez en main reste.",

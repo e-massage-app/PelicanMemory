@@ -20,16 +20,17 @@ internal record RecipeIngredient(string Name, int Needed, int InBag, IReadOnlyLi
 
 /// <summary>A known recipe which uses the item being looked up.</summary>
 /// <param name="Name">The recipe's display name.</param>
-/// <param name="IsCooking">Whether it's cooked rather than crafted.</param>
 /// <param name="Ingredients">Everything it needs.</param>
 /// <param name="CanMakeNow">How many can be made from the bag alone.</param>
 /// <param name="CanMakeWithChests">How many can be made once everything stored is fetched.</param>
 /// <param name="SpriteId">The cooked dish's item ID, for its sprite.</param>
-internal record KnownRecipe(string Name, IReadOnlyList<RecipeIngredient> Ingredients, int CanMakeNow, int CanMakeWithChests, string SpriteId);
+/// <param name="IsCooking">Whether it's cooked rather than crafted.</param>
+internal record KnownRecipe(string Name, IReadOnlyList<RecipeIngredient> Ingredients, int CanMakeNow, int CanMakeWithChests, string SpriteId, bool IsCooking = true);
 
-/// <summary>Finds the cooking recipes the player has learned which use a given item, and where the ingredients are.</summary>
+/// <summary>Finds the recipes the player has learned around a given item, and where the ingredients are.</summary>
 /// <remarks>
-/// Cooking only: crafting recipes are looked up from the crafting menu itself, and mixing both made the list noisy.
+/// Recipes using an item are cooking only: crafting recipes are looked up from the crafting menu itself, and mixing
+/// both made the list noisy. Recipes making an item cover both, since the question there is "how do I get one?".
 /// Only recipes the player already knows are listed, and the only stock reported is the player's own bag and chests.
 /// </remarks>
 internal class RecipeFinder
@@ -52,46 +53,24 @@ internal class RecipeFinder
     /// <summary>Get the known recipes using an item, with the state of each ingredient.</summary>
     public IReadOnlyList<KnownRecipe> Find(Item item)
     {
-        List<KnownRecipe> results = new();
-
-        foreach (CraftingRecipe recipe in GetKnownRecipes())
-        {
-            if (!recipe.recipeList.Keys.Any(ingredient => CraftingRecipe.ItemMatchesForCrafting(item, ingredient)))
-                continue;
-
-            List<RecipeIngredient> ingredients = new();
-            int canMake = int.MaxValue;
-            int canMakeWithChests = int.MaxValue;
-
-            foreach ((string ingredientId, int needed) in recipe.recipeList)
-            {
-                int inBag = CountInBag(ingredientId);
-                ingredients.Add(new RecipeIngredient(
-                    Name: GetIngredientName(recipe, ingredientId),
-                    Needed: needed,
-                    InBag: inBag,
-                    Stashes: this.Storage.GetStashes(stored => CraftingRecipe.ItemMatchesForCrafting(stored, ingredientId)),
-                    SpriteId: recipe.getSpriteIndexFromRawIndex(ingredientId)
-                ));
-
-                RecipeIngredient added = ingredients[^1];
-                canMake = Math.Min(canMake, needed > 0 ? inBag / needed : 0);
-                canMakeWithChests = Math.Min(canMakeWithChests, needed > 0 ? (inBag + added.InChests) / needed : 0);
-            }
-
-            results.Add(new KnownRecipe(
-                Name: recipe.DisplayName,
-                Ingredients: ingredients,
-                CanMakeNow: canMake == int.MaxValue ? 0 : canMake,
-                CanMakeWithChests: canMakeWithChests == int.MaxValue ? 0 : canMakeWithChests,
-                SpriteId: recipe.GetItemData()?.QualifiedItemId ?? ""
-            ));
-        }
-
-        return results
+        return GetKnownRecipes()
+            .Where(recipe => recipe.recipeList.Keys.Any(ingredient => CraftingRecipe.ItemMatchesForCrafting(item, ingredient)))
+            .Select(this.Describe)
             .OrderByDescending(recipe => recipe.CanMakeNow)
             .ThenByDescending(recipe => recipe.CanMakeWithChests)
             .ThenBy(recipe => recipe.Name)
+            .ToList();
+    }
+
+    /// <summary>Get the learned recipes, crafting and cooking, which make an item, with the state of each ingredient.</summary>
+    /// <param name="qualifiedItemId">The item to make.</param>
+    /// <param name="learned">The recipes the player has learned.</param>
+    public IReadOnlyList<KnownRecipe> FindMaking(string qualifiedItemId, IEnumerable<CraftingRecipe> learned)
+    {
+        return learned
+            .Where(recipe => string.Equals(recipe.GetItemData()?.QualifiedItemId, qualifiedItemId, StringComparison.OrdinalIgnoreCase))
+            .Select(this.Describe)
+            .OrderBy(recipe => recipe.Name)
             .ToList();
     }
 
@@ -113,6 +92,39 @@ internal class RecipeFinder
     /*********
     ** Private methods
     *********/
+    /// <summary>Describe a recipe: each ingredient with what the player has, and how many can be made.</summary>
+    private KnownRecipe Describe(CraftingRecipe recipe)
+    {
+        List<RecipeIngredient> ingredients = new();
+        int canMake = int.MaxValue;
+        int canMakeWithChests = int.MaxValue;
+
+        foreach ((string ingredientId, int needed) in recipe.recipeList)
+        {
+            int inBag = CountInBag(ingredientId);
+            ingredients.Add(new RecipeIngredient(
+                Name: GetIngredientName(recipe, ingredientId),
+                Needed: needed,
+                InBag: inBag,
+                Stashes: this.Storage.GetStashes(stored => CraftingRecipe.ItemMatchesForCrafting(stored, ingredientId)),
+                SpriteId: recipe.getSpriteIndexFromRawIndex(ingredientId)
+            ));
+
+            RecipeIngredient added = ingredients[^1];
+            canMake = Math.Min(canMake, needed > 0 ? inBag / needed : 0);
+            canMakeWithChests = Math.Min(canMakeWithChests, needed > 0 ? (inBag + added.InChests) / needed : 0);
+        }
+
+        return new KnownRecipe(
+            Name: recipe.DisplayName,
+            Ingredients: ingredients,
+            CanMakeNow: canMake == int.MaxValue ? 0 : canMake,
+            CanMakeWithChests: canMakeWithChests == int.MaxValue ? 0 : canMakeWithChests,
+            SpriteId: recipe.GetItemData()?.QualifiedItemId ?? "",
+            IsCooking: recipe.isCookingRecipe
+        );
+    }
+
     /// <summary>Get every cooking recipe the player has learned.</summary>
     private static IEnumerable<CraftingRecipe> GetKnownRecipes()
     {
