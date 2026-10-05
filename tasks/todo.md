@@ -115,3 +115,13 @@ Décisions de Jordan : bulles **au survol seulement** (rien d'autre à l'écran)
 - [x] Déployée sur son PC (jeu fermé, config intacte, UpdateSource null)
 - [x] Publiée sur demande de Jordan avant son test (« push direct, je testerai en direct ») ; 1.5.0 remise sur son PC (étape 9)
 - [ ] Retour de Jordan après son test en jeu
+
+## 2026-10-05 — 1.7.0 « déménager un objet » (publiée le 2026-10-05, sans test en jeu préalable)
+
+Demande : ranger la ferme avec Robin, mais les coffres pleins et les décos bloquent ; le jeu ne pousse un coffre plein que d'une case par double coup de pioche. Choix de Jordan : coffres + machines + décos, Maj + clic puis clic.
+
+- [x] `move-objects` : l'objet reste sur sa case jusqu'à la pose (rien à perdre), puis même objet / nouvelle case comme le jeu pour un coffre poussé ; lumière déplacée à la main ; mutex respecté
+- [x] Bulles du survol en pause pendant un déménagement
+- [x] Banc `tests/DepositTest` étendu : 27/27 (dont 8 sur ce qui peut bouger ; il a trouvé que les coffres posés par le jeu passaient : corrigé)
+- [x] Publiée à la demande de Jordan avant son test (« je regarderai demain ») ; 1.6.0 remise sur son PC (étape 9)
+- [ ] Retour de Jordan (1.6.0 et 1.7.0) ; idée en attente : teinte du cheval par le mod (le jeu n'a qu'une apparence, seulement des chapeaux)

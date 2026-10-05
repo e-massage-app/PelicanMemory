@@ -19,6 +19,7 @@ using PelicanMemory.Features.NightRecap;
 using PelicanMemory.Features.PurchaseConfirm;
 using PelicanMemory.Features.RecipeLookup;
 using PelicanMemory.Features.Minimap;
+using PelicanMemory.Features.MoveObjects;
 using PelicanMemory.Features.SelfUpdate;
 using PelicanMemory.Features.SkillExperience;
 using PelicanMemory.Features.SocialLocations;
@@ -62,6 +63,7 @@ internal class ModEntry : Mod
         registry.Add(new TransferQuantityFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new HorseActionsFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new DepositEverywhereFeature(helper, this.Monitor, harmony, settings));
+        registry.Add(new MoveObjectsFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new RecipeLookupFeature(helper, this.Monitor, harmony, settings, storage));
         registry.Add(new ChestSearchFeature(helper, this.Monitor, harmony, settings, storage));
         registry.Add(new ItemSearchFeature(helper, this.Monitor, harmony, settings, storage, store));

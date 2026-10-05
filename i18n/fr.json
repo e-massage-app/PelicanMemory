@@ -70,6 +70,8 @@
 
   "feature.deposit-everywhere.name": "Ranger partout",
   "feature.deposit-everywhere.description": "Dans un coffre de la ferme (maison, bâtiments et frigo compris), un bouton envoie chaque objet de votre sac dans le coffre qui en contient déjà le plus, quelle que soit sa qualité. Seuls l'objet que vous tenez en main et vos outils restent, et un objet sans coffre attitré reste dans le sac.",
+  "feature.move-objects.name": "Déménager un objet (Maj + clic)",
+  "feature.move-objects.description": "Maj + clic sur un coffre, une machine ou une déco : il suit la souris, puis un clic le pose ailleurs au même endroit, avec tout son contenu et sa progression. Clic droit ou Échap pour annuler. Restent en place : robinets sur arbre, casiers dans l'eau, pots. La touche est modifiable dans config.json.",
 
   "deposit.title": "Ranger partout",
   "deposit.hover": "Envoie chaque objet de ton sac dans le coffre\nde la ferme qui en contient déjà.\nL'objet que tu tiens en main reste.",
@@ -275,5 +277,9 @@
   "night-recap.tool": "Chez Clint, votre outil vous attend : {{tool}}",
   "map-pins.new": "Une note pour cet endroit ?",
   "map-pins.edit": "Modifier la note (vide = retirer l'épingle)",
-  "map-pins.too-many": "Pas plus de {{count}} épingles : retirez-en une d'abord"
+  "map-pins.too-many": "Pas plus de {{count}} épingles : retirez-en une d'abord",
+
+  // déménager un objet
+  "move-objects.hint": "Clic : poser ici\nClic droit ou Échap : annuler",
+  "move-objects.in-use": "Quelqu'un utilise ce coffre en ce moment"
 }

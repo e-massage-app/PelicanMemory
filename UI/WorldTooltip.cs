@@ -29,6 +29,9 @@ internal static class WorldTooltip
 
     private static IMonitor Monitor = null!;
 
+    /// <summary>Whether another feature is using the cursor for its own tooltip, like an object being moved.</summary>
+    public static bool Paused { get; set; }
+
 
     /*********
     ** Public methods
@@ -61,7 +64,7 @@ internal static class WorldTooltip
     /// <summary>Draw the tooltip for the tile under the cursor, if a feature has something to say about it.</summary>
     private static void OnRenderedHud(object? sender, RenderedHudEventArgs e)
     {
-        if (Providers.Count == 0 || !Context.IsPlayerFree || Game1.eventUp || Game1.currentLocation is not GameLocation location)
+        if (Providers.Count == 0 || Paused || !Context.IsPlayerFree || Game1.eventUp || Game1.currentLocation is not GameLocation location)
             return;
 
         try

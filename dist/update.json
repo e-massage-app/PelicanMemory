@@ -1,5 +1,14 @@
 [
   {
+    "Version": "1.7.0",
+    "Fr": [
+      "Déménager un objet : Maj + clic sur un coffre, une machine ou une déco, puis un clic là où le poser. Tout son contenu et sa progression suivent. Clic droit ou Échap pour annuler."
+    ],
+    "En": [
+      "Move an object: Shift + click a chest, machine or decoration, then click where to put it. All its contents and progress come along. Right-click or Escape to cancel."
+    ]
+  },
+  {
     "Version": "1.6.0",
     "Fr": [
       "Posez la souris sur une culture : dans combien de jours la récolter, si elle n'est pas encore arrosée, et si la saison finira avant. Sur une machine en marche : à quelle heure elle aura fini.",

@@ -142,6 +142,22 @@ static void Run()
         Check(blocked.Count == 1, "4. the player is told the rest found no room");
     }
 
+    // 5. moving objects (same game items): what may change tile, and what stays put
+    {
+        MethodInfo movable = mod.GetType("PelicanMemory.Features.MoveObjects.MoveObjectsFeature", true)!
+            .GetMethod("IsMovable", BindingFlags.Static | BindingFlags.NonPublic)!;
+        bool Movable(StardewValley.Object obj) => (bool)movable.Invoke(null, new object[] { obj })!;
+
+        Check(Movable(NewChest(Make("(O)388", 10))), "5. a full chest can be moved");
+        Check(Movable(ItemRegistry.Create<StardewValley.Object>("(BC)12")), "5. a keg can be moved");
+        Check(Movable(ItemRegistry.Create<StardewValley.Object>("(O)599")), "5. a sprinkler can be moved");
+        Check(!Movable(ItemRegistry.Create<StardewValley.Object>("(BC)105")), "5. a tapper stays on its tree");
+        Check(!Movable(new CrabPot()), "5. a crab pot stays in its water");
+        Check(!Movable((IndoorPot)System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(typeof(IndoorPot))), "5. a garden pot stays with its plant"); // a real pot needs a world to build its soil
+        Check(!Movable(ItemRegistry.Create<StardewValley.Object>("(O)390")), "5. a stone isn't something the player placed");
+        Check(!Movable(new Chest(playerChest: false)), "5. a chest the game placed (not the player's) stays");
+    }
+
     Console.WriteLine(failures == 0 ? "\nALL DEPOSIT CHECKS PASSED" : $"\n{failures} FAILURES");
     Environment.ExitCode = failures == 0 ? 0 : 1;
 }

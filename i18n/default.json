@@ -70,6 +70,8 @@
 
   "feature.deposit-everywhere.name": "Put away everywhere",
   "feature.deposit-everywhere.description": "In a farm chest (house, buildings and fridge included), a button sends each item in your bag to the chest which already holds the most of it, whatever its quality. Only the item in your hand and your tools stay, and an item with no chest of its own stays in the bag.",
+  "feature.move-objects.name": "Move an object (Shift + click)",
+  "feature.move-objects.description": "Shift + click a chest, machine or decoration: it follows the cursor, and a click puts it down elsewhere in the same place, with all its contents and progress. Right-click or Escape to cancel. Tappers on trees, crab pots in water and garden pots stay put. The key can be changed in config.json.",
 
   "deposit.title": "Put away everywhere",
   "deposit.hover": "Sends each item in your bag to the farm chest\nwhich already holds it.\nThe item in your hand stays.",
@@ -275,5 +277,9 @@
   "night-recap.tool": "Your tool is waiting at Clint's: {{tool}}",
   "map-pins.new": "A note for this spot?",
   "map-pins.edit": "Edit the note (empty = remove the pin)",
-  "map-pins.too-many": "No more than {{count}} pins: remove one first"
+  "map-pins.too-many": "No more than {{count}} pins: remove one first",
+
+  // move an object
+  "move-objects.hint": "Click: put it here\nRight-click or Escape: cancel",
+  "move-objects.in-use": "Someone is using this chest right now"
 }
