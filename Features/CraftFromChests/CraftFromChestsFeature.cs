@@ -19,11 +19,11 @@ namespace PelicanMemory.Features.CraftFromChests;
 /// every storage chest of the farm counts, but only while the player is on the farm — crafting from a cave with the
 /// farm's chests would be cheating.
 ///
-/// Each chest is locked while the crafting page is open, exactly like the game's kitchen and workbench do, so two
-/// players can never use the same items at once. The game only grants those locks for chests it keeps up to date: the
-/// host (or a solo player) locks every chest of the farm; a farmhand locks the chests of the room they're in and the
-/// shared Junimo chests, and uses the farm's other chests without a lock (the game can't grant one from afar), as long
-/// as nobody has them open. A chest someone else has open is always left out until they close it.
+/// The chests of the room the player is in (and the shared Junimo chests) are locked while the crafting page is open,
+/// exactly like the game's kitchen and workbench do, so two players can never use them at once. The farm's other chests
+/// are used without a lock, as long as nobody has them open: the game only keeps a lock on a chest in a room where its
+/// holder stands, and drops it the moment another player walks in there (1.9.1: locking them left the host's house
+/// chests out whenever the other player was inside). A chest someone else has open is always left out until they close it.
 /// </remarks>
 internal class CraftFromChestsFeature : FeatureBase
 {
@@ -45,7 +45,7 @@ internal class CraftFromChestsFeature : FeatureBase
     private readonly List<Chest> Chests = new();
     private readonly List<NetMutex> OwnLocks = new();
 
-    /// <summary>For a farmhand, the farm chests outside their room, used while nobody has them open.</summary>
+    /// <summary>The farm chests outside the player's room, used while nobody has them open.</summary>
     private readonly List<Chest> UnlockedChests = new();
 
     /// <summary>What the page sees in its containers, worked out once per tick: the page asks for it once per recipe per frame.</summary>
@@ -173,8 +173,8 @@ internal class CraftFromChestsFeature : FeatureBase
             if (alreadyThere.Contains(chest.GetItemsForPlayer()))
                 continue;
 
-            // a farmhand can only lock the chests of their own room and the shared Junimo chests
-            if (!Context.IsMainPlayer && chest.SpecialChestType != Chest.SpecialChestTypes.JunimoChest && !ReferenceEquals(chest.Location, here))
+            // only the chests of the player's own room (and the shared Junimo chests) can keep a lock
+            if (chest.SpecialChestType != Chest.SpecialChestTypes.JunimoChest && !ReferenceEquals(chest.Location, here))
             {
                 this.UnlockedChests.Add(chest);
                 continue;

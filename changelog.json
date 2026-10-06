@@ -2,9 +2,11 @@
   {
     "Version": "1.9.1",
     "Fr": [
+      "Fabriquer avec les coffres : tous les coffres de la ferme comptent, où que vous soyez sur la ferme, même rangés dans la maison pendant que l'autre joueur s'y trouve.",
       "Correction : un achat que le jeu consomme sur place (au lieu de le donner) n'arrive plus en double dans le sac avec la confirmation d'achat."
     ],
     "En": [
+      "Crafting with chests: every farm chest counts wherever you are on the farm, even chests in the house while the other player is inside.",
       "Fix: a purchase the game uses up on the spot (instead of handing it over) no longer also lands in the bag with the purchase confirmation."
     ]
   },

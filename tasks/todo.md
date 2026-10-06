@@ -155,4 +155,5 @@ Constat de Jordan : en duo, rien ne met le jeu en pause, les journées filent. C
 ## 2026-10-06 — 1.9.1 correctif (codé, jeu de Jordan ouvert)
 
 - [x] Bug signalé par Jordan : fruit étoilé acheté chez Krobus = mangé (énergie +) ET gardé dans le sac. Cause : la confirmation d'achat (`purchase-confirm`) rangeait dans le sac le « reste sur le curseur » alors que le jeu (`Object.actionWhenPurchased` du fruit étoilé : `exitActiveMenu` + `eatObject`, renvoie faux) avait déjà fermé la boutique et l'aurait jeté. Correctif : si l'achat a quitté la fenêtre de quantité, le reste est jeté comme en vanilla. Bug présent depuis la création de la confirmation d'achat.
+- [x] Bug signalé par Jordan : coffres tous rangés dans la maison → plus de fabrication dehors. Cause : le jeu rend le verrou d'un coffre dès qu'un autre joueur entre dans sa pièce (`NetMutex.Update`), donc avec Elise dans la maison les coffres de Jordan (hôte) ne comptaient plus. Correctif : verrou seulement pour la pièce où l'on est (+ Junimo), les autres coffres de la ferme sans verrou tant que personne ne les a ouverts (comme l'invité depuis la 1.8.0)
 - [ ] Déploiement jeu fermé, publication sur feu vert
