@@ -155,9 +155,11 @@ internal class PurchaseConfirmFeature : FeatureBase
 
             shop.updateSaleButtonNeighbors();
 
-            // the game's quantity window doesn't close itself: put the shop back so the player lands on the item list
+            // the game's quantity window doesn't close itself: put the shop back so the player lands on the item list,
+            // unless the purchase itself moved on (Clint takes the tool and talks, Marlon hands items back)
             this.ShopToRestore = null;
-            Game1.activeClickableMenu = shop;
+            if (Game1.activeClickableMenu is NumberSelectionMenu)
+                Game1.activeClickableMenu = shop;
         }
         catch (Exception ex)
         {

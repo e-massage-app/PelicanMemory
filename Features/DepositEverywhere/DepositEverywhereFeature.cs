@@ -137,7 +137,7 @@ internal class DepositEverywhereFeature : FeatureBase
     {
         HashSet<Chest> used = new();
         HashSet<string> blocked = new();
-        Dictionary<string, int> moved = Store(Game1.player.Items, Game1.player.CurrentToolIndex, GetFarmChests(), used, blocked);
+        Dictionary<string, int> moved = Store(Game1.player.Items, Game1.player.CurrentToolIndex, FarmChests.Get(), used, blocked);
         this.ShowSummary(moved, used.Count, blocked);
     }
 
@@ -233,60 +233,14 @@ internal class DepositEverywhereFeature : FeatureBase
         Game1.addHUDMessage(new HUDMessage(this.Helper.Translation.Get("deposit.done", new { items = string.Join(", ", parts), chests = chestCount })));
     }
 
-    /// <summary>Get the storage chests of the farm and its buildings which nobody else has open.</summary>
-    private static List<Chest> GetFarmChests()
-    {
-        List<Chest> chests = new();
-        HashSet<object> inventories = new(ReferenceEqualityComparer.Instance);
-
-        StorageIndex.ForEachContainer((chest, location) =>
-        {
-            if (!IsOnFarm(location) || !IsStorage(chest))
-                return;
-
-            // opened by the other player at this very moment: leave it to them
-            if (chest.GetMutex().IsLocked() && !chest.GetMutex().IsLockHeld())
-                return;
-
-            // junimo chests all share one inventory: count it once
-            if (inventories.Add(chest.GetItemsForPlayer()))
-                chests.Add(chest);
-        });
-
-        return chests;
-    }
-
     /// <summary>Get whether a menu is a storage chest or fridge on the farm, where the button belongs.</summary>
     private static bool IsFarmStorageMenu(ItemGrabMenu menu)
     {
         return menu.source == ItemGrabMenu.source_chest
             && (menu.sourceItem as Chest ?? menu.context as Chest) is Chest chest
-            && IsStorage(chest)
+            && FarmChests.IsStorage(chest)
             && Game1.currentLocation is not null
-            && IsOnFarm(Game1.currentLocation);
-    }
-
-    /// <summary>Get whether a chest is meant for storage, rather than a shipping bin, hopper or other machine-like chest.</summary>
-    private static bool IsStorage(Chest chest)
-    {
-        return chest.SpecialChestType is Chest.SpecialChestTypes.None or Chest.SpecialChestTypes.BigChest or Chest.SpecialChestTypes.JunimoChest;
-    }
-
-    /// <summary>Get whether a location is the farm or one of its buildings (the house, cabins, sheds, barns, the greenhouse…).</summary>
-    /// <remarks>
-    /// Uses the game's own notion of a farm location rather than the parent link, which the house, the greenhouse and
-    /// building interiors don't always carry: relying on it left the house fridge and chests out entirely. Ginger
-    /// Island has a farm of its own, but it's another place, so it's left out.
-    /// </remarks>
-    private static bool IsOnFarm(GameLocation location)
-    {
-        if (location.InIslandContext())
-            return false;
-
-        return location.IsFarm
-            || location.IsGreenhouse
-            || location is Cellar
-            || location.ParentBuilding?.GetParentLocation() is Farm;
+            && FarmPlaces.IsOnFarm(Game1.currentLocation);
     }
 
     /// <summary>Find where the button fits: next to the game's own buttons if there's room, anywhere free otherwise.</summary>

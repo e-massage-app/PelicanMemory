@@ -125,3 +125,18 @@ Demande : ranger la ferme avec Robin, mais les coffres pleins et les décos bloq
 - [x] Banc `tests/DepositTest` étendu : 27/27 (dont 8 sur ce qui peut bouger ; il a trouvé que les coffres posés par le jeu passaient : corrigé)
 - [x] Publiée à la demande de Jordan avant son test (« je regarderai demain ») ; 1.6.0 remise sur son PC (étape 9)
 - [ ] Retour de Jordan (1.6.0 et 1.7.0) ; idée en attente : teinte du cheval par le mod (le jeu n'a qu'une apparence, seulement des chapeaux)
+
+## 2026-10-06 — 1.8.0 « bâtiments, fabrication depuis les coffres, téléphone » (publiée le 2026-10-06)
+
+Décisions de Jordan : déplacer un objet jusque dans un bâtiment ; fabriquer/cuisiner avec les coffres **dans la limite de la ferme** ; acheter **par téléphone** chez Clint (outils) et Robin (maison, bâtiments), aux horaires où le téléphone répond, matériaux pris dans les coffres de la ferme (le téléphone est dans la maison : on reste sur la ferme).
+
+- [x] `Core/FarmPlaces.IsOnFarm` partagé (rangement, déménagement, fabrication)
+- [x] Déménager entre les lieux de la ferme : l'objet reste à sa place jusqu'à la pose ; le jeu met à jour son lieu tout seul (`OnObjectAdded`)
+- [x] `Core/FarmChests` : coffres de rangement de la ferme partagés (rangement, fabrication, téléphone)
+- [x] `craft-from-chests` : onglet Fabrication, cuisine et établi sur la ferme ; **seulement les coffres dont on tient le verrou** (sinon doublons/pertes en multi) : hôte/solo = toute la ferme, invité = la pièce où il est + coffres Junimo (limite du réseau du jeu) ; cache des contenus par tick (performance) vidé après chaque fabrication ; `StorageIndex` invalidé en fin de session
+- [x] `phone-orders` : Clint et Robin seulement quand le téléphone répond « ouvert » (capturé, pas recalculé) ; garde-fous : outil déjà chez Clint (même prêt) = refus, agrandissement de maison en cours = refus ; la boutique de Robin (bois, meubles) reste en lecture seule ; matériaux : sac d'abord puis coffres de la ferme ; revérification au placement d'un bâtiment ; correctif PurchaseConfirm (ne pas écraser le dialogue de Clint)
+- [x] Textes (239), README, changelog 1.8.0 ; banc `tests/FarmTest` : les 17 crochets fabrication + téléphone se posent sur la vraie DLL ; correctif PurchaseConfirm (ne rouvre plus la boutique sur la réplique de Clint)
+- [x] 2026-10-06 retours de Jordan (sur la 1.7.0 : le clic droit pour entrer annulait le déménagement) → clic sur un bâtiment de la ferme = rangé dedans près de la porte, Échap seul annule ; Elise (invitée) a toute la ferme pour fabriquer (sans verrou hors de sa pièce)
+- [x] Déployée sur son PC pour test (jeu fermé, config intacte)
+- [x] Test de Jordan 2026-10-06 : bâtiments « PAR-FAIT », artisanat avec les coffres OK, téléphone OK
+- [x] Publiée le 2026-10-06 sur son « Go push » ; 1.7.0 remise sur son PC (étape 9)

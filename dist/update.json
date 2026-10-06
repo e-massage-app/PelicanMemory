@@ -1,5 +1,18 @@
 [
   {
+    "Version": "1.8.0",
+    "Fr": [
+      "Déménager un objet marche aussi vers les bâtiments de la ferme : prenez un coffre ou une machine (Maj + clic), survolez la maison, le clapier ou la serre et cliquez : il y est rangé, près de la porte. Échap annule ; le clic droit ouvre de nouveau les portes.",
+      "Sur la ferme, l'artisanat, la cuisine et l'établi utilisent aussi ce qu'il y a dans vos coffres de la ferme. Ailleurs, rien ne change.",
+      "Commandes par téléphone : quand Clint ou Robin décroche, vous pouvez commander une amélioration d'outil, l'agrandissement de la maison ou un bâtiment depuis leurs tarifs, avec les matériaux de vos coffres de la ferme. L'outil se récupère toujours à la forge."
+    ],
+    "En": [
+      "Moving an object now also works into the farm's buildings: pick up a chest or machine (Shift + click), hover the house, the hutch or the greenhouse and click: it goes inside, near the door. Escape cancels; right-click opens doors again.",
+      "On the farm, crafting, cooking and the workbench also use what's in your farm chests. Elsewhere, nothing changes.",
+      "Phone orders: when Clint or Robin picks up, you can order a tool upgrade, a house upgrade or a building from their prices, with materials from your farm chests. The tool is still collected at the forge."
+    ]
+  },
+  {
     "Version": "1.7.0",
     "Fr": [
       "Déménager un objet : Maj + clic sur un coffre, une machine ou une déco, puis un clic là où le poser. Tout son contenu et sa progression suivent. Clic droit ou Échap pour annuler."

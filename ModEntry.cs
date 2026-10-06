@@ -5,6 +5,7 @@ using PelicanMemory.Features.CaughtFishTooltip;
 using PelicanMemory.Features.ChestNames;
 using PelicanMemory.Features.ChestSearch;
 using PelicanMemory.Features.CommunityCenterHints;
+using PelicanMemory.Features.CraftFromChests;
 using PelicanMemory.Features.CraftingFilters;
 using PelicanMemory.Features.CropTimer;
 using PelicanMemory.Features.DepositEverywhere;
@@ -15,6 +16,7 @@ using PelicanMemory.Features.ItemSearch;
 using PelicanMemory.Features.MachineTimer;
 using PelicanMemory.Features.MapPins;
 using PelicanMemory.Features.MuseumHints;
+using PelicanMemory.Features.PhoneOrders;
 using PelicanMemory.Features.NightRecap;
 using PelicanMemory.Features.PurchaseConfirm;
 using PelicanMemory.Features.RecipeLookup;
@@ -60,6 +62,7 @@ internal class ModEntry : Mod
         registry.Add(new MachineTimerFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new NightRecapFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new PurchaseConfirmFeature(helper, this.Monitor, harmony, settings));
+        registry.Add(new PhoneOrdersFeature(helper, this.Monitor, harmony, settings, storage));
         registry.Add(new TransferQuantityFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new HorseActionsFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new DepositEverywhereFeature(helper, this.Monitor, harmony, settings));
@@ -71,6 +74,7 @@ internal class ModEntry : Mod
         registry.Add(new MapPinsFeature(helper, this.Monitor, harmony, settings, store));
         registry.Add(new FishHintsFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new SkillExperienceFeature(helper, this.Monitor, harmony, settings));
+        registry.Add(new CraftFromChestsFeature(helper, this.Monitor, harmony, settings, storage));
         registry.Add(new CraftingFiltersFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new SelfUpdateFeature(helper, this.Monitor, harmony, settings, updater, this.ModManifest.Version));
 

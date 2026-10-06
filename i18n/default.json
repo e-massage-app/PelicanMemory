@@ -71,7 +71,11 @@
   "feature.deposit-everywhere.name": "Put away everywhere",
   "feature.deposit-everywhere.description": "In a farm chest (house, buildings and fridge included), a button sends each item in your bag to the chest which already holds the most of it, whatever its quality. Only the item in your hand and your tools stay, and an item with no chest of its own stays in the bag.",
   "feature.move-objects.name": "Move an object (Shift + click)",
-  "feature.move-objects.description": "Shift + click a chest, machine or decoration: it follows the cursor, and a click puts it down elsewhere in the same place, with all its contents and progress. Right-click or Escape to cancel. Tappers on trees, crab pots in water and garden pots stay put. The key can be changed in config.json.",
+  "feature.move-objects.description": "Shift + click a chest, machine or decoration: it follows the cursor, and a click puts it down elsewhere, with all its contents and progress. On the farm it can be taken into a building (the house, the hutch...): it stays where it is until put down. Escape to cancel. Hover a farm building and click: the object goes inside, on the free spot nearest the door. Tappers on trees, crab pots in water and garden pots stay put. The key can be changed in config.json.",
+  "feature.craft-from-chests.name": "Craft with the farm's chests",
+  "feature.craft-from-chests.description": "On the farm, crafting, cooking and the workbench also use what's in your farm chests, as if it were in your bag. Elsewhere (mines, town), nothing changes. In multiplayer, each chest used is reserved while the screen is open, like the game's kitchen: host and farmhand both get every farm chest, except one the other player has open at that moment.",
+  "feature.phone-orders.name": "Order by phone (Clint, Robin)",
+  "feature.phone-orders.description": "When Clint or Robin picks up (opening hours, no festival), you can order from their prices on the phone: tool upgrades, house upgrades, buildings. Gold comes from your wallet, materials from your bag then the farm's chests. The upgraded tool is still collected at the forge.",
 
   "deposit.title": "Put away everywhere",
   "deposit.hover": "Sends each item in your bag to the farm chest\nwhich already holds it.\nThe item in your hand stays.",
@@ -280,6 +284,14 @@
   "map-pins.too-many": "No more than {{count}} pins: remove one first",
 
   // move an object
-  "move-objects.hint": "Click: put it here\nRight-click or Escape: cancel",
-  "move-objects.in-use": "Someone is using this chest right now"
+  "move-objects.hint": "Click: put it here\nEscape: cancel",
+  "move-objects.no-room": "No free spot left in: {{place}}",
+  "move-objects.put-in": "{{item}} put in: {{place}}",
+  "move-objects.hint-building": "Click: put it in this building ({{place}}),\non the free spot nearest the door\nEscape: cancel",
+  "move-objects.hint-elsewhere": "Click: put it here\nEscape: cancel\n(it stays where it is, {{place}}, until put down)",
+  "move-objects.in-use": "Someone is using this chest right now",
+
+  // craft with chests, phone orders
+  "phone-orders.tool-waiting": "A tool is already waiting for you at Clint's: pick it up first",
+  "phone-orders.house-busy": "Robin is already working on your house"
 }

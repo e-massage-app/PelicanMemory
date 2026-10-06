@@ -99,6 +99,51 @@ static void Run()
         }
     }
 
+    // 6. crafting from chests and phone orders: every hook, laid on the real game DLL (parameter names are checked here)
+    {
+        Harmony harmony = new("PelicanMemory.FarmTest.Orders");
+        Type craft = mod.GetType("PelicanMemory.Features.CraftFromChests.CraftFromChestsFeature", true)!;
+        Type phone = mod.GetType("PelicanMemory.Features.PhoneOrders.PhoneOrdersFeature", true)!;
+        HarmonyMethod H(Type type, string name) => new(type.GetMethod(name, BindingFlags.Static | BindingFlags.NonPublic)!);
+        Type[] draw = { typeof(Microsoft.Xna.Framework.Graphics.SpriteBatch) };
+
+        (string Label, Action Apply)[] patches =
+        {
+            ("CraftingPage.getContainerContents", () => harmony.Patch(AccessTools.Method(typeof(CraftingPage), "getContainerContents"), prefix: H(craft, "Before_GetContainerContents"), postfix: H(craft, "After_GetContainerContents"))),
+            ("CraftingRecipe.consumeIngredients", () => harmony.Patch(AccessTools.Method(typeof(CraftingRecipe), nameof(CraftingRecipe.consumeIngredients)), postfix: H(craft, "After_Consume"))),
+            ("CraftingRecipe.ConsumeAdditionalIngredients", () => harmony.Patch(AccessTools.Method(typeof(CraftingRecipe), nameof(CraftingRecipe.ConsumeAdditionalIngredients)), postfix: H(craft, "After_Consume"))),
+            ("DefaultPhoneHandler.CallBlacksmith", () => harmony.Patch(AccessTools.Method(typeof(StardewValley.Objects.DefaultPhoneHandler), "CallBlacksmith"), prefix: H(phone, "Before_CallBlacksmith"))),
+            ("DefaultPhoneHandler.CallCarpenter", () => harmony.Patch(AccessTools.Method(typeof(StardewValley.Objects.DefaultPhoneHandler), "CallCarpenter"), prefix: H(phone, "Before_CallCarpenter"))),
+            ("Game1.DrawDialogue(npc, key)", () => harmony.Patch(AccessTools.Method(typeof(Game1), nameof(Game1.DrawDialogue), new[] { typeof(NPC), typeof(string) }), prefix: H(phone, "Before_DrawDialogue"))),
+            ("Game1.DrawDialogue(npc, key, args)", () => harmony.Patch(AccessTools.Method(typeof(Game1), nameof(Game1.DrawDialogue), new[] { typeof(NPC), typeof(string), typeof(object[]) }), prefix: H(phone, "Before_DrawDialogue"))),
+            ("GameLocation.answerDialogueAction", () => harmony.Patch(AccessTools.Method(typeof(GameLocation), nameof(GameLocation.answerDialogueAction)), prefix: H(phone, "Before_AnswerDialogueAction"), postfix: H(phone, "After_AnswerDialogueAction"))),
+            ("ShopMenu.HasTradeItem", () => harmony.Patch(AccessTools.Method(typeof(ShopMenu), nameof(ShopMenu.HasTradeItem)), prefix: H(phone, "Before_PhonePayment"), finalizer: H(phone, "After_PhonePayment"))),
+            ("ShopMenu.ConsumeTradeItem", () => harmony.Patch(AccessTools.Method(typeof(ShopMenu), nameof(ShopMenu.ConsumeTradeItem)), prefix: H(phone, "Before_PhonePayment"), finalizer: H(phone, "After_PhonePayment"))),
+            ("CarpenterMenu.DoesFarmerHaveEnoughResourcesToBuild", () => harmony.Patch(AccessTools.Method(typeof(CarpenterMenu), nameof(CarpenterMenu.DoesFarmerHaveEnoughResourcesToBuild), Type.EmptyTypes), prefix: H(phone, "Before_PhonePayment"), finalizer: H(phone, "After_PhonePayment"))),
+            ("CarpenterMenu.ConsumeResources", () => harmony.Patch(AccessTools.Method(typeof(CarpenterMenu), nameof(CarpenterMenu.ConsumeResources), Type.EmptyTypes), prefix: H(phone, "Before_PhonePayment"), finalizer: H(phone, "After_PhonePayment"))),
+            ("CarpenterMenu.draw", () => harmony.Patch(AccessTools.Method(typeof(CarpenterMenu), nameof(CarpenterMenu.draw), draw), prefix: H(phone, "Before_PhonePayment"), finalizer: H(phone, "After_PhonePayment"))),
+            ("GameLocation.houseUpgradeAccept", () => harmony.Patch(AccessTools.Method(typeof(GameLocation), "houseUpgradeAccept"), prefix: H(phone, "Before_HouseUpgradeAccept"), finalizer: H(phone, "After_HouseUpgradeAccept"))),
+            ("Inventory.ContainsId", () => harmony.Patch(AccessTools.Method(typeof(StardewValley.Inventories.Inventory), "ContainsId", new[] { typeof(string), typeof(int) }), postfix: H(phone, "After_ContainsId"))),
+            ("Inventory.ReduceId", () => harmony.Patch(AccessTools.Method(typeof(StardewValley.Inventories.Inventory), "ReduceId", new[] { typeof(string), typeof(int) }), postfix: H(phone, "After_ReduceId"))),
+            ("CarpenterMenu.tryToBuild", () => harmony.Patch(AccessTools.Method(typeof(CarpenterMenu), nameof(CarpenterMenu.tryToBuild)), prefix: H(phone, "Before_TryToBuild")))
+        };
+
+        int applied = 0;
+        foreach ((string label, Action apply) in patches)
+        {
+            try
+            {
+                apply();
+                applied++;
+            }
+            catch (Exception ex)
+            {
+                Check(false, $"6. {label}: {ex.InnerException?.Message ?? ex.Message}");
+            }
+        }
+        Check(applied == patches.Length, $"6. all {patches.Length} crafting and phone hooks apply to the game ({applied}/{patches.Length})");
+    }
+
     Console.WriteLine(failures == 0 ? "\nALL FARM CHECKS PASSED" : $"\n{failures} FAILURES");
     Environment.ExitCode = failures == 0 ? 0 : 1;
 }
