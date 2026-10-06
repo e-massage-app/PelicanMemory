@@ -151,3 +151,8 @@ Constat de Jordan : en duo, rien ne met le jeu en pause, les journées filent. C
 - [x] Textes (247), README, changelog 1.9.0 ; banc `tests/FarmTest` : 7 crochets Marnie/quêtes posés, la pause remplace exactement les 2 vérifications du jeu (exécutée sur le vrai code de `Game1.Update`)
 - [x] Publiée sur son « go push » (pas rétroactif pour les quêtes déjà réclamées : le jeu ne garde pas de trace) ; 1.8.0 remise sur son PC (étape 9)
 - [ ] Test en duo (pause, quêtes) et Marnie
+
+## 2026-10-06 — 1.9.1 correctif (codé, jeu de Jordan ouvert)
+
+- [x] Bug signalé par Jordan : fruit étoilé acheté chez Krobus = mangé (énergie +) ET gardé dans le sac. Cause : la confirmation d'achat (`purchase-confirm`) rangeait dans le sac le « reste sur le curseur » alors que le jeu (`Object.actionWhenPurchased` du fruit étoilé : `exitActiveMenu` + `eatObject`, renvoie faux) avait déjà fermé la boutique et l'aurait jeté. Correctif : si l'achat a quitté la fenêtre de quantité, le reste est jeté comme en vanilla. Bug présent depuis la création de la confirmation d'achat.
+- [ ] Déploiement jeu fermé, publication sur feu vert

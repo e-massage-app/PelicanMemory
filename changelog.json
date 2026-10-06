@@ -1,5 +1,14 @@
 [
   {
+    "Version": "1.9.1",
+    "Fr": [
+      "Correction : un achat que le jeu consomme sur place (au lieu de le donner) n'arrive plus en double dans le sac avec la confirmation d'achat."
+    ],
+    "En": [
+      "Fix: a purchase the game uses up on the spot (instead of handing it over) no longer also lands in the bag with the purchase confirmation."
+    ]
+  },
+  {
     "Version": "1.9.0",
     "Fr": [
       "Pause ensemble : en multijoueur, le temps s'arrête quand vous êtes tous dans un menu, comme en solo. (L'hôte peut aussi taper /pause dans le chat.)",

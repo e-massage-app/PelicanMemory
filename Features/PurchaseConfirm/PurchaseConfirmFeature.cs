@@ -146,6 +146,13 @@ internal class PurchaseConfirmFeature : FeatureBase
                 shop.forSale.Remove(item);
             }
 
+            // some purchases end the shopping themselves: Clint takes the tool and talks, a stardrop is eaten on the spot
+            // and the shop closes. Then what's left "on the cursor" is a leftover the game throws away, not a purchase:
+            // putting it in the bag would duplicate it (a stardrop eaten AND kept).
+            bool stillShopping = Game1.activeClickableMenu is NumberSelectionMenu;
+            if (!stillShopping)
+                shop.heldItem = null;
+
             // the game normally leaves the purchase on the cursor; here the player already confirmed, so it goes in the bag
             if (shop.heldItem is Item held && Game1.player.addItemToInventoryBool(held))
             {
@@ -155,10 +162,9 @@ internal class PurchaseConfirmFeature : FeatureBase
 
             shop.updateSaleButtonNeighbors();
 
-            // the game's quantity window doesn't close itself: put the shop back so the player lands on the item list,
-            // unless the purchase itself moved on (Clint takes the tool and talks, Marlon hands items back)
+            // the game's quantity window doesn't close itself: put the shop back so the player lands on the item list
             this.ShopToRestore = null;
-            if (Game1.activeClickableMenu is NumberSelectionMenu)
+            if (stillShopping)
                 Game1.activeClickableMenu = shop;
         }
         catch (Exception ex)
