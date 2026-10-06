@@ -1,7 +1,7 @@
 {
   "Name": "Pelican Memory",
   "Author": "Jordan Neau",
-  "Version": "1.8.0",
+  "Version": "1.9.0",
   "Description": "A memory aid, not a guide: shows only what you've already discovered in your own save.",
   "UniqueID": "JordanNeau.PelicanMemory",
   "EntryDll": "PelicanMemory.dll",

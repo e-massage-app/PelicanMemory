@@ -144,6 +144,61 @@ static void Run()
         Check(applied == patches.Length, $"6. all {patches.Length} crafting and phone hooks apply to the game ({applied}/{patches.Length})");
     }
 
+    // 7. 1.9.0: Marnie by phone, shared quests, and the shared pause rewriting the game's update
+    {
+        Harmony harmony = new("PelicanMemory.FarmTest.Coop");
+        Type phone = mod.GetType("PelicanMemory.Features.PhoneOrders.PhoneOrdersFeature", true)!;
+        Type quests = mod.GetType("PelicanMemory.Features.SharedQuests.SharedQuestsFeature", true)!;
+        Type pause = mod.GetType("PelicanMemory.Features.PauseTogether.PauseTogetherFeature", true)!;
+        HarmonyMethod H(Type type, string name) => new(type.GetMethod(name, BindingFlags.Static | BindingFlags.NonPublic)!);
+
+        (string Label, Action Apply)[] patches =
+        {
+            ("DefaultPhoneHandler.CallAnimalShop", () => harmony.Patch(AccessTools.Method(typeof(StardewValley.Objects.DefaultPhoneHandler), "CallAnimalShop"), prefix: H(phone, "Before_CallAnimalShop"))),
+            ("GameLocation.createQuestionDialogue", () => harmony.Patch(AccessTools.Method(typeof(GameLocation), nameof(GameLocation.createQuestionDialogue), new[] { typeof(string), typeof(Response[]), typeof(string) }), prefix: H(phone, "Before_CreateQuestionDialogue"))),
+            ("GameLocation.ShowAnimalShopMenu", () => harmony.Patch(AccessTools.Method(typeof(GameLocation), nameof(GameLocation.ShowAnimalShopMenu)), prefix: H(phone, "Before_ShowAnimalShopMenu"))),
+            ("PurchaseAnimalsMenu.setUpForReturnAfterPurchasingAnimal", () => harmony.Patch(AccessTools.Method(typeof(PurchaseAnimalsMenu), nameof(PurchaseAnimalsMenu.setUpForReturnAfterPurchasingAnimal)), prefix: H(phone, "Before_AnimalMenuReturn"), finalizer: H(phone, "After_AnimalMenuReturn"))),
+            ("PurchaseAnimalsMenu.setUpForReturnToShopMenu", () => harmony.Patch(AccessTools.Method(typeof(PurchaseAnimalsMenu), nameof(PurchaseAnimalsMenu.setUpForReturnToShopMenu)), prefix: H(phone, "Before_AnimalMenuReturn"), finalizer: H(phone, "After_AnimalMenuReturn"))),
+            ("Game1.getLocationRequest", () => harmony.Patch(AccessTools.Method(typeof(Game1), nameof(Game1.getLocationRequest)), prefix: H(phone, "Before_GetLocationRequest"))),
+            ("Quest.questComplete", () => harmony.Patch(AccessTools.Method(typeof(StardewValley.Quests.Quest), nameof(StardewValley.Quests.Quest.questComplete)), prefix: H(quests, "Before_QuestComplete"), postfix: H(quests, "After_QuestComplete")))
+        };
+
+        int applied = 0;
+        foreach ((string label, Action apply) in patches)
+        {
+            try
+            {
+                apply();
+                applied++;
+            }
+            catch (Exception ex)
+            {
+                Check(false, $"7. {label}: {ex.InnerException?.Message ?? ex.Message}");
+            }
+        }
+        Check(applied == patches.Length, $"7. all {patches.Length} Marnie and shared quest hooks apply to the game ({applied}/{patches.Length})");
+
+        // the pause: run the rewrite on the game's real update code, and check both split-screen checks were replaced
+        try
+        {
+            MethodInfo update = AccessTools.Method(typeof(Game1), "Update", new[] { typeof(Microsoft.Xna.Framework.GameTime) });
+            List<CodeInstruction> original = PatchProcessor.GetOriginalInstructions(update);
+            MethodInfo isLocal = AccessTools.Method(typeof(LocalMultiplayer), nameof(LocalMultiplayer.IsLocalMultiplayer));
+            List<CodeInstruction> rewritten = ((IEnumerable<CodeInstruction>)pause.GetMethod("Transpile_Update", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null, new object[] { original.Select(i => i.Clone()).ToList() })!).ToList();
+
+            string[] called = rewritten.Where(i => i.operand is MethodInfo m && (m.Name is "ReportOwnPause" or "UseSharedPause" || m == isLocal)).Select(i => ((MethodInfo)i.operand).Name).ToArray();
+            Check(original.Count(i => i.Calls(isLocal)) == 2 && called.SequenceEqual(new[] { "ReportOwnPause", "UseSharedPause" }) && rewritten.Count == original.Count,
+                $"7. the shared pause replaces exactly the game's 2 split-screen checks, in order ({string.Join(", ", called)})");
+
+            harmony.Patch(update, transpiler: H(pause, "Transpile_Update"));
+            Check(true, "7. the shared pause rewrite applies to the game's update");
+        }
+        catch (Exception ex)
+        {
+            Check(false, $"7. shared pause: {ex.InnerException?.Message ?? ex.Message}");
+        }
+    }
+
     Console.WriteLine(failures == 0 ? "\nALL FARM CHECKS PASSED" : $"\n{failures} FAILURES");
     Environment.ExitCode = failures == 0 ? 0 : 1;
 }

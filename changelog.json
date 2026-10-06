@@ -1,5 +1,18 @@
 [
   {
+    "Version": "1.9.0",
+    "Fr": [
+      "Pause ensemble : en multijoueur, le temps s'arrête quand vous êtes tous dans un menu, comme en solo. (L'hôte peut aussi taper /pause dans le chat.)",
+      "Marnie au téléphone : quand elle décroche, achetez vos animaux et placez-les depuis la maison, ou passez par sa boutique pour le foin et les fournitures.",
+      "Quêtes du courrier partagées : quand l'un de vous termine une demande reçue par lettre, elle est terminée chez l'autre aussi, avec la même récompense."
+    ],
+    "En": [
+      "Pause together: in multiplayer, time stops while you're all in a menu, as in single-player. (The host can also type /pause in the chat.)",
+      "Marnie by phone: when she picks up, buy animals and place them from home, or use her shop for hay and supplies.",
+      "Shared letter quests: when one of you finishes a request received by letter, it's finished for the other too, with the same reward."
+    ]
+  },
+  {
     "Version": "1.8.0",
     "Fr": [
       "Déménager un objet marche aussi vers les bâtiments de la ferme : prenez un coffre ou une machine (Maj + clic), survolez la maison, le clapier ou la serre et cliquez : il y est rangé, près de la porte. Échap annule ; le clic droit ouvre de nouveau les portes.",

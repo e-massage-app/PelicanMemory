@@ -74,8 +74,12 @@
   "feature.move-objects.description": "Maj + clic sur un coffre, une machine ou une déco : il suit la souris, puis un clic le pose ailleurs, avec tout son contenu et sa progression. Sur la ferme, on peut l'emmener dans un bâtiment (la maison, le clapier…) : il reste à sa place jusqu'à ce qu'on le pose. Échap pour annuler. Survolez un bâtiment de la ferme et cliquez : l'objet y est rangé, sur la place libre la plus proche de la porte. Restent en place : robinets sur arbre, casiers dans l'eau, pots. La touche est modifiable dans config.json.",
   "feature.craft-from-chests.name": "Fabriquer avec les coffres de la ferme",
   "feature.craft-from-chests.description": "Sur la ferme, l'artisanat, la cuisine et l'établi utilisent aussi ce qu'il y a dans vos coffres de la ferme, comme si c'était dans le sac. Ailleurs (mines, ville), rien ne change. En multijoueur, chaque coffre utilisé est réservé le temps de l'écran, comme la cuisine du jeu : l'hôte et l'invité ont tous les coffres de la ferme, sauf un coffre que l'autre a ouvert à ce moment-là.",
-  "feature.phone-orders.name": "Commander par téléphone (Clint, Robin)",
-  "feature.phone-orders.description": "Quand Clint ou Robin décroche (horaires d'ouverture, pas de festival), vous pouvez commander depuis leurs tarifs au téléphone : amélioration d'outil, agrandissement de la maison, bâtiments. L'argent vient du porte-monnaie, les matériaux du sac puis des coffres de la ferme. L'outil amélioré se récupère toujours à la forge.",
+  "feature.phone-orders.name": "Commander par téléphone (Clint, Robin, Marnie)",
+  "feature.phone-orders.description": "Quand Clint, Robin ou Marnie décroche (horaires d'ouverture, pas de festival), vous pouvez commander depuis leurs tarifs au téléphone : amélioration d'outil, agrandissement de la maison, bâtiments, animaux, et la boutique de Marnie (achat seulement : foin, fournitures). L'argent vient du porte-monnaie, les matériaux du sac puis des coffres de la ferme. L'outil amélioré se récupère toujours à la forge.",
+  "feature.pause-together.name": "Pause ensemble (multijoueur)",
+  "feature.pause-together.description": "En multijoueur, le temps s'arrête quand vous êtes tous dans un menu (inventaire, coffre, dialogue...), comme un menu le fait en solo. Si un seul joueur est dans un menu, le temps continue. Il faut que tout le monde ait le mod. L'hôte peut aussi taper /pause dans le chat pour tout arrêter.",
+  "feature.shared-quests.name": "Quêtes du courrier partagées (multijoueur)",
+  "feature.shared-quests.description": "Les demandes reçues par lettre (la citrouille de Caroline, le caleçon du maire...) : quand l'un de vous la termine, elle est terminée chez les autres aussi, avec la même récompense (l'argent à réclamer dans le journal et l'amitié). Les quêtes d'histoire restent à chacun.",
 
   "deposit.title": "Ranger partout",
   "deposit.hover": "Envoie chaque objet de ton sac dans le coffre\nde la ferme qui en contient déjà.\nL'objet que tu tiens en main reste.",
@@ -293,5 +297,8 @@
 
   // fabriquer avec les coffres, commandes par téléphone
   "phone-orders.tool-waiting": "Un outil vous attend déjà chez Clint : passez le récupérer d'abord",
-  "phone-orders.house-busy": "Robin travaille déjà sur votre maison"
+  "phone-orders.house-busy": "Robin travaille déjà sur votre maison",
+
+  // multijoueur : pause ensemble, quêtes partagées
+  "shared-quests.credited": "Quête faite par votre partenaire : {{quest}} (récompense dans votre journal)"
 }

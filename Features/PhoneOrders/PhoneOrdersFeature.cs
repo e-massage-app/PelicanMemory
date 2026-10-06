@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
 using PelicanMemory.Core;
@@ -12,7 +13,7 @@ using StardewValley.Objects;
 
 namespace PelicanMemory.Features.PhoneOrders;
 
-/// <summary>Order a tool upgrade from Clint, or a house upgrade or building from Robin, by phone, with materials from the farm's chests.</summary>
+/// <summary>Order by phone: a tool upgrade from Clint, a house upgrade or building from Robin, animals and supplies from Marnie, with materials from the farm's chests.</summary>
 /// <remarks>
 /// In multiplayer the clock never stops, and the blacksmith and the carpenter keep short hours. The phone already
 /// shows their prices, read-only; here, when the shop really answers, the order can be placed from there. The game's
@@ -23,6 +24,10 @@ namespace PelicanMemory.Features.PhoneOrders;
 /// Rules kept from the game: only when the phone says the shop is open (not the answering machine, not "busy"); a
 /// tool still at the blacksmith's, even finished, must be picked up first; nothing while the house is being upgraded;
 /// the upgraded tool is still collected at the forge. Robin's shop of wood and furniture stays read-only.
+///
+/// Marnie (1.9.0): her animals can be bought and placed from home, and her shop gets a "supplies" line on the phone
+/// for buying hay and the rest; selling to her stays at the ranch. The game sends a player back to her ranch after
+/// buying an animal, whatever menu it was opened from: a phone order brings them back home instead.
 /// </remarks>
 internal class PhoneOrdersFeature : FeatureBase
 {
@@ -35,16 +40,28 @@ internal class PhoneOrdersFeature : FeatureBase
     private const string ClintShopId = "ClintUpgrade";
     private const string ClintOpenKey = "Strings\\Characters:Phone_Clint_Open";
     private const string RobinOpenKey = "Strings\\Characters:Phone_Robin_Open";
+    private const string MarnieOpenKey = "Strings\\Characters:Phone_Marnie_Open";
+
+    /// <summary>The phone line added to Marnie's call, for her shop.</summary>
+    private const string MarnieSuppliesKey = "AnimalShop_PelicanSupplies";
 
     /// <summary>The time each shop stops answering, as the phone itself decides.</summary>
     private const int ClintCloses = 1600;
     private const int RobinCloses = 1700;
+    private const int MarnieCloses = 1600;
 
     private readonly FarmStock Stock;
 
     /// <summary>Whether the last call to each shop got a real answer, as the game showed it.</summary>
     private bool ClintAnswered;
     private bool RobinAnswered;
+    private bool MarnieAnswered;
+
+    /// <summary>Whether the animal menu about to open was asked for on the phone while Marnie was open.</summary>
+    private bool PendingAnimalOrder;
+
+    /// <summary>Where to send the player back after an animal bought by phone, instead of Marnie's ranch.</summary>
+    private static string? ReturnTo;
 
     /// <summary>The menus opened by phone and unlocked for ordering.</summary>
     private readonly ConditionalWeakTable<IClickableMenu, object> PhoneMenus = new();
@@ -82,6 +99,7 @@ internal class PhoneOrdersFeature : FeatureBase
         // what the phone answered
         this.Prefix(AccessTools.Method(typeof(DefaultPhoneHandler), nameof(DefaultPhoneHandler.CallBlacksmith)), self, nameof(Before_CallBlacksmith));
         this.Prefix(AccessTools.Method(typeof(DefaultPhoneHandler), nameof(DefaultPhoneHandler.CallCarpenter)), self, nameof(Before_CallCarpenter));
+        this.Prefix(AccessTools.Method(typeof(DefaultPhoneHandler), nameof(DefaultPhoneHandler.CallAnimalShop)), self, nameof(Before_CallAnimalShop));
         this.Prefix(AccessTools.Method(typeof(Game1), nameof(Game1.DrawDialogue), new[] { typeof(NPC), typeof(string) }), self, nameof(Before_DrawDialogue));
         this.Prefix(AccessTools.Method(typeof(Game1), nameof(Game1.DrawDialogue), new[] { typeof(NPC), typeof(string), typeof(object[]) }), self, nameof(Before_DrawDialogue));
 
@@ -104,6 +122,16 @@ internal class PhoneOrdersFeature : FeatureBase
         this.Finalizer(AccessTools.Method(typeof(GameLocation), "houseUpgradeAccept"), self, nameof(After_HouseUpgradeAccept));
         this.Postfix(AccessTools.Method(typeof(Inventory), nameof(Inventory.ContainsId), new[] { typeof(string), typeof(int) }), self, nameof(After_ContainsId));
         this.Postfix(AccessTools.Method(typeof(Inventory), nameof(Inventory.ReduceId), new[] { typeof(string), typeof(int) }), self, nameof(After_ReduceId));
+
+        // Marnie: a supplies line on her call, the animal menu unlocked, and the way back home after buying
+        this.Prefix(AccessTools.Method(typeof(GameLocation), nameof(GameLocation.createQuestionDialogue), new[] { typeof(string), typeof(Response[]), typeof(string) }), self, nameof(Before_CreateQuestionDialogue));
+        this.Prefix(AccessTools.Method(typeof(GameLocation), nameof(GameLocation.ShowAnimalShopMenu)), self, nameof(Before_ShowAnimalShopMenu));
+        foreach (string method in new[] { nameof(PurchaseAnimalsMenu.setUpForReturnAfterPurchasingAnimal), nameof(PurchaseAnimalsMenu.setUpForReturnToShopMenu) })
+        {
+            this.Prefix(AccessTools.Method(typeof(PurchaseAnimalsMenu), method), self, nameof(Before_AnimalMenuReturn));
+            this.Finalizer(AccessTools.Method(typeof(PurchaseAnimalsMenu), method), self, nameof(After_AnimalMenuReturn));
+        }
+        this.Prefix(AccessTools.Method(typeof(Game1), nameof(Game1.getLocationRequest)), self, nameof(Before_GetLocationRequest));
 
         // in multiplayer, the chests can change between choosing a building and placing it: check again
         this.Prefix(AccessTools.Method(typeof(CarpenterMenu), nameof(CarpenterMenu.tryToBuild)), self, nameof(Before_TryToBuild));
@@ -133,6 +161,12 @@ internal class PhoneOrdersFeature : FeatureBase
             Instance.RobinAnswered = false;
     }
 
+    private static void Before_CallAnimalShop()
+    {
+        if (Instance != null)
+            Instance.MarnieAnswered = false;
+    }
+
     /// <summary>Note when the shop picks up and says it's open: the game's own verdict, not one worked out again.</summary>
     private static void Before_DrawDialogue(string translationKey)
     {
@@ -143,6 +177,8 @@ internal class PhoneOrdersFeature : FeatureBase
             Instance.ClintAnswered = true;
         else if (translationKey.StartsWith(RobinOpenKey, StringComparison.Ordinal))
             Instance.RobinAnswered = true;
+        else if (translationKey.StartsWith(MarnieOpenKey, StringComparison.Ordinal))
+            Instance.MarnieAnswered = true;
     }
 
 
@@ -160,6 +196,22 @@ internal class PhoneOrdersFeature : FeatureBase
         {
             if (questionAndAnswer == "upgrade_No")
                 Instance.HouseOrder = false;
+
+            // Marnie's animals: unlocked when the menu opens (it may open after a question about which barn)
+            if (questionAndAnswer == "telephone_AnimalShop_CheckAnimalPrices")
+                Instance.PendingAnimalOrder = Instance.CanOrderFromMarnie();
+
+            // Marnie's supplies: her shop, to buy only
+            if (questionAndAnswer == "telephone_" + MarnieSuppliesKey)
+            {
+                if (Instance.CanOrderFromMarnie() && Utility.TryOpenShopMenu("AnimalShop", "Marnie") && Game1.activeClickableMenu is ShopMenu shop)
+                {
+                    shop.categoriesToSellHere.Clear();
+                    shop.tagsToSellHere.Clear();
+                }
+                __result = true;
+                return false;
+            }
 
             if (questionAndAnswer != "telephone_Carpenter_HouseCost" || !Instance.CanOrderFromRobin())
                 return true;
@@ -206,6 +258,66 @@ internal class PhoneOrdersFeature : FeatureBase
         {
             Instance.Monitor.LogOnce($"Failed to open an order by phone:\n{ex}", LogLevel.Error);
         }
+    }
+
+
+    /// <summary>Add a "supplies" line to Marnie's call when she's open: the game only offers her animal prices.</summary>
+    private static void Before_CreateQuestionDialogue(ref Response[] answerChoices, string dialogKey)
+    {
+        if (Instance is null || dialogKey != "telephone" || !answerChoices.Any(choice => choice.responseKey == "AnimalShop_CheckAnimalPrices"))
+            return;
+
+        try
+        {
+            if (!Instance.CanOrderFromMarnie())
+                return;
+
+            // the game's own wording for "check the shop's stock", already translated
+            Response supplies = new(MarnieSuppliesKey, Game1.content.LoadString("Strings\\Characters:Phone_CheckSeedStock"));
+            answerChoices = new[] { supplies }.Concat(answerChoices).ToArray();
+        }
+        catch (Exception ex)
+        {
+            Instance.Monitor.LogOnce($"Failed to add Marnie's shop to the phone:\n{ex}", LogLevel.Error);
+        }
+    }
+
+    /// <summary>Unlock the animal menu asked for on the phone, and remember where the player called from.</summary>
+    private static void Before_ShowAnimalShopMenu(ref Action<PurchaseAnimalsMenu>? onMenuOpened)
+    {
+        if (Instance is null || !Instance.PendingAnimalOrder)
+            return;
+
+        Instance.PendingAnimalOrder = false;
+        Action<PurchaseAnimalsMenu>? vanilla = onMenuOpened;
+        string home = Game1.currentLocation.NameOrUniqueName;
+        PhoneOrdersFeature feature = Instance;
+
+        onMenuOpened = menu =>
+        {
+            vanilla?.Invoke(menu);
+            menu.readOnly = false;
+            feature.PhoneMenus.AddOrUpdate(menu, home);
+        };
+    }
+
+    /// <summary>Leaving an animal menu opened by phone: go back home, not to Marnie's ranch.</summary>
+    private static void Before_AnimalMenuReturn(PurchaseAnimalsMenu __instance)
+    {
+        if (Instance != null && Instance.PhoneMenus.TryGetValue(__instance, out object? home) && home is string name)
+            ReturnTo = name;
+    }
+
+    private static void After_AnimalMenuReturn()
+    {
+        ReturnTo = null;
+    }
+
+    /// <summary>Send the player back where they phoned from, when the game asks for Marnie's ranch.</summary>
+    private static void Before_GetLocationRequest(ref string locationName)
+    {
+        if (ReturnTo != null && locationName == "AnimalShop")
+            locationName = ReturnTo;
     }
 
 
@@ -327,6 +439,12 @@ internal class PhoneOrdersFeature : FeatureBase
             && Game1.RequireLocation<Town>("Town").daysUntilCommunityUpgrade.Value <= 0;
     }
 
+    /// <summary>Get whether Marnie can take an order now: she answered and she's still open.</summary>
+    private bool CanOrderFromMarnie()
+    {
+        return this.MarnieAnswered && this.IsShopHours(MarnieCloses);
+    }
+
     /// <summary>Get whether a shop is still open: the clock keeps running while the phone talks, and festivals close shops.</summary>
     private bool IsShopHours(int closingTime)
     {
@@ -340,6 +458,8 @@ internal class PhoneOrdersFeature : FeatureBase
     {
         this.ClintAnswered = false;
         this.RobinAnswered = false;
+        this.MarnieAnswered = false;
+        this.PendingAnimalOrder = false;
         this.HouseOrder = false;
         this.PhoneMenus.Clear();
     }

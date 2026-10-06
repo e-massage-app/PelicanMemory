@@ -140,3 +140,14 @@ Décisions de Jordan : déplacer un objet jusque dans un bâtiment ; fabriquer/c
 - [x] Déployée sur son PC pour test (jeu fermé, config intacte)
 - [x] Test de Jordan 2026-10-06 : bâtiments « PAR-FAIT », artisanat avec les coffres OK, téléphone OK
 - [x] Publiée le 2026-10-06 sur son « Go push » ; 1.7.0 remise sur son PC (étape 9)
+
+## 2026-10-06 — 1.9.0 « le duo sans pause » (publiée le 2026-10-06)
+
+Constat de Jordan : en duo, rien ne met le jeu en pause, les journées filent. Choix : pause ensemble, Marnie au téléphone, quêtes du courrier partagées **avec la récompense pour chacun** (refus explicite du « retirer sans rien donner » : perdant pour l'autre). Refusés : liste de tâches commune, récolte groupée (« de la triche »). Rappel donné : l'hôte peut déjà taper `/pause` dans le chat.
+
+- [x] `pause-together` : le temps s'arrête quand **tous** les joueurs en ligne sont dans un menu (règle du solo). Le jeu a déjà ce code pour l'écran partagé local : transpiler sur `Game1.Update` qui remplace ses 2 appels `IsLocalMultiplayer(true)` (exactement 2, sinon rien) ; seulement si tous les joueurs ont le mod ≥ 1.9.0 et pas d'hôte dédié
+- [x] `phone-orders` étendu à Marnie (9h-16h, pas lundi/mardi/festival) : animaux (placement à distance comme Robin, retour à la maison au lieu du ranch codé en dur) + boutique en **achat seul** (vente bloquée), foin **dans le sac**
+- [x] `shared-quests` : quêtes du courrier 100-125 (Data/Quests : caleçon du maire, citrouille…) ; quand l'un la termine, l'autre la reçoit terminée avec la même récompense (argent à réclamer + amitié 255/250), lettre retirée si pas encore lue, objet de quête perdu retiré du sac ; registre commun dans `Farm.modData` (marche aussi si l'autre est hors ligne) ; les quêtes d'histoire/progression restent individuelles
+- [x] Textes (247), README, changelog 1.9.0 ; banc `tests/FarmTest` : 7 crochets Marnie/quêtes posés, la pause remplace exactement les 2 vérifications du jeu (exécutée sur le vrai code de `Game1.Update`)
+- [x] Publiée sur son « go push » (pas rétroactif pour les quêtes déjà réclamées : le jeu ne garde pas de trace) ; 1.8.0 remise sur son PC (étape 9)
+- [ ] Test en duo (pause, quêtes) et Marnie
