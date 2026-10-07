@@ -235,6 +235,11 @@ internal class CommunityCenterHintsFeature : FeatureBase
             if (!communityCenter.shouldNoteAppearInArea(areaNumber))
                 continue;
 
+            // the bundle found after the community center, elsewhere: the game says its note "appears" as soon as the
+            // center is done, before the player has any way to know of it (1.10.1: it asked for wine right after completion)
+            if (keyParts[0] == "Abandoned Joja Mart" && !Game1.MasterPlayer.mailReceived.Contains("abandonedJojaMartAccessible") && !Game1.player.locationsVisited.Contains("AbandonedJojaMart"))
+                continue;
+
             string[] fields = rawBundle.Split('/');
             if (fields.Length < 3)
                 continue;
@@ -243,12 +248,15 @@ internal class CommunityCenterHintsFeature : FeatureBase
             string bundleName = fields.Length > 6 && !string.IsNullOrWhiteSpace(fields[6]) ? fields[6] : fields[0];
             string[] parts = ArgUtility.SplitBySpace(fields[2]);
 
+            // many bundles are done with a few of the items they list (4 out of 6...): once done, the rest isn't wanted
+            bool bundleDone = communityCenter.isBundleComplete(bundleIndex);
+
             for (int i = 0; i + 2 < parts.Length; i += 3)
             {
                 if (!int.TryParse(parts[i + 1], out int quantity) || !int.TryParse(parts[i + 2], out int quality))
                     continue;
 
-                bool isDonated = donated.TryGetValue(bundleIndex, out bool[]? flags) && i / 3 < flags.Length && flags[i / 3];
+                bool isDonated = bundleDone || (donated.TryGetValue(bundleIndex, out bool[]? flags) && i / 3 < flags.Length && flags[i / 3]);
                 string itemKey = GetItemKey(parts[i]);
 
                 if (!index.TryGetValue(itemKey, out List<BundleSlot>? list))
