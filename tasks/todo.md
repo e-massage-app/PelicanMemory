@@ -158,10 +158,11 @@ Constat de Jordan : en duo, rien ne met le jeu en pause, les journées filent. C
 - [x] Bug signalé par Jordan : coffres tous rangés dans la maison → plus de fabrication dehors. Cause : le jeu rend le verrou d'un coffre dès qu'un autre joueur entre dans sa pièce (`NetMutex.Update`), donc avec Elise dans la maison les coffres de Jordan (hôte) ne comptaient plus. Correctif : verrou seulement pour la pièce où l'on est (+ Junimo), les autres coffres de la ferme sans verrou tant que personne ne les a ouverts (comme l'invité depuis la 1.8.0)
 - [x] Publiée sur son « Go push » ; 1.9.0 remise sur son PC (étape 9)
 
-## 2026-10-07 — 1.10.0 « d'où viennent minéraux et artefacts » (codée)
+## 2026-10-07 — 1.10.0 « d’où viennent minéraux et artefacts » (publiée le 2026-10-07, avant test)
 
 Demande de Jordan : savoir quelles géodes ouvrir (il gaspillait des géodes « épuisées », et veut garder les omni pour le désert) et d'où viennent les artefacts, « comme pour la pêche », sans wiki.
 - [x] Recensement exhaustif des sources (code + données 1.6.15) → `Data/collection-sources.json` embarqué dans la DLL ; 95/95 objets ont une source
 - [x] Infobulle des géodes (encore N / plus rien) + « D'où ça peut venir » sur les silhouettes de Collections (minéraux, artefacts), règle anti-spoil des indices de pêche
 - [x] Banc `tests/SearchTest` : données cohérentes avec celles du jeu, crochet Collections posé
-- [ ] Déploiement, test de Jordan, publication
+- [x] Publiée sur demande de Jordan (« push direct ») sans installation locale (jeu ouvert : publication avec EnableModDeploy=false) ; il la reçoit au prochain lancement
+- [ ] Test de Jordan
