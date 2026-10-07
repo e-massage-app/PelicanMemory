@@ -1,5 +1,14 @@
 [
   {
+    "Version": "1.10.1",
+    "Fr": [
+      "Correction : une fois le Centre communautaire terminé, les rappels des lots ne réclament plus d'objets pour quelque chose que vous n'avez pas encore découvert."
+    ],
+    "En": [
+      "Fix: once the Community Center is done, bundle reminders no longer ask for items for something you haven't discovered yet."
+    ]
+  },
+  {
     "Version": "1.10.0",
     "Fr": [
       "Collections : en survolant un minéral ou un artefact que vous n'avez pas encore, vous voyez d'où il peut venir (géode, points d'artefact, monstres, mine, pêche...). Une source que vous n'avez jamais rencontrée n'est jamais nommée.",

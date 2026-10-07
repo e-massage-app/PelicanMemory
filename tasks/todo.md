@@ -167,8 +167,9 @@ Demande de Jordan : savoir quelles géodes ouvrir (il gaspillait des géodes « 
 - [x] Publiée sur demande de Jordan (« push direct ») sans installation locale (jeu ouvert : publication avec EnableModDeploy=false) ; il la reçoit au prochain lancement
 - [ ] Test de Jordan
 
-## 2026-10-07 — 1.10.1 correctif anti-spoil (codé)
+## 2026-10-07 — 1.10.1 correctif anti-spoil (publiée le 2026-10-07)
 
 - [x] Signalé par Jordan : CC fini, le mod réclamait encore du vin. Vraie cause : le lot de l'après-centre (Joja abandonné, lot 36) — le jeu dit que sa note « apparaît » dès le CC fini (`shouldNoteAppearInArea`), avant que le joueur puisse le connaître → **fuite de spoil**. Correctif : ce lot n'est pris en compte qu'après `abandonedJojaMartAccessible` (courrier de l'hôte) ou une visite du lieu. Ne JAMAIS nommer ce lot à Jordan.
 - [x] Au passage : un lot terminé ne réclame plus rien, même pour les cases restées vides (sans effet réel : le jeu coche toutes les cases à la validation)
-- [ ] Publication sur feu vert
+- [x] Installée sur son PC (jeu fermé, config intacte)
+- [x] Publiée sur son « Go push » (il garde la 1.10.1 installée : pas d étape 9, il n avait jamais reçu la 1.10.0)
