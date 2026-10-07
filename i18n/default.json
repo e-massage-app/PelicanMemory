@@ -96,7 +96,7 @@
   "feature.collection-hints.name": "Where minerals and artifacts come from",
   "feature.collection-hints.description": "In Collections, a mineral or artifact silhouette says where it can come from (geode, artifact spots, monster, mine, fishing...). A geode's tooltip says how many new items it can still give you. A source you've never met is never named.",
   "feature.mine-boards.name": "Mine and cavern boards",
-  "feature.mine-boards.description": "A board by the mines' elevator describes each zone you've reached (ores, gems, geodes, monsters); another at the Skull Cavern entrance gives your record, how common iridium is down to your record, and your trip records (kept from installation). Click it like a sign.",
+  "feature.mine-boards.description": "A note pinned on the wall by the mines' elevator switch describes each zone you've reached (ores, gems, geodes, monsters); another at the Skull Cavern entrance gives your record, how common iridium is down to your record, and your trip records (kept from installation). Click it like a sign.",
 
   "fish-hints.title": "Going by your catches:",
   "fish-hints.unreachable": "You have never fished where it lives.",
@@ -353,7 +353,7 @@
   "mine-boards.geodes": "Geodes: {{list}}",
   "mine-boards.mystic": "Mystic stones from floor {{level}}",
   "mine-boards.monsters": "Monsters: {{list}}",
-  "mine-boards.from-floor": "(from floor {{level}})",
+  "mine-boards.then-from": "then from floor {{level}}: {{list}}",
   "mine-boards.cavern-title": "Skull Cavern",
   "mine-boards.cavern-record": "Your record: floor {{floor}}",
   "mine-boards.iridium-title": "Iridium nodes, on average:",

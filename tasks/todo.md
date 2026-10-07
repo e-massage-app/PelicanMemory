@@ -178,4 +178,6 @@ Demande de Jordan : savoir quelles géodes ouvrir (il gaspillait des géodes « 
 
 Idée de Jordan (affichette près de l'ascenseur, records de la caverne). Il a fait remarquer que la machine du casino montre des stats : vérifié, c'est la fiche du fermier (rien sur les étages), mais le jeu compte bien des totaux (minerais, diamants, roches, géodes) → affichés rétroactivement ; le détail par sortie n'existe pas → noté depuis l'installation. Pour ses tests : `debug warp Mine` / `debug warp SkullCave` dans la console SMAPI (pas de touche de TP dans le mod).
 - [x] `mine-boards` : zones atteintes (code du jeu), iridium « 1 pierre sur N » jusqu'au record (formule exacte, testée), records du jour/sortie, totaux du jeu
-- [ ] Déploiement, test de Jordan, publication
+- [x] Installée sur son PC pour test (jeu fermé, config intacte)
+- [x] 1er retour de Jordan : trop de « dès l'étage 2 » répétés, panneau « moche, rajouté » → listes groupées par étage, note épinglée au mur à gauche de l'interrupteur (et à droite de la porte de la caverne), dessinée avec le décor
+- [ ] Test de Jordan, publication

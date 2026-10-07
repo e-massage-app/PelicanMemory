@@ -84,6 +84,18 @@ static void Run()
         Check(Odds(26) == 413, $"4b. floor 26: ore 4.9% x iridium 4.94% = 1 stone in 413 ({Odds(26)})");
         Check(Odds(100) == 15, $"4b. floor 100: ore 16% x iridium 43% = 1 stone in 15 ({Odds(100)})");
         Check(Odds(5) > Odds(10) && Odds(50) < Odds(26), "4b. iridium gets more common with depth");
+
+        try
+        {
+            new Harmony("PelicanMemory.FarmTest.Boards").Patch(
+                AccessTools.Method(typeof(GameLocation), nameof(GameLocation.draw), new[] { typeof(Microsoft.Xna.Framework.Graphics.SpriteBatch) }),
+                postfix: new HarmonyMethod(mod.GetType("PelicanMemory.Features.MineBoards.MineBoardsFeature", true)!.GetMethod("After_LocationDraw", BindingFlags.Static | BindingFlags.NonPublic)!));
+            Check(true, "4b. the note is drawn with the place itself (hook applies to the game)");
+        }
+        catch (Exception ex)
+        {
+            Check(false, $"4b. note drawing hook: {ex.InnerException?.Message ?? ex.Message}");
+        }
     }
 
     // 5. map pin patches, on the real game DLL

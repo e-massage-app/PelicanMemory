@@ -96,7 +96,7 @@
   "feature.collection-hints.name": "D'où viennent minéraux et artefacts",
   "feature.collection-hints.description": "Dans Collections, une silhouette de minéral ou d'artefact dit d'où elle peut venir (géode, points d'artefact, monstre, mine, pêche...). L'infobulle d'une géode dit combien de nouveautés elle peut encore vous apporter. Une source jamais rencontrée n'est jamais nommée.",
   "feature.mine-boards.name": "Affichettes de la mine et de la caverne",
-  "feature.mine-boards.description": "Une affichette près de l'ascenseur de la mine décrit chaque zone que vous avez atteinte (filons, gemmes, géodes, monstres) ; une autre à l'entrée de la caverne du crâne donne votre record, la fréquence de l'iridium jusqu'à votre record et vos records de sortie (notés à partir de l'installation). Cliquez dessus comme sur un panneau.",
+  "feature.mine-boards.description": "Une note épinglée au mur, près de l'interrupteur de l'ascenseur de la mine, décrit chaque zone que vous avez atteinte (filons, gemmes, géodes, monstres) ; une autre à l'entrée de la caverne du crâne donne votre record, la fréquence de l'iridium jusqu'à votre record et vos records de sortie (notés à partir de l'installation). Cliquez dessus comme sur un panneau.",
 
   "fish-hints.title": "D'après vos prises :",
   "fish-hints.unreachable": "Vous n'avez jamais pêché là où il vit.",
@@ -353,7 +353,7 @@
   "mine-boards.geodes": "Géodes : {{list}}",
   "mine-boards.mystic": "Pierres mystiques dès l'étage {{level}}",
   "mine-boards.monsters": "Monstres : {{list}}",
-  "mine-boards.from-floor": "(dès l'étage {{level}})",
+  "mine-boards.then-from": "puis dès l'étage {{level}} : {{list}}",
   "mine-boards.cavern-title": "Caverne du crâne",
   "mine-boards.cavern-record": "Votre record : étage {{floor}}",
   "mine-boards.iridium-title": "Filons d'iridium, en moyenne :",

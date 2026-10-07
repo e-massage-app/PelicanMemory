@@ -35,21 +35,24 @@ internal class MineBoardsFeature : FeatureBase
     /*********
     ** Fields
     *********/
+    /// <summary>The active instance, for the static Harmony patch.</summary>
+    private static MineBoardsFeature? Instance;
+
     /// <summary>The key of the cavern records in the player's own save data.</summary>
     private const string RecordsKey = "cavern-records";
 
     /// <summary>The game's first Skull Cavern level: its floor 1 is mine level 121.</summary>
     private const int CavernStart = 120;
 
-    /// <summary>The free floor tiles next to the elevator and the cavern entrance, checked on the game's maps.</summary>
+    /// <summary>The wall tiles the notes are pinned on, checked on the game's maps: left of the elevator's switch, right of the cavern's door, each with walkable floor below to read it from.</summary>
     private static readonly Dictionary<string, Vector2> BoardTiles = new()
     {
-        ["Mine"] = new Vector2(19, 4),
-        ["SkullCave"] = new Vector2(5, 4)
+        ["Mine"] = new Vector2(15, 3),
+        ["SkullCave"] = new Vector2(5, 3)
     };
 
-    /// <summary>The wooden sign drawn as the board.</summary>
-    private const string SignItemId = "(BC)37";
+    /// <summary>The sheet of paper drawn pinned to the wall, so it looks like part of the place rather than something added.</summary>
+    private const string NoteItemId = "(O)842";
 
     /// <summary>What each mine zone holds, read from the game's code (1.6.15).</summary>
     private static readonly MineZone[] Zones =
@@ -107,7 +110,8 @@ internal class MineBoardsFeature : FeatureBase
     *********/
     protected override void OnEnable()
     {
-        this.Helper.Events.Display.RenderedWorld += this.OnRenderedWorld;
+        Instance = this;
+        this.Postfix(AccessTools.Method(typeof(GameLocation), nameof(GameLocation.draw), new[] { typeof(SpriteBatch) }), typeof(MineBoardsFeature), nameof(After_LocationDraw));
         this.Helper.Events.Input.ButtonPressed += this.OnButtonPressed;
         this.Helper.Events.Player.Warped += this.OnWarped;
         this.Helper.Events.GameLoop.SaveLoaded += this.OnDayBegins;
@@ -117,7 +121,7 @@ internal class MineBoardsFeature : FeatureBase
 
     protected override void OnDisable()
     {
-        this.Helper.Events.Display.RenderedWorld -= this.OnRenderedWorld;
+        Instance = null;
         this.Helper.Events.Input.ButtonPressed -= this.OnButtonPressed;
         this.Helper.Events.Player.Warped -= this.OnWarped;
         this.Helper.Events.GameLoop.SaveLoaded -= this.OnDayBegins;
@@ -129,16 +133,17 @@ internal class MineBoardsFeature : FeatureBase
     /*********
     ** Private methods: the boards
     *********/
-    /// <summary>Draw the board on its tile.</summary>
-    private void OnRenderedWorld(object? sender, RenderedWorldEventArgs e)
+    /// <summary>Draw the note with the place itself, so the player standing in front of it is drawn over it, as with the game's own wall decor.</summary>
+    private static void After_LocationDraw(GameLocation __instance, SpriteBatch b)
     {
-        if (Game1.currentLocation is not GameLocation location || !BoardTiles.TryGetValue(location.Name, out Vector2 tile))
+        if (Instance is null || !BoardTiles.TryGetValue(__instance.Name, out Vector2 tile))
             return;
 
-        ParsedItemData sign = ItemRegistry.GetDataOrErrorItem(SignItemId);
-        Rectangle source = sign.GetSourceRect();
-        Vector2 position = Game1.GlobalToLocal(Game1.viewport, new Vector2(tile.X * 64, tile.Y * 64 - 64));
-        e.SpriteBatch.Draw(sign.GetTexture(), position, source, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, Math.Max(0f, (tile.Y * 64 + 32) / 10000f));
+        // a sheet pinned on the wall at eye height, just above the wall tile's lower edge
+        ParsedItemData note = ItemRegistry.GetDataOrErrorItem(NoteItemId);
+        Rectangle source = note.GetSourceRect();
+        Vector2 position = Game1.GlobalToLocal(Game1.viewport, new Vector2(tile.X * 64 + 8, tile.Y * 64 + 4));
+        b.Draw(note.GetTexture(), position, source, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, Math.Max(0f, (tile.Y * 64 + 65) / 10000f));
     }
 
     /// <summary>Read the board when the player uses it, like any sign.</summary>
@@ -147,8 +152,8 @@ internal class MineBoardsFeature : FeatureBase
         if (!Context.IsPlayerFree || !e.Button.IsActionButton() || Game1.currentLocation is not GameLocation location || !BoardTiles.TryGetValue(location.Name, out Vector2 tile))
             return;
 
-        // the board's tile or the tile above it (the sign is two tiles tall), within reach
-        bool aimed = e.Cursor.GrabTile == tile || e.Cursor.Tile == tile || e.Cursor.Tile == tile - new Vector2(0, 1);
+        // the note's wall tile, aimed at from the floor below it
+        bool aimed = e.Cursor.GrabTile == tile || e.Cursor.Tile == tile;
         if (!aimed || Vector2.Distance(Game1.player.Tile, tile) > 2.5f)
             return;
 
@@ -248,11 +253,22 @@ internal class MineBoardsFeature : FeatureBase
     }
 
     /// <summary>List items, noting those which only appear from a floor deeper than the zone's start.</summary>
+    /// <remarks>Grouped by floor, so the floor is said once: "Geode; then from floor 21: Omni Geode".</remarks>
     private string ListFrom(IEnumerable<(string Item, int From)> items, int zoneStart, int deepest)
     {
-        return string.Join(", ", items
+        // a floor or two into the zone is the zone itself: no need to say it
+        IEnumerable<IGrouping<int, (string Item, int From)>> groups = items
             .Where(item => item.From <= deepest)
-            .Select(item => item.From > zoneStart ? $"{Name(item.Item)} {this.T("mine-boards.from-floor", new { level = item.From })}" : Name(item.Item)));
+            .GroupBy(item => item.From <= zoneStart + 1 ? zoneStart : item.From)
+            .OrderBy(group => group.Key);
+
+        List<string> parts = new();
+        foreach (IGrouping<int, (string Item, int From)> group in groups)
+        {
+            string names = string.Join(", ", group.Select(item => Name(item.Item)));
+            parts.Add(group.Key == zoneStart ? names : this.T("mine-boards.then-from", new { level = group.Key, list = names }));
+        }
+        return string.Join(" ; ", parts);
     }
 
     /// <summary>Get the depths to describe: every ten floors up to the record, and the record itself.</summary>
