@@ -44,11 +44,15 @@ internal class MineBoardsFeature : FeatureBase
     /// <summary>The game's first Skull Cavern level: its floor 1 is mine level 121.</summary>
     private const int CavernStart = 120;
 
-    /// <summary>The wall tiles the notes are pinned on, checked on the game's maps: left of the elevator's switch, right of the cavern's door, each with walkable floor below to read it from.</summary>
-    private static readonly Dictionary<string, Vector2> BoardTiles = new()
+    /// <summary>Where each note is pinned: its position on the wall in world pixels, and the floor tile it's read from.</summary>
+    /// <remarks>
+    /// Checked on the game's maps and Jordan's screenshots: in the mines, at the height of the elevator's switch, just
+    /// left of it; in the cavern, half-way up the door, right of it and under the lamp. Both have walkable floor below.
+    /// </remarks>
+    private static readonly Dictionary<string, (Vector2 Pixel, Vector2 ReadFrom)> Boards = new()
     {
-        ["Mine"] = new Vector2(15, 3),
-        ["SkullCave"] = new Vector2(5, 3)
+        ["Mine"] = (new Vector2(15 * 64 + 20, 2 * 64 + 4), new Vector2(15, 4)),
+        ["SkullCave"] = (new Vector2(5 * 64 + 8, 2 * 64 + 20), new Vector2(5, 4))
     };
 
     /// <summary>The sheet of paper drawn pinned to the wall, so it looks like part of the place rather than something added.</summary>
@@ -136,25 +140,28 @@ internal class MineBoardsFeature : FeatureBase
     /// <summary>Draw the note with the place itself, so the player standing in front of it is drawn over it, as with the game's own wall decor.</summary>
     private static void After_LocationDraw(GameLocation __instance, SpriteBatch b)
     {
-        if (Instance is null || !BoardTiles.TryGetValue(__instance.Name, out Vector2 tile))
+        if (Instance is null || !Boards.TryGetValue(__instance.Name, out var board))
             return;
 
-        // a sheet pinned on the wall at eye height, just above the wall tile's lower edge
+        // a sheet pinned on the wall; drawn just behind whoever stands on the floor in front of it
         ParsedItemData note = ItemRegistry.GetDataOrErrorItem(NoteItemId);
         Rectangle source = note.GetSourceRect();
-        Vector2 position = Game1.GlobalToLocal(Game1.viewport, new Vector2(tile.X * 64 + 8, tile.Y * 64 + 4));
-        b.Draw(note.GetTexture(), position, source, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, Math.Max(0f, (tile.Y * 64 + 65) / 10000f));
+        Vector2 position = Game1.GlobalToLocal(Game1.viewport, board.Pixel);
+        b.Draw(note.GetTexture(), position, source, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, Math.Max(0f, (board.ReadFrom.Y * 64 - 1) / 10000f));
     }
 
     /// <summary>Read the board when the player uses it, like any sign.</summary>
     private void OnButtonPressed(object? sender, ButtonPressedEventArgs e)
     {
-        if (!Context.IsPlayerFree || !e.Button.IsActionButton() || Game1.currentLocation is not GameLocation location || !BoardTiles.TryGetValue(location.Name, out Vector2 tile))
+        if (!Context.IsPlayerFree || !e.Button.IsActionButton() || Game1.currentLocation is not GameLocation location || !Boards.TryGetValue(location.Name, out var board))
             return;
 
-        // the note's wall tile, aimed at from the floor below it
-        bool aimed = e.Cursor.GrabTile == tile || e.Cursor.Tile == tile;
-        if (!aimed || Vector2.Distance(Game1.player.Tile, tile) > 2.5f)
+        // the note itself under the cursor, or the wall right above the floor it's read from, within reach
+        Rectangle noteArea = new((int)board.Pixel.X, (int)board.Pixel.Y, 48, 48);
+        Vector2 cursorPixel = e.Cursor.AbsolutePixels;
+        Vector2 wall = board.ReadFrom - new Vector2(0, 1);
+        bool aimed = noteArea.Contains((int)cursorPixel.X, (int)cursorPixel.Y) || e.Cursor.GrabTile == wall || e.Cursor.Tile == wall;
+        if (!aimed || Vector2.Distance(Game1.player.Tile, board.ReadFrom) > 1.5f)
             return;
 
         this.Helper.Input.Suppress(e.Button);
