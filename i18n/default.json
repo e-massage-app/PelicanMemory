@@ -93,6 +93,8 @@
 
   "feature.fish-hints.name": "Hints for missing fish",
   "feature.fish-hints.description": "In the collections tab, describes a fish you have never caught by comparing it to the ones you have: \"Season: same as that fish\". Anything your own catches cannot express stays as ????, and a fish which only lives somewhere you have never been says nothing at all.",
+  "feature.collection-hints.name": "Where minerals and artifacts come from",
+  "feature.collection-hints.description": "In Collections, a mineral or artifact silhouette says where it can come from (geode, artifact spots, monster, mine, fishing...). A geode's tooltip says how many new items it can still give you. A source you've never met is never named.",
 
   "fish-hints.title": "Going by your catches:",
   "fish-hints.unreachable": "You have never fished where it lives.",
@@ -300,5 +302,41 @@
   "phone-orders.house-busy": "Robin is already working on your house",
 
   // multiplayer: pause together, shared quests
-  "shared-quests.credited": "Quest done by your partner: {{quest}} (reward in your journal)"
+  "shared-quests.credited": "Quest done by your partner: {{quest}} (reward in your journal)",
+
+  // where minerals and artifacts come from
+  "collection-hints.title": "Where it can come from:",
+  "collection-hints.geode": "Geode: {{names}}",
+  "collection-hints.geode-unknown": "A geode you haven't had yet",
+  "collection-hints.artifact-spot": "Dug up (artifact spots): {{places}}",
+  "collection-hints.artifact-spot-unknown": "Dug up somewhere you've never been",
+  "collection-hints.panning": "Panning",
+  "collection-hints.panning-at": "Panning: {{places}}",
+  "collection-hints.monster": "Dropped by monsters: {{names}}",
+  "collection-hints.monster-unknown": "Dropped by a monster you haven't beaten yet",
+  "collection-hints.fishing-treasure": "Fishing treasure chests",
+  "collection-hints.mine-level": "Mine nodes, from floor {{level}}",
+  "collection-hints.mine-skull": "Skull Cavern nodes",
+  "collection-hints.mine-volcano": "Volcano nodes",
+  "collection-hints.mine-quarry": "Quarry nodes",
+  "collection-hints.mine-iridium": "Iridium nodes",
+  "collection-hints.mine-unknown": "Deeper in the mine",
+  "collection-hints.fish-pond": "Fish pond: {{fish}}",
+  "collection-hints.fish-pond-unknown": "A fish pond, with a fish you don't have yet",
+  "collection-hints.shop-desert-festival": "A Desert Festival stall",
+  "collection-hints.from-floor": "(from floor {{level}})",
+  "collection-hints.unknown": "And a source you haven't discovered yet",
+  "collection-hints.and-more": "and {{count}} more",
+  "collection-hints.geode-new": "{{count}} new item(s) for your collection",
+  "collection-hints.geode-exhausted": "Nothing new for your collection",
+  "collection-hints.special.garbageCan": "Searching garbage cans",
+  "collection-hints.special.prizeMachine": "The mayor's prize machine",
+  "collection-hints.special.slimeBall": "Slime balls in the hutch",
+  "collection-hints.special.mineBarrel": "Mine barrels and crates",
+  "collection-hints.special.mineDirt": "Mine dirt, with a hoe",
+  "collection-hints.special.mineFloor": "Picked up off the mine floor",
+  "collection-hints.special.treasureChest": "Skull Cavern treasure chests",
+  "collection-hints.special.craneGame": "Movie theater crane game",
+  "collection-hints.special.mail": "A gift by mail",
+  "collection-hints.monster-name.Haunted-Skull": "Haunted Skull"
 }

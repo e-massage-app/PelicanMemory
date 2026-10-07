@@ -18,6 +18,8 @@
   <!-- the installer is its own program, and dist/publish only hold build output -->
   <ItemGroup>
     <Compile Remove="installer/**;dist/**;publish/**;tests/**" />
+    <!-- data read by the mod itself, carried inside the DLL: the in-game update only replaces the DLL, manifest and i18n -->
+    <EmbeddedResource Include="Data/collection-sources.json" LogicalName="PelicanMemory.CollectionSources" />
     <None Remove="installer/**;dist/**;publish/**" />
   </ItemGroup>
 

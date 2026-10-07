@@ -90,6 +90,66 @@ static void Run()
         }
     }
 
+    // 4. where museum items come from: the data carried in the mod matches the game's own data
+    {
+        Type sources = T("PelicanMemory.Features.CollectionHints.CollectionSources");
+        MethodInfo getSources = sources.GetMethod("GetSources")!;
+        MethodInfo getGeode = sources.GetMethod("GetGeodeItems")!;
+
+        Dictionary<string, StardewValley.GameData.Objects.ObjectData> objects = DataLoader.Objects(Game1.content);
+        Dictionary<string, string> monsters = DataLoader.Monsters(Game1.content);
+        Dictionary<string, StardewValley.GameData.Locations.LocationData> locations = DataLoader.Locations(Game1.content);
+        string[] museum = objects.Where(pair => pair.Value.Type is "Minerals" or "Arch").Select(pair => pair.Key).ToArray();
+        string[] kinds = { "geode", "mineNode", "artifactSpot", "fishingTreasure", "panning", "monster", "fishPond", "shop", "special" };
+
+        List<string> missing = new(), badKinds = new(), badGeodes = new(), badMonsters = new(), badPlaces = new();
+        foreach (string id in museum)
+        {
+            IEnumerable list = (IEnumerable)getSources.Invoke(null, new object[] { id })!;
+            List<object> entries = list.Cast<object>().ToList();
+            if (entries.Count == 0)
+                missing.Add(id);
+
+            foreach (object entry in entries)
+            {
+                string kind = (string)entry.GetType().GetProperty("Kind")!.GetValue(entry)!;
+                string detail = (string)entry.GetType().GetProperty("Detail")!.GetValue(entry)!;
+                System.Text.Json.JsonElement requires = (System.Text.Json.JsonElement)entry.GetType().GetProperty("Requires")!.GetValue(entry)!;
+
+                if (!kinds.Contains(kind))
+                    badKinds.Add($"{id}:{kind}");
+                if (kind == "geode" && !objects.ContainsKey(detail.Replace("(O)", "")))
+                    badGeodes.Add($"{id}:{detail}");
+                if (requires.ValueKind == System.Text.Json.JsonValueKind.Object && requires.TryGetProperty("monsterKilled", out var killed))
+                    badMonsters.AddRange(killed.EnumerateArray().Select(n => n.GetString()!).Where(n => !monsters.ContainsKey(n)));
+                if (kind == "artifactSpot" && detail != "Farm" && !locations.ContainsKey(detail)) // the farm is "Farm" in game, stored per farm type in the data
+                    badPlaces.Add($"{id}:{detail}");
+            }
+        }
+
+        Check(museum.Length == 95 && missing.Count == 0, $"4. every museum item ({museum.Length}) has at least one source ({missing.Count} without)");
+        Check(badKinds.Count == 0, $"4. every source is a kind the tooltip knows ({string.Join(", ", badKinds.Distinct())})");
+        Check(badGeodes.Count == 0, $"4. every geode named is a real game item ({string.Join(", ", badGeodes.Distinct())})");
+        Check(badMonsters.Distinct().All(n => n == "Haunted Skull"), $"4. every monster named exists in the game's data, except the haunted skull, a bat variant ({string.Join(", ", badMonsters.Distinct())})");
+        Check(badPlaces.Count == 0, $"4. every artifact spot place exists in the game's data ({string.Join(", ", badPlaces.Distinct())})");
+
+        int magma = ((IEnumerable)getGeode.Invoke(null, new object[] { "(O)537" })!).Cast<object>().Count();
+        int omni = ((IEnumerable)getGeode.Invoke(null, new object[] { "(O)749" })!).Cast<object>().Count();
+        Check(magma > 0 && omni > magma && getGeode.Invoke(null, new object[] { "(O)388" }) is null, $"4. geodes know their contents (magma {magma}, omni {omni}), and wood isn't a geode");
+
+        try
+        {
+            Harmony harmony = new("PelicanMemory.SearchTest.Collections");
+            harmony.Patch(AccessTools.Method(typeof(StardewValley.Menus.CollectionsPage), nameof(StardewValley.Menus.CollectionsPage.performHoverAction)),
+                postfix: new HarmonyMethod(T("PelicanMemory.Features.CollectionHints.CollectionHintsFeature").GetMethod("After_PerformHoverAction", BindingFlags.Static | BindingFlags.NonPublic)!));
+            Check(true, "4. the collections tooltip hook applies to the game");
+        }
+        catch (Exception ex)
+        {
+            Check(false, $"4. collections hook: {ex.InnerException?.Message ?? ex.Message}");
+        }
+    }
+
     Console.WriteLine(failures == 0 ? "\nALL SEARCH CHECKS PASSED" : $"\n{failures} FAILURES");
     Environment.ExitCode = failures == 0 ? 0 : 1;
 }

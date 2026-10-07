@@ -93,6 +93,8 @@
 
   "feature.fish-hints.name": "Indices sur les poissons manquants",
   "feature.fish-hints.description": "Dans l'onglet Collections, décrit un poisson jamais attrapé en le comparant à ceux que vous avez déjà pris : « Saison : comme tel poisson ». Ce que vos prises ne permettent pas de dire reste en ????, et un poisson qui ne vit que dans un lieu jamais visité ne dit rien du tout.",
+  "feature.collection-hints.name": "D'où viennent minéraux et artefacts",
+  "feature.collection-hints.description": "Dans Collections, une silhouette de minéral ou d'artefact dit d'où elle peut venir (géode, points d'artefact, monstre, mine, pêche...). L'infobulle d'une géode dit combien de nouveautés elle peut encore vous apporter. Une source jamais rencontrée n'est jamais nommée.",
 
   "fish-hints.title": "D'après vos prises :",
   "fish-hints.unreachable": "Vous n'avez jamais pêché là où il vit.",
@@ -300,5 +302,41 @@
   "phone-orders.house-busy": "Robin travaille déjà sur votre maison",
 
   // multijoueur : pause ensemble, quêtes partagées
-  "shared-quests.credited": "Quête faite par votre partenaire : {{quest}} (récompense dans votre journal)"
+  "shared-quests.credited": "Quête faite par votre partenaire : {{quest}} (récompense dans votre journal)",
+
+  // d'où viennent minéraux et artefacts
+  "collection-hints.title": "D'où ça peut venir :",
+  "collection-hints.geode": "Géode : {{names}}",
+  "collection-hints.geode-unknown": "Une géode que vous n'avez pas encore eue",
+  "collection-hints.artifact-spot": "À déterrer (points d'artefact) : {{places}}",
+  "collection-hints.artifact-spot-unknown": "À déterrer dans un lieu jamais visité",
+  "collection-hints.panning": "À la batée",
+  "collection-hints.panning-at": "À la batée : {{places}}",
+  "collection-hints.monster": "Sur des monstres : {{names}}",
+  "collection-hints.monster-unknown": "Sur un monstre que vous n'avez pas encore vaincu",
+  "collection-hints.fishing-treasure": "Coffres au trésor de pêche",
+  "collection-hints.mine-level": "Filons de la mine, dès l'étage {{level}}",
+  "collection-hints.mine-skull": "Filons de la caverne du crâne",
+  "collection-hints.mine-volcano": "Filons du volcan",
+  "collection-hints.mine-quarry": "Filons de la carrière",
+  "collection-hints.mine-iridium": "Filons d'iridium",
+  "collection-hints.mine-unknown": "Plus profond dans la mine",
+  "collection-hints.fish-pond": "Bassin à poissons : {{fish}}",
+  "collection-hints.fish-pond-unknown": "Un bassin à poissons, avec un poisson que vous n'avez pas encore",
+  "collection-hints.shop-desert-festival": "Un stand du festival du désert",
+  "collection-hints.from-floor": "(dès l'étage {{level}})",
+  "collection-hints.unknown": "Et une source que vous n'avez pas encore découverte",
+  "collection-hints.and-more": "et {{count}} autre(s)",
+  "collection-hints.geode-new": "Encore {{count}} nouveauté(s) pour votre collection",
+  "collection-hints.geode-exhausted": "Plus rien de nouveau pour votre collection",
+  "collection-hints.special.garbageCan": "En fouillant les poubelles",
+  "collection-hints.special.prizeMachine": "Machine à lots du maire",
+  "collection-hints.special.slimeBall": "Boules de slime du clapier",
+  "collection-hints.special.mineBarrel": "Tonneaux et caisses de la mine",
+  "collection-hints.special.mineDirt": "Terre de la mine, à la houe",
+  "collection-hints.special.mineFloor": "Ramassé par terre dans la mine",
+  "collection-hints.special.treasureChest": "Coffres au trésor de la caverne du crâne",
+  "collection-hints.special.craneGame": "Pince du cinéma",
+  "collection-hints.special.mail": "Cadeau reçu par courrier",
+  "collection-hints.monster-name.Haunted-Skull": "Crâne hanté"
 }

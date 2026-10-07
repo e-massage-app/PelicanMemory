@@ -1,5 +1,16 @@
 [
   {
+    "Version": "1.10.0",
+    "Fr": [
+      "Collections : en survolant un minéral ou un artefact que vous n'avez pas encore, vous voyez d'où il peut venir (géode, points d'artefact, monstres, mine, pêche...). Une source que vous n'avez jamais rencontrée n'est jamais nommée.",
+      "Géodes : leur infobulle dit combien de nouveautés elles peuvent encore apporter à votre collection, ou qu'elles n'ont plus rien de nouveau."
+    ],
+    "En": [
+      "Collections: hovering a mineral or artifact you don't have yet shows where it can come from (geode, artifact spots, monsters, mine, fishing...). A source you've never met is never named.",
+      "Geodes: their tooltip says how many new items they can still bring to your collection, or that they have nothing new left."
+    ]
+  },
+  {
     "Version": "1.9.1",
     "Fr": [
       "Fabriquer avec les coffres : tous les coffres de la ferme comptent, où que vous soyez sur la ferme, même rangés dans la maison pendant que l'autre joueur s'y trouve.",

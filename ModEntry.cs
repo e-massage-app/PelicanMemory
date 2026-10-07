@@ -3,6 +3,7 @@ using PelicanMemory.Core;
 using PelicanMemory.Features.AnimalCare;
 using PelicanMemory.Features.CaughtFishTooltip;
 using PelicanMemory.Features.ChestNames;
+using PelicanMemory.Features.CollectionHints;
 using PelicanMemory.Features.ChestSearch;
 using PelicanMemory.Features.CommunityCenterHints;
 using PelicanMemory.Features.CraftFromChests;
@@ -76,6 +77,7 @@ internal class ModEntry : Mod
         registry.Add(new ItemSearchFeature(helper, this.Monitor, harmony, settings, storage, store));
         registry.Add(new ChestNamesFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new MapPinsFeature(helper, this.Monitor, harmony, settings, store));
+        registry.Add(new CollectionHintsFeature(helper, this.Monitor, harmony, settings, store, storage));
         registry.Add(new FishHintsFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new SkillExperienceFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new CraftFromChestsFeature(helper, this.Monitor, harmony, settings, storage));
