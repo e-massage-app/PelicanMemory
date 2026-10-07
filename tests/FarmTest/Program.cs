@@ -76,6 +76,16 @@ static void Run()
     Check(Cask(30, 2, 28) == 1, "4. ageing 2 days a night, 30 left: gold tomorrow");
     Check(Cask(20, 1.5f, 0) == 14, "4. ageing 1.5 a night, 20 left: iridium in 14 days");
 
+    // 4b. iridium in the Skull Cavern: "1 stone in N", from the game's formula (MineShaft, 1.6.15), worked out by hand
+    {
+        MethodInfo odds = mod.GetType("PelicanMemory.Features.MineBoards.MineBoardsFeature", true)!.GetMethod("GetIridiumOdds")!;
+        int Odds(int floor) => (int)odds.Invoke(null, new object[] { floor })!;
+        Check(Odds(10) == 13333, $"4b. floor 10: ore 2.5% x iridium 0.3% = 1 stone in 13333 ({Odds(10)})");
+        Check(Odds(26) == 413, $"4b. floor 26: ore 4.9% x iridium 4.94% = 1 stone in 413 ({Odds(26)})");
+        Check(Odds(100) == 15, $"4b. floor 100: ore 16% x iridium 43% = 1 stone in 15 ({Odds(100)})");
+        Check(Odds(5) > Odds(10) && Odds(50) < Odds(26), "4b. iridium gets more common with depth");
+    }
+
     // 5. map pin patches, on the real game DLL
     {
         Type pins = mod.GetType("PelicanMemory.Features.MapPins.MapPinsFeature", true)!;

@@ -173,3 +173,9 @@ Demande de Jordan : savoir quelles géodes ouvrir (il gaspillait des géodes « 
 - [x] Au passage : un lot terminé ne réclame plus rien, même pour les cases restées vides (sans effet réel : le jeu coche toutes les cases à la validation)
 - [x] Installée sur son PC (jeu fermé, config intacte)
 - [x] Publiée sur son « Go push » (il garde la 1.10.1 installée : pas d étape 9, il n avait jamais reçu la 1.10.0)
+
+## 2026-10-07 — 1.11.0 « affichettes de la mine et de la caverne » (codée)
+
+Idée de Jordan (affichette près de l'ascenseur, records de la caverne). Il a fait remarquer que la machine du casino montre des stats : vérifié, c'est la fiche du fermier (rien sur les étages), mais le jeu compte bien des totaux (minerais, diamants, roches, géodes) → affichés rétroactivement ; le détail par sortie n'existe pas → noté depuis l'installation. Pour ses tests : `debug warp Mine` / `debug warp SkullCave` dans la console SMAPI (pas de touche de TP dans le mod).
+- [x] `mine-boards` : zones atteintes (code du jeu), iridium « 1 pierre sur N » jusqu'au record (formule exacte, testée), records du jour/sortie, totaux du jeu
+- [ ] Déploiement, test de Jordan, publication

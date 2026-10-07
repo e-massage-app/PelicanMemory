@@ -95,6 +95,8 @@
   "feature.fish-hints.description": "Dans l'onglet Collections, décrit un poisson jamais attrapé en le comparant à ceux que vous avez déjà pris : « Saison : comme tel poisson ». Ce que vos prises ne permettent pas de dire reste en ????, et un poisson qui ne vit que dans un lieu jamais visité ne dit rien du tout.",
   "feature.collection-hints.name": "D'où viennent minéraux et artefacts",
   "feature.collection-hints.description": "Dans Collections, une silhouette de minéral ou d'artefact dit d'où elle peut venir (géode, points d'artefact, monstre, mine, pêche...). L'infobulle d'une géode dit combien de nouveautés elle peut encore vous apporter. Une source jamais rencontrée n'est jamais nommée.",
+  "feature.mine-boards.name": "Affichettes de la mine et de la caverne",
+  "feature.mine-boards.description": "Une affichette près de l'ascenseur de la mine décrit chaque zone que vous avez atteinte (filons, gemmes, géodes, monstres) ; une autre à l'entrée de la caverne du crâne donne votre record, la fréquence de l'iridium jusqu'à votre record et vos records de sortie (notés à partir de l'installation). Cliquez dessus comme sur un panneau.",
 
   "fish-hints.title": "D'après vos prises :",
   "fish-hints.unreachable": "Vous n'avez jamais pêché là où il vit.",
@@ -338,5 +340,30 @@
   "collection-hints.special.treasureChest": "Coffres au trésor de la caverne du crâne",
   "collection-hints.special.craneGame": "Pince du cinéma",
   "collection-hints.special.mail": "Cadeau reçu par courrier",
-  "collection-hints.monster-name.Haunted-Skull": "Crâne hanté"
+  "collection-hints.monster-name.Haunted-Skull": "Crâne hanté",
+
+  // affichettes de la mine (police des lettres : pas de tiret long)
+  "mine-boards.mines-title": "Mines de la vallée : ce que vous en savez",
+  "mine-boards.zone": "Étages {{from}} à {{to}} :",
+  "mine-boards.ores": "Filons : {{list}}",
+  "mine-boards.frequency.mainly": "surtout",
+  "mine-boards.frequency.sometimes": "parfois",
+  "mine-boards.frequency.rare": "rare",
+  "mine-boards.gems": "Gemmes : {{list}}",
+  "mine-boards.geodes": "Géodes : {{list}}",
+  "mine-boards.mystic": "Pierres mystiques dès l'étage {{level}}",
+  "mine-boards.monsters": "Monstres : {{list}}",
+  "mine-boards.from-floor": "(dès l'étage {{level}})",
+  "mine-boards.cavern-title": "Caverne du crâne",
+  "mine-boards.cavern-record": "Votre record : étage {{floor}}",
+  "mine-boards.iridium-title": "Filons d'iridium, en moyenne :",
+  "mine-boards.iridium-row": "Étage {{floor}} : 1 pierre sur {{odds}}",
+  "mine-boards.iridium-deeper": "Plus bas : encore plus fréquents",
+  "mine-boards.records-title": "Vos records (depuis le {{date}}) :",
+  "mine-boards.record-day-floor": "Descente en une journée : étage {{floor}}",
+  "mine-boards.record-day-iridium": "Iridium en une sortie : {{count}}",
+  "mine-boards.record-iridium-floor": "Iridium trouvé le plus bas : étage {{floor}}",
+  "mine-boards.today": "Aujourd'hui : étage {{floor}}, {{count}} iridium",
+  "mine-boards.totals-title": "Sur toute votre partie :",
+  "mine-boards.totals-other": "Diamants {{diamonds}}, roches cassées {{rocks}}, géodes ouvertes {{geodes}}"
 }

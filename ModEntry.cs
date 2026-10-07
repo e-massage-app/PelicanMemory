@@ -16,6 +16,7 @@ using PelicanMemory.Features.HorseActions;
 using PelicanMemory.Features.ItemSearch;
 using PelicanMemory.Features.MachineTimer;
 using PelicanMemory.Features.MapPins;
+using PelicanMemory.Features.MineBoards;
 using PelicanMemory.Features.MuseumHints;
 using PelicanMemory.Features.PauseTogether;
 using PelicanMemory.Features.PhoneOrders;
@@ -76,6 +77,7 @@ internal class ModEntry : Mod
         registry.Add(new ChestSearchFeature(helper, this.Monitor, harmony, settings, storage));
         registry.Add(new ItemSearchFeature(helper, this.Monitor, harmony, settings, storage, store));
         registry.Add(new ChestNamesFeature(helper, this.Monitor, harmony, settings));
+        registry.Add(new MineBoardsFeature(helper, this.Monitor, harmony, settings, store));
         registry.Add(new MapPinsFeature(helper, this.Monitor, harmony, settings, store));
         registry.Add(new CollectionHintsFeature(helper, this.Monitor, harmony, settings, store, storage));
         registry.Add(new FishHintsFeature(helper, this.Monitor, harmony, settings));

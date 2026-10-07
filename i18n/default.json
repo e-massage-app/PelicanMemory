@@ -95,6 +95,8 @@
   "feature.fish-hints.description": "In the collections tab, describes a fish you have never caught by comparing it to the ones you have: \"Season: same as that fish\". Anything your own catches cannot express stays as ????, and a fish which only lives somewhere you have never been says nothing at all.",
   "feature.collection-hints.name": "Where minerals and artifacts come from",
   "feature.collection-hints.description": "In Collections, a mineral or artifact silhouette says where it can come from (geode, artifact spots, monster, mine, fishing...). A geode's tooltip says how many new items it can still give you. A source you've never met is never named.",
+  "feature.mine-boards.name": "Mine and cavern boards",
+  "feature.mine-boards.description": "A board by the mines' elevator describes each zone you've reached (ores, gems, geodes, monsters); another at the Skull Cavern entrance gives your record, how common iridium is down to your record, and your trip records (kept from installation). Click it like a sign.",
 
   "fish-hints.title": "Going by your catches:",
   "fish-hints.unreachable": "You have never fished where it lives.",
@@ -338,5 +340,30 @@
   "collection-hints.special.treasureChest": "Skull Cavern treasure chests",
   "collection-hints.special.craneGame": "Movie theater crane game",
   "collection-hints.special.mail": "A gift by mail",
-  "collection-hints.monster-name.Haunted-Skull": "Haunted Skull"
+  "collection-hints.monster-name.Haunted-Skull": "Haunted Skull",
+
+  // mine boards (letter font)
+  "mine-boards.mines-title": "Valley mines: what you know of them",
+  "mine-boards.zone": "Floors {{from}} to {{to}}:",
+  "mine-boards.ores": "Nodes: {{list}}",
+  "mine-boards.frequency.mainly": "mainly",
+  "mine-boards.frequency.sometimes": "sometimes",
+  "mine-boards.frequency.rare": "rare",
+  "mine-boards.gems": "Gems: {{list}}",
+  "mine-boards.geodes": "Geodes: {{list}}",
+  "mine-boards.mystic": "Mystic stones from floor {{level}}",
+  "mine-boards.monsters": "Monsters: {{list}}",
+  "mine-boards.from-floor": "(from floor {{level}})",
+  "mine-boards.cavern-title": "Skull Cavern",
+  "mine-boards.cavern-record": "Your record: floor {{floor}}",
+  "mine-boards.iridium-title": "Iridium nodes, on average:",
+  "mine-boards.iridium-row": "Floor {{floor}}: 1 stone in {{odds}}",
+  "mine-boards.iridium-deeper": "Deeper: more common still",
+  "mine-boards.records-title": "Your records (since {{date}}):",
+  "mine-boards.record-day-floor": "Deepest in one day: floor {{floor}}",
+  "mine-boards.record-day-iridium": "Iridium in one trip: {{count}}",
+  "mine-boards.record-iridium-floor": "Deepest iridium found: floor {{floor}}",
+  "mine-boards.today": "Today: floor {{floor}}, {{count}} iridium",
+  "mine-boards.totals-title": "Over your whole game:",
+  "mine-boards.totals-other": "Diamonds {{diamonds}}, rocks broken {{rocks}}, geodes opened {{geodes}}"
 }
