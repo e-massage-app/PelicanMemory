@@ -174,10 +174,10 @@ Demande de Jordan : savoir quelles géodes ouvrir (il gaspillait des géodes « 
 - [x] Installée sur son PC (jeu fermé, config intacte)
 - [x] Publiée sur son « Go push » (il garde la 1.10.1 installée : pas d étape 9, il n avait jamais reçu la 1.10.0)
 
-## 2026-10-07 — 1.11.0 « affichettes de la mine et de la caverne » (codée)
+## 2026-10-07 — 1.11.0 « affichettes de la mine et de la caverne » (publiée le 2026-10-07)
 
 Idée de Jordan (affichette près de l'ascenseur, records de la caverne). Il a fait remarquer que la machine du casino montre des stats : vérifié, c'est la fiche du fermier (rien sur les étages), mais le jeu compte bien des totaux (minerais, diamants, roches, géodes) → affichés rétroactivement ; le détail par sortie n'existe pas → noté depuis l'installation. Pour ses tests : `debug warp Mine` / `debug warp SkullCave` dans la console SMAPI (pas de touche de TP dans le mod).
 - [x] `mine-boards` : zones atteintes (code du jeu), iridium « 1 pierre sur N » jusqu'au record (formule exacte, testée), records du jour/sortie, totaux du jeu
 - [x] Installée sur son PC pour test (jeu fermé, config intacte)
 - [x] 1er retour de Jordan : trop de « dès l'étage 2 » répétés, panneau « moche, rajouté » → listes groupées par étage, note épinglée au mur à gauche de l'interrupteur (et à droite de la porte de la caverne), dessinée avec le décor
-- [ ] Test de Jordan, publication
+- [x] Test de Jordan : « PAR-FAIT on push » ; publiée (il garde la 1.11.0 installée)

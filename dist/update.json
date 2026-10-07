@@ -1,5 +1,16 @@
 [
   {
+    "Version": "1.11.0",
+    "Fr": [
+      "Une affichette près de l'ascenseur de la mine : ce qu'on trouve dans chaque zone que vous avez atteinte (filons, gemmes, géodes, monstres), et vos totaux de minerai sur toute la partie.",
+      "Une affichette à l'entrée de la caverne du crâne : votre record, la fréquence de l'iridium jusqu'à votre record, et vos records de sortie (notés à partir de maintenant)."
+    ],
+    "En": [
+      "A board by the mines' elevator: what each zone you've reached holds (ores, gems, geodes, monsters), and your ore totals over the whole game.",
+      "A board at the Skull Cavern entrance: your record, how common iridium is down to your record, and your trip records (kept from now on)."
+    ]
+  },
+  {
     "Version": "1.10.1",
     "Fr": [
       "Correction : une fois le Centre communautaire terminé, les rappels des lots ne réclament plus d'objets pour quelque chose que vous n'avez pas encore découvert."
