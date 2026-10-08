@@ -51,6 +51,10 @@
   "farm-layers.scarecrows": "Layer: scarecrows",
   "farm-layers.all": "Layers: sprinklers + scarecrows",
   "farm-layers.off": "Layers off",
+  "feature.tile-grid.name": "Tile grid (G)",
+  "feature.tile-grid.description": "G shows or hides the outline of every tile in the current location, to plan a layout. Stays on between sessions. The key can be changed in config.json.",
+  "tile-grid.on": "Tile grid shown",
+  "tile-grid.off": "Tile grid hidden",
 
   "feature.purchase-confirm.name": "Confirm shop purchases",
   "feature.purchase-confirm.description": "Asks how many to buy before any purchase: type the number and press Enter, with the total and a cancel button. Also saves shift-clicking to buy in bulk.",

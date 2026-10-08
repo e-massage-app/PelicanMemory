@@ -16,6 +16,7 @@ C'est un **outil de mémoire, pas un guide** : il n'affiche que ce que le joueur
 
 | `museum-hints` | Signale qu'un minerai ou un artefact manque encore au musée, ou qu'il a déjà été donné | Seulement après la première visite du musée ; l'état vient des dons réels (`LibraryMuseum`) |
 | `farm-layers` | Teinte la zone couverte par les arroseurs et épouvantails, et l'aperçu de celui qu'on tient | Ne lit que ce que le joueur a posé lui-même |
+| `tile-grid` | `G` affiche ou masque le contour de toutes les cases du lieu courant (aménagement de la ferme) | Trace seulement des lignes sur la carte où l'on se trouve |
 | `animal-care` | Petite icône au-dessus d'un animal qui attend une caresse, une traite ou une tonte | État réel de l'animal du joueur, rien d'autre |
 | `recipe-lookup` | Survol + `R` : les recettes de cuisine connues qui utilisent l'objet, ce qui manque et dans quel coffre | Seulement les recettes **apprises** (`cookingRecipes`) et les stocks du joueur |
 | `chest-search` | L'infobulle dit combien on en a rangé ; `O` ouvre la liste des coffres qui en contiennent | Ne regarde que les coffres et frigos du joueur, et jamais le coffre déjà ouvert à l'écran |

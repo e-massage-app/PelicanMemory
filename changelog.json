@@ -1,5 +1,14 @@
 [
   {
+    "Version": "1.12.0",
+    "Fr": [
+      "Quadrillage : la touche G affiche ou masque le contour de toutes les cases du lieu où vous êtes, pratique pour réaménager la ferme (touche modifiable dans config.json)."
+    ],
+    "En": [
+      "Tile grid: the G key shows or hides the outline of every tile in the current location, handy to rearrange the farm (key can be changed in config.json)."
+    ]
+  },
+  {
     "Version": "1.11.0",
     "Fr": [
       "Une affichette près de l'ascenseur de la mine : ce qu'on trouve dans chaque zone que vous avez atteinte (filons, gemmes, géodes, monstres), et vos totaux de minerai sur toute la partie.",

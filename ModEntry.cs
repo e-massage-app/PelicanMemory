@@ -11,6 +11,7 @@ using PelicanMemory.Features.CraftingFilters;
 using PelicanMemory.Features.CropTimer;
 using PelicanMemory.Features.DepositEverywhere;
 using PelicanMemory.Features.FarmLayers;
+using PelicanMemory.Features.TileGrid;
 using PelicanMemory.Features.FishHints;
 using PelicanMemory.Features.HorseActions;
 using PelicanMemory.Features.ItemSearch;
@@ -61,6 +62,7 @@ internal class ModEntry : Mod
         registry.Add(new CommunityCenterHintsFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new MuseumHintsFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new FarmLayersFeature(helper, this.Monitor, harmony, settings));
+        registry.Add(new TileGridFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new AnimalCareFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new CropTimerFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new MachineTimerFeature(helper, this.Monitor, harmony, settings));

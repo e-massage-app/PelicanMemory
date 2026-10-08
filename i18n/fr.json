@@ -51,6 +51,10 @@
   "farm-layers.scarecrows": "Calque : épouvantails",
   "farm-layers.all": "Calques : arroseurs + épouvantails",
   "farm-layers.off": "Calques désactivés",
+  "feature.tile-grid.name": "Quadrillage (G)",
+  "feature.tile-grid.description": "G affiche ou masque le contour de toutes les cases du lieu où vous êtes, pour préparer un aménagement. Reste affiché d'une session à l'autre. La touche est modifiable dans config.json.",
+  "tile-grid.on": "Quadrillage affiché",
+  "tile-grid.off": "Quadrillage masqué",
 
   "feature.purchase-confirm.name": "Confirmation des achats",
   "feature.purchase-confirm.description": "Demande la quantité avant tout achat en boutique : tapez le nombre puis Entrée, avec le total et un bouton Annuler. Évite aussi le shift-clic pour acheter par lots.",

@@ -181,3 +181,9 @@ Idée de Jordan (affichette près de l'ascenseur, records de la caverne). Il a f
 - [x] Installée sur son PC pour test (jeu fermé, config intacte)
 - [x] 1er retour de Jordan : trop de « dès l'étage 2 » répétés, panneau « moche, rajouté » → listes groupées par étage, note épinglée au mur à gauche de l'interrupteur (et à droite de la porte de la caverne), dessinée avec le décor
 - [x] Test de Jordan : « PAR-FAIT on push » ; publiée (il garde la 1.11.0 installée)
+
+## 1.12.0 - Quadrillage (demande d Elise, 2026-10-08)
+- [x] Feature `tile-grid` : touche G (config.json), contour de toutes les cases du lieu courant, etat memorise
+- [x] i18n fr/en, README, changelog, version 1.12.0
+- [x] Build OK, deploye en local (config.json intact)
+- [ ] Test en jeu par Jordan / Elise, puis go push
