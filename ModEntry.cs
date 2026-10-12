@@ -1,6 +1,8 @@
 using HarmonyLib;
 using PelicanMemory.Core;
 using PelicanMemory.Features.AnimalCare;
+using PelicanMemory.Features.FairDeadlines;
+using PelicanMemory.Features.QuestTracker;
 using PelicanMemory.Features.CaughtFishTooltip;
 using PelicanMemory.Features.ChestNames;
 using PelicanMemory.Features.CollectionHints;
@@ -70,6 +72,8 @@ internal class ModEntry : Mod
         registry.Add(new PurchaseConfirmFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new PhoneOrdersFeature(helper, this.Monitor, harmony, settings, storage));
         registry.Add(new SharedQuestsFeature(helper, this.Monitor, harmony, settings, store));
+        registry.Add(new QuestTrackerFeature(helper, this.Monitor, harmony, settings));
+        registry.Add(new FairDeadlinesFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new PauseTogetherFeature(helper, this.Monitor, harmony, settings, this.ModManifest.UniqueID));
         registry.Add(new TransferQuantityFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new HorseActionsFeature(helper, this.Monitor, harmony, settings));

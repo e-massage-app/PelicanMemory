@@ -10,7 +10,8 @@ namespace PelicanMemory.Features.FishHints;
 /// <param name="Axis">Which condition this is: <c>season</c>, <c>weather</c>, <c>time</c>, <c>place</c>, <c>level</c> or <c>fight</c>.</param>
 /// <param name="CousinId">The qualified ID of a fish the player has caught under the same condition, or <c>null</c> if there is none.</param>
 /// <param name="PlainKey">A phrase to use instead of a comparison, when the condition is simply "no condition".</param>
-internal record FishHint(string Axis, string? CousinId, string? PlainKey);
+/// <param name="Places">For the place line: where it lives, among the places where the player has already caught a fish.</param>
+internal record FishHint(string Axis, string? CousinId, string? PlainKey, IReadOnlyList<string>? Places = null);
 
 /// <summary>Everything known about one fish, used both as a target and as a possible point of comparison.</summary>
 /// <remarks>Nothing here needs the item registry, so the whole comparison can be checked outside the game.</remarks>
@@ -70,7 +71,7 @@ internal class FishHintResolver
     /// <summary>Get whether the player has been anywhere the fish lives, which is what makes any hint possible.</summary>
     public bool IsReachable(string qualifiedItemId, Func<string, bool> hasVisited)
     {
-        return this.Spawns.GetSpawns(qualifiedItemId).Any(spawn => hasVisited(spawn.LocationName));
+        return this.GetPossibleSpawns(qualifiedItemId).Any(spawn => hasVisited(spawn.LocationName));
     }
 
     /// <summary>Describe an uncaught fish through the fish the player has caught, one line per condition.</summary>
@@ -100,6 +101,12 @@ internal class FishHintResolver
                 continue;
             }
 
+            if (axis == "place")
+            {
+                hints.Add(GetPlaceHint(target, candidates));
+                continue;
+            }
+
             FishProfile? cousin = candidates.FirstOrDefault(profile => Matches(axis, target, profile));
             hints.Add(new FishHint(axis, cousin?.Id, null));
         }
@@ -111,6 +118,45 @@ internal class FishHintResolver
     /*********
     ** Private methods
     *********/
+    /// <summary>Name where the fish lives, but only among the places where the player has already caught something.</summary>
+    /// <remarks>
+    /// "Same place as the carp" alone isn't enough: a carp lives in five places, and the hint can't say which. So the
+    /// places are named, limited to those where the player already caught a fish (they know these waters), and the
+    /// fish compared is the one whose places fit best: the fewest places where this one doesn't live.
+    /// </remarks>
+    internal static FishHint GetPlaceHint(FishProfile target, IReadOnlyCollection<FishProfile> caught)
+    {
+        HashSet<string> fished = new(caught.SelectMany(profile => profile.Places), StringComparer.OrdinalIgnoreCase);
+        string[] places = target.Places
+            .Where(fished.Contains)
+            .OrderBy(place => place, StringComparer.Ordinal)
+            .ToArray();
+        if (places.Length == 0)
+            return new FishHint("place", null, null);
+
+        FishProfile? cousin = caught
+            .Where(profile => profile.Places.Intersect(places, StringComparer.OrdinalIgnoreCase).Any())
+            .OrderBy(profile => profile.Places.Except(target.Places, StringComparer.OrdinalIgnoreCase).Count())
+            .ThenByDescending(profile => profile.Places.Intersect(places, StringComparer.OrdinalIgnoreCase).Count())
+            .ThenBy(profile => profile.InternalName, StringComparer.Ordinal)
+            .FirstOrDefault();
+
+        return new FishHint("place", cousin?.Id, null, places);
+    }
+
+    /// <summary>Get the spawns which can happen in the player's game as it stands.</summary>
+    /// <remarks>
+    /// Some fish only bite while a special order is running: until then they can't be caught anywhere, so they're
+    /// described as out of reach rather than sending the player to fish for them where they can't appear.
+    /// </remarks>
+    private IEnumerable<FishSpawn> GetPossibleSpawns(string qualifiedItemId)
+    {
+        return this.Spawns.GetSpawns(qualifiedItemId).Where(spawn =>
+            string.IsNullOrWhiteSpace(spawn.Condition)
+            || !spawn.Condition.Contains("SPECIAL_ORDER", StringComparison.OrdinalIgnoreCase)
+            || GameStateQuery.CheckConditions(spawn.Condition));
+    }
+
     /// <summary>Get the profiles of every fish the player has caught.</summary>
     private FishProfile[] GetCaughtProfiles(IReadOnlyCollection<string> caught, Func<string, bool> hasVisited)
     {
@@ -135,13 +181,13 @@ internal class FishHintResolver
             return null;
 
         // only places the player has been: a spot they've never seen can neither be recognised nor compared
-        string[] places = this.Spawns.GetSpawns(qualifiedItemId)
+        string[] places = this.GetPossibleSpawns(qualifiedItemId)
             .Where(spawn => hasVisited(spawn.LocationName))
             .Select(spawn => spawn.LocationName)
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToArray();
 
-        Season[] seasons = this.Spawns.GetSpawns(qualifiedItemId)
+        Season[] seasons = this.GetPossibleSpawns(qualifiedItemId)
             .Where(spawn => hasVisited(spawn.LocationName))
             .SelectMany(spawn => spawn.Seasons)
             .Distinct()

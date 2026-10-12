@@ -221,6 +221,41 @@ static void Run()
         }
     }
 
+    // 8. fish hints: the place line names where it lives, among places where something was already caught
+    {
+        Type profileType = mod.GetType("PelicanMemory.Features.FishHints.FishProfile")!;
+        Type resolverType = mod.GetType("PelicanMemory.Features.FishHints.FishHintResolver")!;
+        MethodInfo placeHint = resolverType.GetMethod("GetPlaceHint", BindingFlags.Static | BindingFlags.NonPublic)!;
+
+        object Profile(string id, params string[] places) => profileType.GetConstructors()[0].Invoke(new object[]
+        {
+            id, id, new[] { Season.Spring }, "both", Array.Empty<(int, int)>(), places, "dart", 50, 0, false
+        });
+        (string? Cousin, string[] Places) Hint(object target, params object[] caught)
+        {
+            Array list = Array.CreateInstance(profileType, caught.Length);
+            for (int i = 0; i < caught.Length; i++)
+                list.SetValue(caught[i], i);
+            object hint = placeHint.Invoke(null, new[] { target, list })!;
+            string? cousin = (string?)hint.GetType().GetProperty("CousinId")!.GetValue(hint);
+            var places = (IEnumerable<string>?)hint.GetType().GetProperty("Places")!.GetValue(hint);
+            return (cousin, places?.ToArray() ?? Array.Empty<string>());
+        }
+
+        object carp = Profile("carp", "Backwoods", "BugLand", "Mountain", "Sewer", "Woods");
+        object catfish = Profile("catfish", "Forest", "Town", "Woods");
+        object woodskip = Profile("woodskip", "Woods");
+
+        var h1 = Hint(Profile("lair-fish", "BugLand"), carp, catfish);
+        Check(h1.Cousin == "carp" && h1.Places.SequenceEqual(new[] { "BugLand" }), "8. a fish shared with the carp names its own place, not the carp's five");
+
+        var h2 = Hint(Profile("woods-fish", "Woods"), carp, catfish, woodskip);
+        Check(h2.Cousin == "woodskip" && h2.Places.SequenceEqual(new[] { "Woods" }), "8. the closest fish is compared (same places), not the first broad one");
+
+        var h3 = Hint(Profile("far-fish", "Beach"), carp, catfish);
+        Check(h3.Cousin == null && h3.Places.Length == 0, "8. a place where nothing was ever caught stays unknown");
+    }
+
     Console.WriteLine(failures == 0 ? "\nALL FARM CHECKS PASSED" : $"\n{failures} FAILURES");
     Environment.ExitCode = failures == 0 ? 0 : 1;
 }

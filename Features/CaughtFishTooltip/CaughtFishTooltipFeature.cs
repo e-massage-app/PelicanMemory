@@ -197,9 +197,9 @@ internal class CaughtFishTooltipFeature : FeatureBase
     }
 
     /// <summary>Get a place's display name from its internal name.</summary>
-    private static string GetLocationName(string locationName)
+    private string GetLocationName(string locationName)
     {
-        return Game1.getLocationFromName(locationName)?.DisplayName ?? locationName;
+        return PlaceNames.Get(locationName, this.Helper.Translation);
     }
 
     private string Translate(string key) => this.Helper.Translation.Get(key);

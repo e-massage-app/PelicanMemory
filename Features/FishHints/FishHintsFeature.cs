@@ -143,6 +143,14 @@ internal class FishHintsFeature : FeatureBase
         if (hint.PlainKey != null)
             return this.Helper.Translation.Get($"fish-hints.{hint.PlainKey}");
 
+        if (hint.Places is { Count: > 0 })
+        {
+            string places = string.Join(", ", hint.Places.Select(name => PlaceNames.Get(name, this.Helper.Translation)).Distinct());
+            return hint.CousinId != null
+                ? this.Helper.Translation.Get("fish-hints.place-like", new { places, fish = ItemRegistry.GetDataOrErrorItem(hint.CousinId).DisplayName })
+                : places;
+        }
+
         return hint.CousinId != null
             ? this.Helper.Translation.Get("fish-hints.like", new { fish = ItemRegistry.GetDataOrErrorItem(hint.CousinId).DisplayName })
             : this.Helper.Translation.Get("fish-hints.unknown");

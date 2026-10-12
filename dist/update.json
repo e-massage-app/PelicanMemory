@@ -1,5 +1,27 @@
 [
   {
+    "Version": "1.13.0",
+    "Fr": [
+      "Suivi des quêtes : en haut de l'écran, les quêtes à délai que vous avez prises, avec ce qu'il reste à faire, la progression et les jours restants. Un clic ouvre la quête dans le journal.",
+      "Délais équitables : une quête prise après midi ne perd pas ce jour-là, et les jours de fête (fêtes du village, marché de nuit, festival du désert, derby, SquidFest) mettent les délais en pause."
+    ],
+    "En": [
+      "Quest tracker: at the top of the screen, the quests with a deadline you've taken, with what's left to do, the progress and the days left. Click one to open it in the journal.",
+      "Fair deadlines: a quest taken after noon doesn't lose that day, and festival days (village festivals, night market, desert festival, trout derby, SquidFest) pause the deadlines."
+    ]
+  },
+  {
+    "Version": "1.12.1",
+    "Fr": [
+      "Indices de poissons : l'endroit est maintenant nommé (parmi les lieux où vous avez déjà attrapé quelque chose), au lieu d'un simple « comme tel poisson » qui pouvait vivre à plusieurs endroits.",
+      "Les noms de deux lieux s'affichaient avec leur nom interne dans les infobulles de poissons : corrigé."
+    ],
+    "En": [
+      "Fish hints: the place is now named (among the places where you've already caught something), instead of a plain \"like that fish\" which could live in several places.",
+      "Two places showed their internal name in fish tooltips: fixed."
+    ]
+  },
+  {
     "Version": "1.12.0",
     "Fr": [
       "Quadrillage : la touche G affiche ou masque le contour de toutes les cases du lieu où vous êtes, pratique pour réaménager la ferme (touche modifiable dans config.json)."

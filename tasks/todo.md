@@ -187,3 +187,10 @@ Idée de Jordan (affichette près de l'ascenseur, records de la caverne). Il a f
 - [x] i18n fr/en, README, changelog, version 1.12.0
 - [x] Build OK, deploye en local (config.json intact)
 - [ ] Test en jeu par Jordan / Elise, puis go push
+
+## 1.12.1 - Indices de poissons nommant l'endroit (2026-10-08)
+- [x] Lieu nommé parmi les lieux où le joueur a déjà pêché quelque chose ; poisson comparé le plus proche
+- [x] Poissons liés à une commande spéciale non décrits tant qu'elle n'est pas active
+- [x] Noms de lieux sans traduction du jeu (repaire, marais) fournis par le mod
+- [x] FarmTest (8.) et SearchTest OK ; pas déployé (jeu ouvert)
+- [ ] Test en jeu, puis go push

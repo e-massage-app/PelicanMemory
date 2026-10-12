@@ -25,7 +25,8 @@ internal record FishInfo(bool IsCrabPot, IReadOnlyCollection<WaterType> WaterTyp
 
 /// <summary>One place and season in which a fish can be caught.</summary>
 /// <param name="LocationName">The location's name in <see cref="Farmer.locationsVisited"/>.</param>
-internal record FishSpawn(string LocationName, WaterType WaterType, Season[] Seasons);
+/// <param name="Condition">The game state query gating this spawn in <c>Data/Locations</c>, if any.</param>
+internal record FishSpawn(string LocationName, WaterType WaterType, Season[] Seasons, string? Condition = null);
 
 /// <summary>Reads fish catch conditions from the game data.</summary>
 /// <remarks>
@@ -161,7 +162,7 @@ internal class FishInfoResolver
             string visitedName = GetVisitedName(locationName);
             foreach (SpawnFishData entry in location.Fish)
             {
-                FishSpawn spawn = new(visitedName, GetWaterType(locationName, location, entry), GetSeasons(entry));
+                FishSpawn spawn = new(visitedName, GetWaterType(locationName, location, entry), GetSeasons(entry), entry.Condition);
 
                 if (entry.ItemId != null && entry.ItemId.StartsWith(ItemRegistry.type_object))
                     Add(entry.ItemId, spawn);
