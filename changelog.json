@@ -1,5 +1,20 @@
 [
   {
+    "Version": "1.15.0",
+    "Fr": [
+      "Presets d'équipement : un bouton dans l'inventaire ouvre 5 presets. Enregistrez votre équipement et votre sac, puis remettez-les en un clic depuis votre ferme : les objets viennent de vos coffres, le reste y retourne (et pour un objet sans coffre, vous choisissez lequel, retenu ensuite), ce qui manque est listé dans le chat.",
+      "Chance du jour : l'esprit de la diseuse de bonne aventure de la télé s'affiche sur l'horloge, entre la météo et la saison. Au survol, ce qu'elle dirait aujourd'hui.",
+      "Recettes de la télé : le dimanche et le mercredi matin, un rappel tant qu'il vous manque des recettes de l'émission de cuisine, avec le compte.",
+      "Mode donjon (multi) : sous terre, si l'un de vous est dans un menu, un dialogue ou en train de manger, l'horloge s'arrête pour tous, et les monstres ne peuvent pas le blesser tant qu'un menu est ouvert, comme en solo."
+    ],
+    "En": [
+      "Outfit presets: a button in the inventory opens 5 presets. Save your equipment and bag, then put them back on in one click from your farm: items come from your chests, the rest goes back there (for an item with no chest, you pick one, remembered after), what's missing is listed in the chat.",
+      "Daily luck: the TV fortune teller's spirit shows on the clock, between the weather and the season. Hover it for what she'd say today.",
+      "TV recipes: on Sunday and Wednesday mornings, a reminder as long as you're missing cooking show recipes, with the count.",
+      "Dungeon mode (multiplayer): underground, when one of you is in a menu, a dialogue or eating, the clock stops for everyone, and monsters can't hurt them while a menu is open, as in single-player."
+    ]
+  },
+  {
     "Version": "1.14.0",
     "Fr": [
       "Onglet Monstres dans Collections : la tête de chaque monstre vaincu (une silhouette sinon), combien vous en avez battu, où vous en êtes des objectifs de Gil et où le trouver parmi les lieux que vous connaissez. Une famille terminée est assombrie et cochée ; un bouton passe de la vue par monstre à la vue par famille.",

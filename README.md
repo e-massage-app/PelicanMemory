@@ -219,6 +219,11 @@ La ligne de l'onglet apparaît toute seule.
 - Onglet Relations simulé sur la sauvegarde : les 30 villageois rencontrés affichent tous une info, et aucun bâtiment non visité n'est nommé (Robin → « Vers : Montagnes »).
 
 ## À valider en jeu
+- [ ] 1.15.0 Inventaire : bouton (silhouette de chemise) sous « Trier » ; menu des 5 presets ; Enregistrer ici → nom ; Remplacer/Supprimer demandent confirmation ; Appliquer grisé hors de la ferme.
+- [ ] 1.15.0 Appliquer sur la ferme : équipement + cases du sac remis, quantités exactes ; le reste retourne dans son coffre d'origine ; manquants listés dans le chat ; rien de perdu ; en duo, un coffre ouvert par l'autre est laissé de côté.
+- [ ] 1.15.0 Horloge : visage animé (crâne / chauve-souris / feu follet / gemme / étoile) entre météo et saison ; survol = phrase de la télé du jour.
+- [ ] 1.15.0 Mode donjon (duo, les deux en 1.15.0) : sous terre, un menu / manger / dialogue de l'un arrête l'horloge des deux ; aucun dégât tant qu'un menu est ouvert sous terre ; rien de changé à la ferme.
+- [ ] 1.15.0 Dimanche / mercredi matin : message « recettes de la télé x / 32 » tant qu'il en manque.
 - [ ] 1.14.0 Collections : 9 onglets de côté, resserrés, le dernier (tête de mort) tient dans le cadre ; onglet Monstres : têtes des monstres vaincus, silhouettes sinon (« ???? » au survol) ; famille de Gil finie = assombrie + coche ; infobulle : vaincus, objectif de Gil, lieux connus (le plus rentable marqué) ; bouton « Vue : par monstre / par famille » en bas, mémorisé.
 - [ ] 1.14.0 Collections > Notes secrètes : coche en bas à droite des notes faites, sous l'infobulle ; titre suivi de « Fait », « Se cochera toute seule », « Clic droit pour cocher » ou « Cadeaux offerts x / y » ; clic droit coche/décoche une note manuelle, ne fait rien (son « cancel ») sur une note automatique ; la coche manuelle survit à une nuit.
 - [ ] L'onglet (livre bleu) apparaît à droite de « Quitter », avec l'infobulle « Pelican Memory » au survol.

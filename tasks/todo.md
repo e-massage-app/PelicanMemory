@@ -218,4 +218,28 @@ Vérification
 - [x] Logique rejouée : détection sur joueur nu (tests/SearchTest §5, 17 contrôles OK) ; compteurs de la chasse relus sur une copie de la sauvegarde Elan
 - [x] 1.14.0 : manifest + changelog + README « À valider en jeu »
 - [x] Build avec `EnableModDeploy=false` tant que Jordan n'a pas dit oui pour déployer dans Mods
-- [ ] Test en jeu par Jordan, puis publication sur son feu vert
+- [x] Publiée le 15/10 à la demande de Jordan (« push direct, on va jouer »), AVANT son test en jeu : attendre ses retours
+
+## 1.15.0 - Presets d'équipement, chance du jour, recettes de la télé (demande du 2026-10-15)
+Choix de Jordan : presets = « photo de la tenue », 5 max, Enregistrer sous / renommer / supprimer ; à l'application, les
+objets en trop retournent d'où ils viennent (sinon règle Ranger partout, sinon restent dans le sac) ; consommables à la
+quantité exacte, manque annoncé dans le chat ; seulement sur la ferme, avec les coffres de la ferme. Télé : rappel GÉNÉRAL
+dimanche + mercredi tant qu'il manque des recettes.
+- [x] `luck-indicator` : visage de l'esprit de la télé (Cursors 540/592/644, 333/346, 13 × 13, 4 images) dans l'encoche
+      du cadran entre météo et saison (×2), seuils du jeu (TV.setFortuneOverlay : ±0,02 / ±0,07) ; survol = la phrase de la
+      télé (TV.getFortuneForecast), calculée une fois par jour
+- [x] `tv-recipes` : 32 recettes (Data/TV/CookingChannel) ; dimanche et mercredi matin, s'il en manque : message ;
+      compteur x / 32 dans le message ; quand tout est appris, un dernier message puis silence
+- [x] `loadouts` : bouton dans l'inventaire (ferme seulement) → menu de 5 presets (Appliquer, Enregistrer ici,
+      Renommer, Supprimer) ; équipement (chapeau, haut, bas, bottes, 2 anneaux, bibelots) + 36 cases du sac ; empreinte
+      des objets uniques (outils, armes, anneaux, bibelots) ; origines mémorisées par sauvegarde (PlayerStore)
+- [x] Tests hors jeu (SearchTest) : patchs sur la vraie DLL, logique d'application sur des inventaires factices
+- [x] Tests SearchTest §7 : seuils de chance, compte des recettes, empreintes, tour complet de preset (prise sac + coffre,
+      quantités, retour au coffre d'origine, manquants) — tous OK ; remis au sac sans addItemToInventory (pas de notice
+      « objet reçu » ni d'effet quête/collection)
+- [x] Mode donjon (pause-together) : sous terre (MineShaft = mine + caverne + carrière, VolcanoDungeon), l'hôte arrête
+      l'horloge si le joueur sous terre demande une pause ; pas de dégâts locaux tant qu'un menu/dialogue est ouvert
+      (Farmer.takeDamage) ; l'animation de repas est déjà invincible dans le jeu (CanBeDamaged : !isEating)
+- [x] Installé dans Mods le 15/10 au soir (accord de Jordan) ; test prévu le 16/10
+- [ ] Test en jeu par Jordan (solo : presets, chance, télé) ; duo : Elise doit avoir la 1.15.0 (publication ou installation)
+- [x] Publiée le 15/10 au soir après le test solo de Jordan (« tout est top »)

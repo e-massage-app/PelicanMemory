@@ -20,6 +20,12 @@ namespace PelicanMemory.Features.PauseTogether;
 ///
 /// Only when every player has this mod (an old version would never report its menus), and never with a dedicated
 /// server, whose host isn't a real player. The host's own "/pause" chat command is separate and still works.
+///
+/// Dungeon mode (on by default): underground (the mines, the Skull Cavern, the quarry mine, the volcano), one player is
+/// enough. When the one underground would pause alone (a menu, the "eat it?" question, a dialogue, a cutscene, eating),
+/// the clock stops for everyone; and while a menu or dialogue is open there, monsters can't hurt them, as in
+/// single-player where a menu freezes the world (the game already makes a player unhittable while eating). The other
+/// player can still move during those stops: Jordan's call, they play fair.
 /// </remarks>
 internal class PauseTogetherFeature : FeatureBase
 {
@@ -31,6 +37,9 @@ internal class PauseTogetherFeature : FeatureBase
 
     /// <summary>The first version of the mod which reports its player's menus.</summary>
     private static readonly ISemanticVersion MinimumVersion = new SemanticVersion("1.9.0");
+
+    /// <summary>The setting for dungeon mode.</summary>
+    private const string DungeonKey = "pause-together.dungeon";
 
     private readonly string ModId;
 
@@ -50,10 +59,29 @@ internal class PauseTogetherFeature : FeatureBase
     /*********
     ** Protected methods
     *********/
+    /// <inheritdoc />
+    public override IEnumerable<StardewValley.Menus.OptionsElement> CreateOptionRows()
+    {
+        yield return new UI.FeatureCheckbox(
+            label: this.Helper.Translation.Get("option.pause-dungeon"),
+            description: this.Helper.Translation.Get("option.pause-dungeon.description"),
+            isChecked: this.Settings.GetFlag(DungeonKey, true),
+            onToggled: value => this.Settings.SetFlag(DungeonKey, value)
+        );
+    }
+
+    /// <summary>Get whether a place is underground: the mines' levels (Skull Cavern and quarry mine included) or the volcano.</summary>
+    internal static bool IsUnderground(GameLocation? location)
+    {
+        return location is StardewValley.Locations.MineShaft or StardewValley.Locations.VolcanoDungeon;
+    }
+
     protected override void OnEnable()
     {
         Instance = this;
         this.Transpiler(AccessTools.Method(typeof(Game1), "Update", new[] { typeof(Microsoft.Xna.Framework.GameTime) }), typeof(PauseTogetherFeature), nameof(Transpile_Update));
+        this.Postfix(AccessTools.Method(typeof(Game1), "Update", new[] { typeof(Microsoft.Xna.Framework.GameTime) }), typeof(PauseTogetherFeature), nameof(After_Update));
+        this.Prefix(AccessTools.Method(typeof(Farmer), nameof(Farmer.takeDamage)), typeof(PauseTogetherFeature), nameof(Before_TakeDamage));
     }
 
     protected override void OnDisable()
@@ -89,6 +117,36 @@ internal class PauseTogetherFeature : FeatureBase
         code[calls[1]].opcode = OpCodes.Call;
         code[calls[1]].operand = AccessTools.Method(typeof(PauseTogetherFeature), nameof(UseSharedPause));
         return code;
+    }
+
+    /// <summary>Dungeon mode, on the host: one player underground who would pause alone stops the clock for everyone.</summary>
+    private static void After_Update()
+    {
+        if (Instance is null || !Context.IsWorldReady || !Game1.IsMultiplayer || !Game1.IsMasterGame || Game1.netWorldState.Value.IsTimePaused)
+            return;
+
+        try
+        {
+            if (!Instance.Settings.GetFlag(DungeonKey, true) || !Instance.CanPauseTogether())
+                return;
+            if (Game1.getOnlineFarmers().Any(farmer => farmer.requestingTimePause.Value && IsUnderground(farmer.currentLocation)))
+                Game1.netWorldState.Value.IsTimePaused = true;
+        }
+        catch (Exception ex)
+        {
+            Instance.Monitor.LogOnce($"Failed to apply the dungeon pause:\n{ex}", LogLevel.Error);
+        }
+    }
+
+    /// <summary>Dungeon mode, on each player's own game: no damage underground while a menu or dialogue is open, as
+    /// in single-player where it freezes the world.</summary>
+    private static bool Before_TakeDamage(Farmer __instance)
+    {
+        if (Instance is null || !Game1.IsMultiplayer || !__instance.IsLocalPlayer || !IsUnderground(__instance.currentLocation))
+            return true;
+        if (Game1.activeClickableMenu is null or StardewValley.Menus.BobberBar || !Instance.Settings.GetFlag(DungeonKey, true))
+            return true;
+        return false;
     }
 
     /// <summary>Every player says whether they would pause if they were alone, as split-screen players do.</summary>

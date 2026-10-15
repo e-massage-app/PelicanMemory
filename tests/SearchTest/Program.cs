@@ -311,6 +311,116 @@ static void Run()
         }
     }
 
+    // 7. presets, luck on the clock, TV recipes
+    {
+        // a bare player with a bag, as the game's inventory
+        Farmer player = (Farmer)System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(typeof(Farmer));
+        foreach (FieldInfo field in typeof(Farmer).GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+        {
+            if (field.GetValue(player) is null && (field.FieldType.Namespace?.StartsWith("Netcode") == true || field.FieldType.Namespace == "StardewValley.Network") && !field.FieldType.IsAbstract && field.FieldType.GetConstructor(Type.EmptyTypes) != null)
+                field.SetValue(player, Activator.CreateInstance(field.FieldType));
+        }
+        player.stats = new Stats();
+        player.netItems.Value = new StardewValley.Inventories.Inventory();
+        typeof(Farmer).GetField("buffs")!.SetValue(player, new StardewValley.Buffs.BuffManager());   // equipping marks the buffs dirty
+        player.maxItems.Value = 36;
+        for (int i = 0; i < 36; i++)
+            player.Items.Add(null);
+        typeof(Game1).GetField("_player", BindingFlags.Static | BindingFlags.NonPublic)!.SetValue(null, player);
+
+        // luck: the TV's five faces and thresholds
+        MethodInfo face = T("PelicanMemory.Features.LuckIndicator.LuckIndicatorFeature").GetMethod("GetFace", BindingFlags.Static | BindingFlags.NonPublic)!;
+        int X(double luck) => ((Rectangle)face.Invoke(null, new object[] { luck })!).X + ((Rectangle)face.Invoke(null, new object[] { luck })!).Y * 1000;
+        Check(X(-0.1) == 592 + 346000 && X(-0.05) == 540 + 346000 && X(0) == 540 + 333000 && X(0.05) == 592 + 333000 && X(0.1) == 644 + 333000 && X(-0.02) == 540 + 333000,
+            "7. luck: skull, bat, wisp, gem, star at the TV's own thresholds (±0.02, ±0.07)");
+
+        // TV recipes
+        MethodInfo count = T("PelicanMemory.Features.TvRecipes.TvRecipesFeature").GetMethod("CountRecipes", BindingFlags.Static | BindingFlags.NonPublic)!;
+        (int, int) Count() => ((int, int))count.Invoke(null, new object[] { player })!;
+        var before = Count();
+        string first = DataLoader.Tv_CookingChannel(Game1.content)["1"].Split('/')[0];
+        player.cookingRecipes.Add(first, 0);
+        Check(before == (0, 32) && Count() == (1, 32), $"7. TV recipes: 32 in the show, learned ones counted ({before} then {Count()})");
+
+        // fingerprints
+        Type loadoutType = T("PelicanMemory.Features.Loadouts.Loadout");
+        MethodInfo keyOf = loadoutType.GetMethod("KeyOf")!, match = loadoutType.GetMethod("Match")!, describe = loadoutType.GetMethod("Describe")!;
+        Item coffee = ItemRegistry.Create("(O)395", 10), goldCoffee = ItemRegistry.Create("(O)395", 3, 2), stone = ItemRegistry.Create("(O)390", 5);
+        object coffeeWanted = describe.Invoke(null, new object?[] { coffee })!;
+        int M(object wanted, Item item) => (int)match.Invoke(null, new[] { wanted, item })!;
+        Check((string)keyOf.Invoke(null, new object[] { coffee })! != (string)keyOf.Invoke(null, new object[] { goldCoffee })! && M(coffeeWanted, coffee) == 2 && M(coffeeWanted, goldCoffee) == 1 && M(coffeeWanted, stone) == 0,
+            "7. presets: the very same item before one of the same kind, never another item");
+
+        // a whole round: a preset taken from a chest, then an empty preset puts everything back where it came from
+        Type itemType = T("PelicanMemory.Features.Loadouts.LoadoutItem");
+        object Want(string id, int n) => Activator.CreateInstance(itemType, id, n, (string)keyOf.Invoke(null, new object[] { ItemRegistry.Create(id) })!, id)!;
+        Type listType = typeof(List<>).MakeGenericType(itemType);
+        Type dictType = typeof(Dictionary<,>).MakeGenericType(typeof(string), itemType);
+        object Loadout(Dictionary<string, object?> equip, params object?[] slots)
+        {
+            IDictionary d = (IDictionary)Activator.CreateInstance(dictType)!;
+            foreach (var (k, v) in equip)
+                d[k] = v;
+            IList l = (IList)Activator.CreateInstance(listType)!;
+            foreach (object? s in slots)
+                l.Add(s);
+            return Activator.CreateInstance(loadoutType, "Essai", d, l)!;
+        }
+
+        StardewValley.Objects.Chest chest = new(true);
+        chest.Items.Add(ItemRegistry.Create("(O)395", 30));
+        chest.Items.Add(ItemRegistry.Create("(B)506"));
+        chest.Items.Add(ItemRegistry.Create("(O)530"));
+        player.Items[0] = ItemRegistry.Create("(O)390", 5);
+        player.Items[3] = ItemRegistry.Create("(W)4");
+        player.Equip((StardewValley.Objects.Ring)ItemRegistry.Create("(O)529"), player.leftRing);
+
+        Type applier = T("PelicanMemory.Features.Loadouts.LoadoutApplier");
+        Type refType = T("PelicanMemory.Features.Loadouts.ChestRef");
+        IDictionary origins = (IDictionary)Activator.CreateInstance(typeof(Dictionary<,>).MakeGenericType(typeof(string), refType))!;
+        object Apply(object loadout) => applier.GetMethod("Apply")!.Invoke(null, new object[] { player, loadout, new List<StardewValley.Objects.Chest> { chest }, origins })!;
+        int InChest(string id) => chest.Items.Where(i => i?.QualifiedItemId == id).Sum(i => i!.Stack);
+        int InBag(string id) => player.Items.Where(i => i?.QualifiedItemId == id).Sum(i => i!.Stack);
+
+        object report = Apply(Loadout(new() { ["Boots"] = Want("(B)506", 1), ["LeftRing"] = Want("(O)530", 1) }, Want("(O)395", 20), Want("(W)4", 1)));
+        IList missing = (IList)report.GetType().GetProperty("Missing")!.GetValue(report)!;
+        Check(player.Items[0]?.QualifiedItemId == "(O)395" && player.Items[0]!.Stack == 20 && player.Items[1]?.QualifiedItemId == "(W)4"
+              && player.boots.Value?.QualifiedItemId == "(B)506" && player.leftRing.Value?.QualifiedItemId == "(O)530" && InChest("(O)395") == 10 && missing.Count == 0,
+            "7. presets: each slot and piece of equipment taken from the bag or the chest, in the preset's order and quantities");
+        IList homeless = (IList)report.GetType().GetProperty("Homeless")!.GetValue(report)!;
+        Check(InBag("(O)529") == 1 && InBag("(O)390") == 5 && homeless.Count == 2,
+            "7. presets: what has no chest of its own stays in the bag and is listed for the player to choose a chest (never a random one)");
+        report = Apply(Loadout(new()));
+        Check(InChest("(O)395") == 30 && InChest("(B)506") == 1 && InChest("(O)530") == 1 && player.boots.Value is null && InBag("(O)395") == 0,
+            "7. presets: an empty preset puts every taken item back in the chest it came from");
+
+        report = Apply(Loadout(new(), Want("(O)395", 50)));
+        missing = (IList)report.GetType().GetProperty("Missing")!.GetValue(report)!;
+        Check(InBag("(O)395") == 30 && missing.Count == 1, "7. presets: what's missing is reported, never made up");
+
+        try
+        {
+            Harmony harmony = new("PelicanMemory.SearchTest.Presets");
+            Type luck = T("PelicanMemory.Features.LuckIndicator.LuckIndicatorFeature"), loadouts = T("PelicanMemory.Features.Loadouts.LoadoutsFeature");
+            harmony.Patch(AccessTools.Method(typeof(StardewValley.Menus.DayTimeMoneyBox), "draw", new[] { typeof(Microsoft.Xna.Framework.Graphics.SpriteBatch) }), postfix: new HarmonyMethod(luck.GetMethod("After_Draw", BindingFlags.Static | BindingFlags.NonPublic)!));
+            harmony.Patch(AccessTools.Method(typeof(StardewValley.Menus.InventoryPage), "draw", new[] { typeof(Microsoft.Xna.Framework.Graphics.SpriteBatch) }), postfix: new HarmonyMethod(loadouts.GetMethod("After_Draw", BindingFlags.Static | BindingFlags.NonPublic)!));
+            harmony.Patch(AccessTools.Method(typeof(StardewValley.Menus.InventoryPage), "receiveLeftClick"), prefix: new HarmonyMethod(loadouts.GetMethod("Before_ReceiveLeftClick", BindingFlags.Static | BindingFlags.NonPublic)!));
+            Type pause = T("PelicanMemory.Features.PauseTogether.PauseTogetherFeature");
+            harmony.Patch(AccessTools.Method(typeof(Game1), "Update", new[] { typeof(Microsoft.Xna.Framework.GameTime) }), postfix: new HarmonyMethod(pause.GetMethod("After_Update", BindingFlags.Static | BindingFlags.NonPublic)!));
+            harmony.Patch(AccessTools.Method(typeof(Farmer), "takeDamage"), prefix: new HarmonyMethod(pause.GetMethod("Before_TakeDamage", BindingFlags.Static | BindingFlags.NonPublic)!));
+            MethodInfo under = pause.GetMethod("IsUnderground", BindingFlags.Static | BindingFlags.NonPublic)!;
+            Check((bool)under.Invoke(null, new object?[] { System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(typeof(StardewValley.Locations.MineShaft)) })!
+                  && (bool)under.Invoke(null, new object?[] { System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(typeof(StardewValley.Locations.VolcanoDungeon)) })!
+                  && !(bool)under.Invoke(null, new object?[] { System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(typeof(StardewValley.Farm)) })!,
+                  "7. dungeon mode: the mines' levels (cavern included) and the volcano count as underground, the farm doesn't");
+            Check(AccessTools.Method(typeof(StardewValley.Objects.TV), "getFortuneForecast", new[] { typeof(Farmer) }) != null, "7. the hooks apply to the game (clock, inventory, dungeon pause, damage), and the TV's forecast is there to read");
+        }
+        catch (Exception ex)
+        {
+            Check(false, $"7. presets / luck hooks: {ex.InnerException?.Message ?? ex.Message}");
+        }
+    }
+
     Console.WriteLine(failures == 0 ? "\nALL SEARCH CHECKS PASSED" : $"\n{failures} FAILURES");
     Environment.ExitCode = failures == 0 ? 0 : 1;
 }
