@@ -325,7 +325,7 @@ internal class CollectionHintsFeature : FeatureBase
                 "locationVisited" => GetStrings(value).Any(player.locationsVisited.Contains),
                 "mineLevel" => value.TryGetInt32(out int level) && player.deepestMineLevel >= level,
                 "skullCavern" => player.deepestMineLevel > 120 || player.locationsVisited.Contains("SkullCave"),
-                "volcano" => player.locationsVisited.Contains("VolcanoDungeon0"),
+                "volcano" => GeneratedLevels.HasBeenInVolcano(player),
                 "monsterKilled" => GetStrings(value).Any(name => Game1.stats.getMonstersKilled(name) > 0),
                 "fishingTreasure" => Game1.stats.Get("FishingTreasures") > 0,
                 "panned" => Game1.stats.Get("TimesPanned") > 0,

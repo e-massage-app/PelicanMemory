@@ -1,0 +1,940 @@
+{
+ "Monsters": [
+  {
+   "Key": "Green Slime",
+   "Texture": "Characters\\Monsters\\Green Slime",
+   "Icon": [
+    0,
+    264,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 2,
+     "To": 30
+    },
+    {
+     "Kind": "mine",
+     "From": 6,
+     "To": 29,
+     "Note": "infested"
+    },
+    {
+     "Kind": "location",
+     "Names": [
+      "Woods"
+     ],
+     "Note": "spring-summer",
+     "Best": true
+    },
+    {
+     "Kind": "farm"
+    }
+   ]
+  },
+  {
+   "Key": "Bug",
+   "Texture": "Characters\\Monsters\\Bug",
+   "Icon": [
+    0,
+    0,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 2,
+     "To": 39,
+     "Best": true
+    },
+    {
+     "Kind": "cavern",
+     "From": 1,
+     "Note": "armored"
+    }
+   ]
+  },
+  {
+   "Key": "Duggy",
+   "Texture": "Characters\\Monsters\\Duggy",
+   "Icon": [
+    0,
+    32,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 2,
+     "To": 30
+    },
+    {
+     "Kind": "mine",
+     "From": 13,
+     "To": 13,
+     "Best": true
+    }
+   ]
+  },
+  {
+   "Key": "Rock Crab",
+   "Texture": "Characters\\Monsters\\Rock Crab",
+   "Icon": [
+    48,
+    106,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 2,
+     "To": 30,
+     "Best": true
+    }
+   ]
+  },
+  {
+   "Key": "Grub",
+   "Texture": "Characters\\Monsters\\Grub",
+   "Icon": [
+    0,
+    8,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 15,
+     "To": 30
+    },
+    {
+     "Kind": "location",
+     "Names": [
+      "BugLand"
+     ],
+     "Best": true
+    }
+   ]
+  },
+  {
+   "Key": "Fly",
+   "Texture": "Characters\\Monsters\\Fly",
+   "Icon": [
+    0,
+    8,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 11,
+     "To": 29
+    },
+    {
+     "Kind": "location",
+     "Names": [
+      "BugLand"
+     ],
+     "Best": true
+    }
+   ]
+  },
+  {
+   "Key": "Bat",
+   "Texture": "Characters\\Monsters\\Bat",
+   "Icon": [
+    0,
+    5,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 31,
+     "To": 39,
+     "Best": true
+    },
+    {
+     "Kind": "farm"
+    }
+   ]
+  },
+  {
+   "Key": "Stone Golem",
+   "Texture": "Characters\\Monsters\\Stone Golem",
+   "Icon": [
+    0,
+    5,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 31,
+     "To": 39,
+     "Best": true
+    }
+   ]
+  },
+  {
+   "Key": "Frost Jelly",
+   "Texture": "Characters\\Monsters\\Green Slime",
+   "Icon": [
+    16,
+    264,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 41,
+     "To": 79,
+     "Best": true
+    },
+    {
+     "Kind": "location",
+     "Names": [
+      "Woods"
+     ],
+     "Note": "autumn-winter"
+    },
+    {
+     "Kind": "farm"
+    }
+   ]
+  },
+  {
+   "Key": "Frost Bat",
+   "Texture": "Characters\\Monsters\\Frost Bat",
+   "Icon": [
+    0,
+    5,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 41,
+     "To": 79,
+     "Best": true
+    },
+    {
+     "Kind": "farm"
+    }
+   ]
+  },
+  {
+   "Key": "Dust Spirit",
+   "Texture": "Characters\\Monsters\\Dust Spirit",
+   "Icon": [
+    0,
+    9,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 41,
+     "To": 79,
+     "Best": true
+    }
+   ]
+  },
+  {
+   "Key": "Ghost",
+   "Texture": "Characters\\Monsters\\Ghost",
+   "Icon": [
+    0,
+    8,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 51,
+     "To": 79,
+     "Note": "one-per-floor"
+    }
+   ]
+  },
+  {
+   "Key": "Skeleton",
+   "Texture": "Characters\\Monsters\\Skeleton",
+   "Icon": [
+    0,
+    0,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 70,
+     "To": 79,
+     "Best": true
+    },
+    {
+     "Kind": "quarry"
+    }
+   ]
+  },
+  {
+   "Key": "Sludge",
+   "Texture": "Characters\\Monsters\\Green Slime",
+   "Icon": [
+    32,
+    264,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 81,
+     "To": 119,
+     "Best": true
+    },
+    {
+     "Kind": "cavern",
+     "From": 1
+    },
+    {
+     "Kind": "quarry"
+    },
+    {
+     "Kind": "location",
+     "Names": [
+      "IslandSecret"
+     ]
+    },
+    {
+     "Kind": "farm"
+    }
+   ]
+  },
+  {
+   "Key": "Lava Bat",
+   "Texture": "Characters\\Monsters\\Lava Bat",
+   "Icon": [
+    0,
+    5,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 81,
+     "To": 119
+    },
+    {
+     "Kind": "mine",
+     "From": 110,
+     "To": 119,
+     "Note": "dark",
+     "Best": true
+    },
+    {
+     "Kind": "cavern",
+     "From": 20,
+     "Note": "floors-20-40"
+    },
+    {
+     "Kind": "farm"
+    }
+   ]
+  },
+  {
+   "Key": "Lava Crab",
+   "Texture": "Characters\\Monsters\\Lava Crab",
+   "Icon": [
+    48,
+    106,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 81,
+     "To": 119,
+     "Best": true
+    }
+   ]
+  },
+  {
+   "Key": "Shadow Brute",
+   "Texture": "Characters\\Monsters\\Shadow Brute",
+   "Icon": [
+    0,
+    0,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 81,
+     "To": 119,
+     "Best": true
+    },
+    {
+     "Kind": "farm"
+    }
+   ]
+  },
+  {
+   "Key": "Shadow Shaman",
+   "Texture": "Characters\\Monsters\\Shadow Shaman",
+   "Icon": [
+    0,
+    8,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 81,
+     "To": 119
+    }
+   ]
+  },
+  {
+   "Key": "Metal Head",
+   "Texture": "Characters\\Monsters\\Metal Head",
+   "Icon": [
+    0,
+    0,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 81,
+     "To": 119
+    }
+   ]
+  },
+  {
+   "Key": "Squid Kid",
+   "Texture": "Characters\\Monsters\\Squid Kid",
+   "Icon": [
+    0,
+    0,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 90,
+     "To": 119,
+     "Best": true
+    },
+    {
+     "Kind": "cavern",
+     "From": 1,
+     "Note": "dangerous"
+    }
+   ]
+  },
+  {
+   "Key": "Haunted Skull",
+   "Texture": "Characters\\Monsters\\Haunted Skull",
+   "Icon": [
+    0,
+    0,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "quarry",
+     "Best": true
+    },
+    {
+     "Kind": "mine",
+     "From": 70,
+     "To": 79,
+     "Note": "dangerous"
+    }
+   ]
+  },
+  {
+   "Key": "Big Slime",
+   "Texture": "Characters\\Monsters\\Big Slime",
+   "Icon": [
+    0,
+    0,
+    32,
+    32
+   ],
+   "Tint": [
+    110,
+    190,
+    40
+   ],
+   "Places": [
+    {
+     "Kind": "cavern",
+     "From": 1,
+     "Best": true
+    },
+    {
+     "Kind": "mine",
+     "From": 6,
+     "To": 29,
+     "Note": "infested"
+    },
+    {
+     "Kind": "mine",
+     "From": 46,
+     "To": 69,
+     "Note": "infested"
+    }
+   ]
+  },
+  {
+   "Key": "Serpent",
+   "Texture": "Characters\\Monsters\\Serpent",
+   "Icon": [
+    0,
+    0,
+    32,
+    32
+   ],
+   "Places": [
+    {
+     "Kind": "cavern",
+     "From": 1,
+     "Best": true
+    },
+    {
+     "Kind": "farm"
+    }
+   ]
+  },
+  {
+   "Key": "Iridium Bat",
+   "Texture": "Characters\\Monsters\\Iridium Bat",
+   "Icon": [
+    0,
+    5,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "cavern",
+     "From": 51
+    },
+    {
+     "Kind": "cavern",
+     "From": 60,
+     "Note": "every-20",
+     "Best": true
+    },
+    {
+     "Kind": "farm"
+    }
+   ]
+  },
+  {
+   "Key": "Iridium Crab",
+   "Texture": "Characters\\Monsters\\Iridium Crab",
+   "Icon": [
+    48,
+    106,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "cavern",
+     "From": 26,
+     "Best": true
+    }
+   ]
+  },
+  {
+   "Key": "Mummy",
+   "Texture": "Characters\\Monsters\\Mummy",
+   "Icon": [
+    0,
+    0,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "cavern",
+     "From": 1,
+     "Note": "dark",
+     "Best": true
+    }
+   ]
+  },
+  {
+   "Key": "Carbon Ghost",
+   "Texture": "Characters\\Monsters\\Carbon Ghost",
+   "Icon": [
+    0,
+    8,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "cavern",
+     "From": 1,
+     "Note": "dark",
+     "Best": true
+    },
+    {
+     "Kind": "mine",
+     "From": 31,
+     "To": 40,
+     "Note": "dangerous"
+    }
+   ]
+  },
+  {
+   "Key": "Pepper Rex",
+   "Texture": "Characters\\Monsters\\Pepper Rex",
+   "Icon": [
+    2,
+    1,
+    28,
+    28
+   ],
+   "Places": [
+    {
+     "Kind": "cavern",
+     "From": 6
+    },
+    {
+     "Kind": "cavern",
+     "From": 7,
+     "Note": "dino",
+     "Best": true
+    }
+   ]
+  },
+  {
+   "Key": "Tiger Slime",
+   "Texture": "Characters\\Monsters\\Tiger Slime",
+   "Icon": [
+    0,
+    8,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "volcano",
+     "Best": true
+    },
+    {
+     "Kind": "location",
+     "Names": [
+      "IslandWest",
+      "IslandSecret"
+     ]
+    }
+   ]
+  },
+  {
+   "Key": "Magma Sprite",
+   "Texture": "Characters\\Monsters\\Magma Sprite",
+   "Icon": [
+    0,
+    0,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "volcano"
+    }
+   ]
+  },
+  {
+   "Key": "Magma Sparker",
+   "Texture": "Characters\\Monsters\\Magma Sparker",
+   "Icon": [
+    0,
+    0,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "volcano"
+    }
+   ]
+  },
+  {
+   "Key": "Magma Duggy",
+   "Texture": "Characters\\Monsters\\Magma Duggy",
+   "Icon": [
+    0,
+    32,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "volcano"
+    }
+   ]
+  },
+  {
+   "Key": "False Magma Cap",
+   "Texture": "Characters\\Monsters\\False Magma Cap",
+   "Icon": [
+    0,
+    8,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "volcano"
+    }
+   ]
+  },
+  {
+   "Key": "Hot Head",
+   "Texture": "Characters\\Monsters\\Hot Head",
+   "Icon": [
+    0,
+    0,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "volcano"
+    }
+   ]
+  },
+  {
+   "Key": "Lava Lurk",
+   "Texture": "Characters\\Monsters\\Lava Lurk",
+   "Icon": [
+    0,
+    16,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "volcano"
+    }
+   ]
+  },
+  {
+   "Key": "Spiker",
+   "Texture": "Characters\\Monsters\\Spiker",
+   "Icon": [
+    0,
+    0,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "volcano"
+    }
+   ]
+  },
+  {
+   "Key": "Dwarvish Sentry",
+   "Texture": "Characters\\Monsters\\Dwarvish Sentry",
+   "Icon": [
+    0,
+    0,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "volcano",
+     "Note": "barrels"
+    }
+   ]
+  },
+  {
+   "Key": "Wilderness Golem",
+   "Texture": "Characters\\Monsters\\Wilderness Golem",
+   "Icon": [
+    0,
+    8,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "farm",
+     "Best": true
+    }
+   ]
+  },
+  {
+   "Key": "Iridium Golem",
+   "Texture": "Characters\\Monsters\\Iridium Golem",
+   "Icon": [
+    0,
+    8,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "farm"
+    }
+   ]
+  },
+  {
+   "Key": "Truffle Crab",
+   "Texture": "Characters\\Monsters\\Truffle Crab",
+   "Icon": [
+    48,
+    106,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "location",
+     "Names": [
+      "Farm"
+     ],
+     "Note": "truffle"
+    }
+   ]
+  },
+  {
+   "Key": "Blue Squid",
+   "Texture": "Characters\\Monsters\\Blue Squid",
+   "Icon": [
+    4,
+    3,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 11,
+     "To": 30,
+     "Note": "dangerous"
+    }
+   ]
+  },
+  {
+   "Key": "Spider",
+   "Texture": "Characters\\Monsters\\Spider",
+   "Icon": [
+    8,
+    16,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 50,
+     "To": 79,
+     "Note": "dangerous"
+    }
+   ]
+  },
+  {
+   "Key": "Stick Bug",
+   "Texture": "Characters\\Monsters\\Stick Bug",
+   "Icon": [
+    0,
+    8,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 41,
+     "To": 79,
+     "Note": "dangerous"
+    }
+   ]
+  },
+  {
+   "Key": "Putrid Ghost",
+   "Texture": "Characters\\Monsters\\Putrid Ghost",
+   "Icon": [
+    0,
+    8,
+    16,
+    16
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 51,
+     "To": 79,
+     "Note": "dangerous"
+    }
+   ]
+  },
+  {
+   "Key": "Shadow Sniper",
+   "Texture": "Characters\\Monsters\\Shadow Sniper",
+   "Icon": [
+    2,
+    3,
+    29,
+    29
+   ],
+   "Places": [
+    {
+     "Kind": "mine",
+     "From": 81,
+     "To": 119,
+     "Note": "dangerous"
+    }
+   ]
+  },
+  {
+   "Key": "Royal Serpent",
+   "Texture": "Characters\\Monsters\\Royal Serpent",
+   "Icon": [
+    3,
+    5,
+    27,
+    27
+   ],
+   "Places": [
+    {
+     "Kind": "cavern",
+     "From": 1,
+     "Note": "dangerous"
+    }
+   ]
+  }
+ ]
+}

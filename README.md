@@ -219,6 +219,8 @@ La ligne de l'onglet apparaît toute seule.
 - Onglet Relations simulé sur la sauvegarde : les 30 villageois rencontrés affichent tous une info, et aucun bâtiment non visité n'est nommé (Robin → « Vers : Montagnes »).
 
 ## À valider en jeu
+- [ ] 1.14.0 Collections : 9 onglets de côté, resserrés, le dernier (tête de mort) tient dans le cadre ; onglet Monstres : têtes des monstres vaincus, silhouettes sinon (« ???? » au survol) ; famille de Gil finie = assombrie + coche ; infobulle : vaincus, objectif de Gil, lieux connus (le plus rentable marqué) ; bouton « Vue : par monstre / par famille » en bas, mémorisé.
+- [ ] 1.14.0 Collections > Notes secrètes : coche en bas à droite des notes faites, sous l'infobulle ; titre suivi de « Fait », « Se cochera toute seule », « Clic droit pour cocher » ou « Cadeaux offerts x / y » ; clic droit coche/décoche une note manuelle, ne fait rien (son « cancel ») sur une note automatique ; la coche manuelle survit à une nuit.
 - [ ] L'onglet (livre bleu) apparaît à droite de « Quitter », avec l'infobulle « Pelican Memory » au survol.
 - [ ] Clic sur l'onglet → page avec 4 cases à cocher, description au survol.
 - [ ] Décocher « Infos de pêche » → l'infobulle d'un poisson redevient vanilla immédiatement ; recocher → elle revient.

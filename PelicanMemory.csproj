@@ -20,6 +20,7 @@
     <Compile Remove="installer/**;dist/**;publish/**;tests/**" />
     <!-- data read by the mod itself, carried inside the DLL: the in-game update only replaces the DLL, manifest and i18n -->
     <EmbeddedResource Include="Data/collection-sources.json" LogicalName="PelicanMemory.CollectionSources" />
+    <EmbeddedResource Include="Data/bestiary.json" LogicalName="PelicanMemory.Bestiary" />
     <None Remove="installer/**;dist/**;publish/**" />
   </ItemGroup>
 

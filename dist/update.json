@@ -1,5 +1,18 @@
 [
   {
+    "Version": "1.14.0",
+    "Fr": [
+      "Onglet Monstres dans Collections : la tête de chaque monstre vaincu (une silhouette sinon), combien vous en avez battu, où vous en êtes des objectifs de Gil et où le trouver parmi les lieux que vous connaissez. Une famille terminée est assombrie et cochée ; un bouton passe de la vue par monstre à la vue par famille.",
+      "Notes secrètes cochées : dans Collections, les notes dont vous avez fait ce qu'elles proposent sont cochées. Ce que le jeu retient se coche tout seul, le reste d'un clic droit.",
+      "Correctif : les indices de Collections nomment enfin le donjon du volcan comme source quand vous y êtes allé."
+    ],
+    "En": [
+      "Monsters tab in Collections: the face of every monster you've beaten (a silhouette otherwise), how many, where you stand on Gil's goals and where to find it among the places you know. A finished family is darkened and ticked; a button switches between one icon per monster and one per family.",
+      "Ticked secret notes: in Collections, notes whose thing you've done get a tick. What the game records ticks itself, the rest with a right click.",
+      "Fix: the Collections hints now name the volcano dungeon as a source once you've been there."
+    ]
+  },
+  {
     "Version": "1.13.0",
     "Fr": [
       "Suivi des quêtes : en haut de l'écran, les quêtes à délai que vous avez prises, avec ce qu'il reste à faire, la progression et les jours restants. Un clic ouvre la quête dans le journal.",

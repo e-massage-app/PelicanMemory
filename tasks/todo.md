@@ -194,3 +194,28 @@ Idée de Jordan (affichette près de l'ascenseur, records de la caverne). Il a f
 - [x] Noms de lieux sans traduction du jeu (repaire, marais) fournis par le mod
 - [x] FarmTest (8.) et SearchTest OK ; pas déployé (jeu ouvert)
 - [ ] Test en jeu, puis go push
+
+## 1.14.0 - Suivi de la chasse aux monstres + notes secrètes cochées (demande du 2026-10-15) — choix de Jordan : chasse dans l'onglet loupe, notes cochées (auto + clic droit)
+
+Principe : se rappeler ce qu'on a fait (catégorie acceptée), rien de neuf révélé.
+
+A. Onglet Monstres dans Collections (`bestiary`) — remplace la page « Chasse » de la loupe (retirée sur demande de Jordan)
+- [x] 9e onglet de côté (tête de mort de Cursors dans un cadre d'onglet vanilla), onglets resserrés de 64 à 56 px (maquette validée par Jordan)
+- [x] 46 monstres (Data/bestiary.json, embarqué) : clé de comptage, icône, lieux sourcés dans le code (rapport de recherche du 15/10)
+- [x] Silhouette + « ???? » si jamais vaincu ; famille de Gil finie = assombrie + coche ; bouton vue par monstre / par famille (flag `bestiary.by-family`)
+- [x] Lieux nommés seulement si connus (étage atteint, lieu visité, volcan/carrière via un monstre qui n'y vit que là, mines dangereuses via hardModeMonstersKilled)
+- [x] Installé dans Mods le 15/10 (jeu fermé, accord de Jordan)
+- [x] Correctif : indices de Collections « volcan » jamais nommés (VolcanoDungeon0 absent de locationsVisited) → `Core/GeneratedLevels` (drapeau Saw_Flame_Sprite_Volcano)
+
+B. Notes secrètes cochées (`secret-notes-done`)
+- [x] Coche vanilla (case cochée des options) sur la vignette : postfix sur `ClickableTextureComponent.draw` pendant le dessin de l'onglet notes (profondeur 0.87, sous l'infobulle)
+- [x] Détection automatique quand le jeu pose un drapeau (`SecretNoteXX_done`, événements…) — 27 notes sur 38 se cochent seules, 11 à la main (table de détection dans le code, pas ici : dépôt public, anti-spoil)
+- [x] Sinon : clic droit sur la vignette = cocher/décocher à la main, stocké dans `PlayerStore` (par sauvegarde, par joueur)
+- [x] Fragments de journal de l'île : même traitement s'ils sont dans le même onglet
+
+Vérification
+- [x] Patchs appliqués sur la vraie DLL dans `tests/SearchTest`
+- [x] Logique rejouée : détection sur joueur nu (tests/SearchTest §5, 17 contrôles OK) ; compteurs de la chasse relus sur une copie de la sauvegarde Elan
+- [x] 1.14.0 : manifest + changelog + README « À valider en jeu »
+- [x] Build avec `EnableModDeploy=false` tant que Jordan n'a pas dit oui pour déployer dans Mods
+- [ ] Test en jeu par Jordan, puis publication sur son feu vert

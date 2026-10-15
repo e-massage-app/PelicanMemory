@@ -1,6 +1,7 @@
 using HarmonyLib;
 using PelicanMemory.Core;
 using PelicanMemory.Features.AnimalCare;
+using PelicanMemory.Features.Bestiary;
 using PelicanMemory.Features.FairDeadlines;
 using PelicanMemory.Features.QuestTracker;
 using PelicanMemory.Features.CaughtFishTooltip;
@@ -30,6 +31,7 @@ using PelicanMemory.Features.Minimap;
 using PelicanMemory.Features.MoveObjects;
 using PelicanMemory.Features.SelfUpdate;
 using PelicanMemory.Features.SharedQuests;
+using PelicanMemory.Features.SecretNotesDone;
 using PelicanMemory.Features.SkillExperience;
 using PelicanMemory.Features.SocialLocations;
 using PelicanMemory.Features.TransferQuantity;
@@ -87,6 +89,8 @@ internal class ModEntry : Mod
         registry.Add(new MapPinsFeature(helper, this.Monitor, harmony, settings, store));
         registry.Add(new CollectionHintsFeature(helper, this.Monitor, harmony, settings, store, storage));
         registry.Add(new FishHintsFeature(helper, this.Monitor, harmony, settings));
+        registry.Add(new SecretNotesDoneFeature(helper, this.Monitor, harmony, settings, store));
+        registry.Add(new BestiaryFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new SkillExperienceFeature(helper, this.Monitor, harmony, settings));
         registry.Add(new CraftFromChestsFeature(helper, this.Monitor, harmony, settings, storage));
         registry.Add(new CraftingFiltersFeature(helper, this.Monitor, harmony, settings));
