@@ -1,5 +1,14 @@
 [
   {
+    "Version": "1.15.1",
+    "Fr": [
+      "Presets d'équipement : le bouton de l'inventaire ne passe plus devant les bulles d'information des objets."
+    ],
+    "En": [
+      "Equipment presets: the inventory button no longer covers item tooltips."
+    ]
+  },
+  {
     "Version": "1.15.0",
     "Fr": [
       "Presets d'équipement : un bouton dans l'inventaire ouvre 5 presets. Enregistrez votre équipement et votre sac, puis remettez-les en un clic depuis votre ferme : les objets viennent de vos coffres, le reste y retourne (et pour un objet sans coffre, vous choisissez lequel, retenu ensuite), ce qui manque est listé dans le chat.",

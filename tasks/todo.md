@@ -243,3 +243,6 @@ dimanche + mercredi tant qu'il manque des recettes.
 - [x] Installé dans Mods le 15/10 au soir (accord de Jordan) ; test prévu le 16/10
 - [ ] Test en jeu par Jordan (solo : presets, chance, télé) ; duo : Elise doit avoir la 1.15.0 (publication ou installation)
 - [x] Publiée le 15/10 au soir après le test solo de Jordan (« tout est top »)
+
+## Prochaine version (1.15.1, non publiée)
+- [x] Bouton Presets : dessiné AVANT la page de l inventaire (préfixe), son infobulle après — les infobulles d objets passent désormais devant le bouton (retour Jordan 16/10). Compilé sans déploiement ; à tester en jeu.

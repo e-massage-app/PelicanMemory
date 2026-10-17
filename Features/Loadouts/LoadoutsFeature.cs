@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -157,7 +158,9 @@ internal class LoadoutsFeature : FeatureBase
     {
         Instance = this;
         this.Helper.Events.GameLoop.SaveLoaded += this.OnSaveLoaded;
-        this.Postfix(AccessTools.Method(typeof(InventoryPage), nameof(InventoryPage.draw), new[] { typeof(SpriteBatch) }), typeof(LoadoutsFeature), nameof(After_Draw));
+        MethodInfo draw = AccessTools.Method(typeof(InventoryPage), nameof(InventoryPage.draw), new[] { typeof(SpriteBatch) });
+        this.Prefix(draw, typeof(LoadoutsFeature), nameof(Before_Draw));
+        this.Postfix(draw, typeof(LoadoutsFeature), nameof(After_Draw));
         this.Prefix(AccessTools.Method(typeof(InventoryPage), nameof(InventoryPage.receiveLeftClick)), typeof(LoadoutsFeature), nameof(Before_ReceiveLeftClick));
     }
 
@@ -172,8 +175,9 @@ internal class LoadoutsFeature : FeatureBase
     /*********
     ** Patches
     *********/
-    /// <summary>Draw the presets button under the game's "organize" button, with its tooltip.</summary>
-    private static void After_Draw(InventoryPage __instance, SpriteBatch b)
+    /// <summary>Draw the presets button under the game's "organize" button.</summary>
+    /// <remarks>Drawn before the page, so the item tooltips the page draws last stay on top of it.</remarks>
+    private static void Before_Draw(InventoryPage __instance, SpriteBatch b)
     {
         if (Instance is null || !Context.IsWorldReady)
             return;
@@ -186,7 +190,22 @@ internal class LoadoutsFeature : FeatureBase
             float scale = hovered ? 4.2f : 4f;
             Vector2 centre = new(area.Center.X, area.Center.Y);
             b.Draw(GetButtonTexture(), centre, new Rectangle(0, 0, 16, 16), Color.White, 0f, new Vector2(8, 8), scale, SpriteEffects.None, 0.88f);
-            if (hovered && Game1.player.CursorSlotItem is null)
+        }
+        catch (Exception ex)
+        {
+            Instance.Monitor.LogOnce($"Failed to draw the presets button:\n{ex}", LogLevel.Error);
+        }
+    }
+
+    /// <summary>Draw the presets button's own tooltip, above everything once the page is drawn.</summary>
+    private static void After_Draw(InventoryPage __instance, SpriteBatch b)
+    {
+        if (Instance is null || !Context.IsWorldReady)
+            return;
+
+        try
+        {
+            if (GetButtonArea(__instance).Contains(Game1.getMouseX(), Game1.getMouseY()) && Game1.player.CursorSlotItem is null)
                 IClickableMenu.drawHoverText(b, Instance.T("loadouts.button"), Game1.smallFont);
         }
         catch (Exception ex)
